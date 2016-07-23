@@ -1,0 +1,22 @@
+<%include ../partials/header%>
+
+<div class="container"> 
+    <form class="form-group" action="/journey" method="POST">
+    <div>
+      <label for="nameInput">Name of place</label>
+      <input type="text" class="form-control" id="nameInput" name="JourneyName" value="Type the name of your Journey here">
+    </div>
+    <div class="form-group">
+        <label for="locationInput">location</label>
+      <input type="text" class="form-control"  id="locationInput" name="Location" value="Where is it Located?">
+    </div>
+    <div class="form-group">
+      <label for="descriptionInput">description</label>
+      <input class="form-control" id="descriptionInput" name="Description" value="Describe the Journey!">
+    </div> 
+    <button class="btn btn-default" type="submit">Button</button>
+    </form>
+  
+</div>  
+
+<%include ../partials/footer%>

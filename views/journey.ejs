@@ -1,0 +1,30 @@
+<% include partials/header %>
+<div class="container">
+  <div class="jumbotron" >
+    
+    <h1>Adventures is out there</h1>
+    <p>Plan and Share your adventures with Journey</p>
+    <a href="/journey/new" type="button" class="btn btn-default navbar-btn">Create journeys</a>
+   </div>
+   
+   
+<% journey.forEach(function(journey){ %>
+    <div class="panel panel-default">
+      <div class="panel-footer">
+        <a href="/journey/show/<%=journey._id%>"><%=journey.name %></a> - <span><%=journey.location %></span><span style="float:right"><%=journey.username %></span>
+      </div>
+      <div class="panel-body"> <%=journey.description %>
+      </div>
+    
+    <% if(currentUser && currentUser.username==journey.username){ %>
+        <a type="button" class="btn btn-warning editButtons" href="/edit/<%=journey._id%>">edit</a>
+        <form class="form inline"action="/journey/<%=journey.id%>/?_method=DELETE" method="Post">
+          <button class="btn btn-danger editButtons" type="submit">Delete</button>
+        </form>
+    <%  } %>
+    </div>
+<% }); %>
+</div>
+
+<% include partials/footer %>
+
