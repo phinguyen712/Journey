@@ -1,8 +1,9 @@
 <!doctype html>
 <html>
 <head>
+<script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-</head>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>   
 <style type="text/css">
 
 .jumbotron{
@@ -20,10 +21,11 @@
 .editButtons{
   white-space:nowrap;
 }
-  
-}
+
+
 </style>
 <body>
+  
 <nav class="navbar navbar-default ">
   <div class="container-fluid">
     <a class="navbar-brand " href="#">Journey</a>
@@ -33,19 +35,45 @@
           <label class="sr-only" for="exampleInputEmail3">Email address</label>
           <input type="text" class="form-control" id="exampleInputEmail3" name="username" placeholder="Username">
         </div>
-  
+       <!-- Sign In-password input -->
         <div class="form-group">
           <label class="sr-only" for="exampleInputPassword3">Password</label>
           <input type="text" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password">
         </div>
+        
         <button type="submit" class="btn btn-default">login</button>
-        <a href="/signup" class="btn btn-default" type="button">Sign up</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-sm">Sign Up</button>
         </form>
-      
     <% } else {%>
        <span><h5><a  href="/logout" class="navbar-text navbar-right">logout</a></h5></span>
-       <h5><p class="navbar-text navbar-right">signed in as <a id="username" href="/myprofile"><%= currentUser.username %></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</p></h5>
+       <h5><p class="navbar-text navbar-right">signed in as <a id="username" href="/myprofile"><%= currentUser.username %></a></p></h5>
      <% }%> 
 </nav>
 
 
+
+<!-- Modal for sign up page -->
+<div class="modal fade bs-example-modal-sm" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Sign Up Page</h4>
+      </div>
+      <div class="modal-body">
+          <form class="form-group" action="/signup" method="POST">
+          <div>
+            <label for="nameInput">Username</label>
+            <input type="text" class="form-control" id="nameInput" type="text" name="username" >
+          </div>
+          <div class="form-group">
+            <label for="descriptionInput">Password</label>
+            <input class="form-control" id="descriptionInput" type="text" name="password" >
+          </div> 
+          <button class="btn btn-primary" type="submit">Submit</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

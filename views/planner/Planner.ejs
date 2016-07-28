@@ -1,0 +1,120 @@
+<%include ../partials/header%>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMMJZOHCIonaJDigVJKsgPV9Y8QUFK6tA&callback=initMap"async defer></script>
+
+
+<style type="text/css">
+       html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        padding:0px;
+      }
+      .container{
+        height:80%;
+        width:50%;
+      }
+      
+      
+</style>
+
+<script>
+
+//initiate google maps
+  function initMap() {
+    //google maps settings
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 10
+        });
+       
+        
+        // obtain geolocatin of current position
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            
+        //set map center to current geolocation
+              $("#currentLocation").click(function() { 
+                map.setCenter( {lat: position.coords.latitude, lng: position.coords.longitude});
+              });
+          });
+        }else{
+            console.log("failed")
+          };
+        
+        
+    //Create search and render results using AJAX.
+        //AJAX post request  to node and expect to recieve yelp data in JSON.
+        
+        $("#testbutton").click(function(){
+            
+            
+            
+            var term = $("#term").val();         //obtain value from input form
+            var location = $("#location").val(); //obtain value from input form
+            
+            
+            //Post data into node ----> see file app.js    
+            $.ajax({
+                type: "POST",
+                url: "/YelpData",
+                data: {term:term, location:location},
+                dataType:"json",
+          
+          
+          
+          //Return data obtained from node 
+                success: function(yelpData){
+          
+                  //set center of map to search locations
+                  console.log(yelpData.region.center.latitude)
+                  
+                    map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
+                     
+                     console.log(yelpData);
+               
+                     //Render results from yelp search   
+                     yelpData.businesses.forEach(function(YelpBusiness){
+                       console.log(YelpBusiness.location.coordinate.latitude);
+                       console.log(YelpBusiness.location.coordinate.longitude);
+                        
+                        marker = new google.maps.Marker({
+                        position: {lat:YelpBusiness.location.coordinate.latitude, lng:YelpBusiness.location.coordinate.longitude},
+                        map: map,
+                        title: YelpBusiness.name
+                        });
+                        marker.setMap(map)
+        
+                
+                
+                       $("#searchResults").append(function(){
+                         return "<li>"+YelpBusiness.name+"</li>";
+                       });
+                     });
+                 }
+            });
+          });
+ 
+  };
+     
+    
+ 
+
+</script>
+   
+    <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" id="term" placeholder="Name of Place,Trails.....">
+          <input type="text" class="form-control" id="location" placeholder="Location">
+        </div>
+        <button type="button" id="currentLocation" class="btn btn-default">Submit</button>
+        <button type="button" id="testbutton" class="btn btn-default">Test</button>
+      </form>
+<div class ="container -fluid" id="map"></div>
+   <br>
+   <ul id = "searchResults"> </ul>
+   </br>
+
+<%include ../partials/footer%>

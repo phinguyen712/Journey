@@ -5,6 +5,8 @@
         location: String,
         description: String,
         username: String,
+        image:String, 
+        date:String,
         comments:[{
                  type: mongoose.Schema.Types.ObjectId,
                  ref:"comments"
