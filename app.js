@@ -54,7 +54,7 @@ app.use(function(req, res, next){
 
 app.post("/YelpData",function(req,res){
     console.log(req.body.term);
-    console.log(req.body.location)
+    console.log(req.body.location);
     yelp.search({ term: req.body.term, location: req.body.location }).then(function (data) {
       console.log(data);
       res.json(data);
