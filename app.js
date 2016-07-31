@@ -58,6 +58,7 @@ app.post("/YelpData",function(req,res){
     yelp.search({ term: req.body.term, location: req.body.location }).then(function (data) {
       console.log(data);
       res.json(data);
+      
     });
         
 

@@ -10,14 +10,42 @@
         padding: 0;
       }
       #map {
-        padding:0px;
+        width:45%;
+        position:relative;
+        float:right;
+        top:50px;
       }
       .container{
         height:80%;
         width:50%;
       }
+      #searchPanel{
+         width:50%;
+         display: inline-block;
+         
+        
+         
+      }
+      #searchResults{
+         
+          
+      }
+      .list-group-item:first-child{
+          border-radius:0px;
+        
+         
+      }
+      .list-group-item:last-child{
+      border-radius:0px;
+        
+      }
       
-      
+      .navbar-form{
+          margin-bottom:20px;
+      }
+      #forms{
+          margin:20px;
+      }
 </style>
 
 <script>
@@ -51,7 +79,7 @@ function initMap() {
     $("#testbutton").click(function(){
        
        
-       
+               
         //function for setting markers on map
         function markMap(map){
                 for ( var i = 0; i < markers.length; i++ ){
@@ -61,8 +89,9 @@ function initMap() {
        //remove markers on map
         markMap(null);
         markers=[];
-
         
+        //empty list to refresh
+        $("#searchResults").empty();
         
         var term = $("#term").val();         //obtain value from input form
         var location = $("#location").val(); //obtain value from input form
@@ -74,54 +103,53 @@ function initMap() {
             data: {term:term, location:location},
             dataType:"json",
             success: function(yelpData){    //Return data obtained from node 
-      
-              //set center of map to search locations
+                console.log(yelpData);
+            
+            //set center of map to search locations
                 map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
                
-            //Render results from yelp search   
-                yelpData.businesses.forEach(function(YelpBusiness){
-               
-                    marker = new google.maps.Marker({
-                            position: {lat:YelpBusiness.location.coordinate.latitude, lng:YelpBusiness.location.coordinate.longitude},
-                            title: YelpBusiness.name
+            //Render first 10 results from yelp search and plot on map
+            
+            for( var i = 0 ; i<10 ; i++ ){
+                  $("#searchResults").append(function(){
+                return "<div >"+
+                        "<a href='#' class='list-group-item'>"+
+                        "<h4 class='list-group-item-heading'>" +yelpData.businesses[i].name+"</h4>"+
+                        "<p class='list-group-item-text'>"+yelpData.businesses[i].snippet_text+"</p></a></div>";
+                   });
+           
+             marker = new google.maps.Marker({
+                            position: {lat:yelpData.businesses[i].location.coordinate.latitude, lng:yelpData.businesses[i].location.coordinate.longitude},
+                            title: yelpData.businesses[i].name
                             });    
                    
-                   markers.push(marker);    
-      
-                    $("#searchResults").append(function(){
-                        return "<li>"+YelpBusiness.name+"</li>";
-                    
-                   });
-                 });
-               
-               markMap(map);
-             },
-        
-        });
-        
-       
-        
+             markers.push(marker);
+             
+             markMap(map);
+           
+            };
             
+            } 
+
+        });
       });
-
 };
-     
-    
- 
-
 </script>
-   
-    <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" id="term" value="mexican" placeholder="Name of Place,Trails.....">
-          <input type="text" class="form-control" id="location" value="San Jose" placeholder="Location">
+
+    <form >
+        <div>
+          <input type="text"  id="term" value="mexican" placeholder="Name of Place,Trails.....">
+          <input type="text"  id="location" value="San Jose" placeholder="Location">
         </div>
         <button type="button" id="currentLocation" class="btn btn-default">Submit</button>
         <button type="button" id="testbutton" class="btn btn-default">Test</button>
       </form>
+
+<div id="searchPanel">
+      <br></br>
+    <div id="searchResults"></div>
+</div>
 <div class ="container -fluid" id="map"></div>
-   <br>
-   <ul id = "searchResults"> </ul>
-   </br>
+
 
 <%include ../partials/footer%>
