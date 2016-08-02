@@ -15,16 +15,15 @@
         float:right;
         top:50px;
       }
+      
       .container{
-        height:80%;
-        width:50%;
+        height:100%;
+        width:80%;
       }
       #searchPanel{
          width:50%;
          display: inline-block;
-         
-        
-         
+
       }
       #searchResults{
          
@@ -43,8 +42,12 @@
       .navbar-form{
           margin-bottom:20px;
       }
-      #forms{
-          margin:20px;
+      form{
+          width:30%;
+          margin: 0 auto;
+      }
+      .glyphicon-heart{
+          color:red;
       }
 </style>
 
@@ -72,7 +75,7 @@ function initMap() {
         console.log("failed")
       };
 
-        
+      
     //Create search and render results using AJAX.
         //AJAX post request  to node and expect to recieve yelp data in JSON.
     
@@ -111,31 +114,60 @@ function initMap() {
             //Render first 10 results from yelp search and plot on map
             
             for( var i = 0 ; i<10 ; i++ ){
+                var queryNumber = String(i + 1);
                   $("#searchResults").append(function(){
                 return "<div >"+
-                        "<a href='#' class='list-group-item'>"+
-                        "<h4 class='list-group-item-heading'>" +yelpData.businesses[i].name+"</h4>"+
-                        "<p class='list-group-item-text'>"+yelpData.businesses[i].snippet_text+"</p></a></div>";
+                        "<div class='list-group-item'>"+
+                        "<h4 class='list-group-item-heading'>"+queryNumber+'.'+yelpData.businesses[i].name+"</h4>"+
+                        "<p class='list-group-item-text'>"+yelpData.businesses[i].snippet_text+"</p></di><div id='heartbutton' class='glyphicon glyphicon-heart-empty'></div></div>";
                    });
-           
+               //add number to queries and markers on maps
              marker = new google.maps.Marker({
                             position: {lat:yelpData.businesses[i].location.coordinate.latitude, lng:yelpData.businesses[i].location.coordinate.longitude},
-                            title: yelpData.businesses[i].name
+                            title: yelpData.businesses[i].name,
+                            label: queryNumber,
                             });    
-                   
+                       
              markers.push(marker);
              
              markMap(map);
            
             };
             
+            //Select icon on map when hover 
+            $('.list-group-item').hover(function(){
+               $(this).addClass('well well-lg');
+
+            },
+               function(){
+               $(this).removeClass('well well-lg');
+            
+               });   
+            //toggle heart button, add activities to node database and remove 
+            var heartoggle = 0; //  1/0 state of heart button
+            
+            
+            $('.glyphicon').click(function(){
+                
+                if (heartoggle == 0){
+                   $(this).switchClass('glyphicon-heart-empty','glyphicon-heart',0);
+                    heartoggle = 1 ;
+                }else{
+                   $(this).switchClass('glyphicon-heart','glyphicon-heart-empty',0);
+                    heartoggle = 0;
+                }
+            });
+        
+            
             } 
 
         });
       });
 };
-</script>
 
+
+</script>
+<div class="container">
     <form >
         <div>
           <input type="text"  id="term" value="mexican" placeholder="Name of Place,Trails.....">
@@ -149,7 +181,14 @@ function initMap() {
       <br></br>
     <div id="searchResults"></div>
 </div>
-<div class ="container -fluid" id="map"></div>
+
+<div class ="container" id="map"></div>
+</div>
+<div>
+
+</div>
+
+
 
 
 <%include ../partials/footer%>
