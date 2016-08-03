@@ -26,6 +26,11 @@ var yelp = new Yelp({
       
 
 
+    app.use(require("express-session")({
+    secret: "Journey code",
+    resave: false,
+    saveUninitialized: false
+}));
 
 
 
