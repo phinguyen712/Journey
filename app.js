@@ -62,7 +62,7 @@ app.post("/YelpData",function(req,res){
     });
     
 app.post("/YelpData/Save",function(req,res){
-   console.log(req.body) ;
+   console.log(req.body) 
 });
 
 //Return Yelp searches in objects
