@@ -118,8 +118,9 @@ function initMap() {
                   $("#searchResults").append(function(){
                 return "<div >"+
                         "<div class='list-group-item'>"+
-                        "<h4 class='list-group-item-heading'>"+queryNumber+'.'+yelpData.businesses[i].name+"</h4>"+
-                        "<p class='list-group-item-text'>"+yelpData.businesses[i].snippet_text+"</p></di><div id='heartbutton' class='glyphicon glyphicon-heart-empty'></div></div>";
+                        "<h4 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+yelpData.businesses[i].name+"</h4>"+
+                        "<p class='list-group-item-text'>"+yelpData.businesses[i].snippet_text+"</p></di><div  class='glyphicon glyphicon-heart-empty'></div></div>"
+                        
                    });
                //add number to queries and markers on maps
              marker = new google.maps.Marker({
@@ -143,27 +144,36 @@ function initMap() {
                $(this).removeClass('well well-lg');
             
                });   
-            //toggle heart button, add activities to node database and remove 
+     //toggle heart button, add activities to node database and remove 
             var heartoggle = 0; //  1/0 state of heart button
-            
             
             $('.glyphicon').click(function(){
                 
                 if (heartoggle == 0){
                    $(this).switchClass('glyphicon-heart-empty','glyphicon-heart',0);
+                   
                     heartoggle = 1 ;
+                //create array reference for yelpData object
+                var selectedData = $(this).siblings('#heading').children('#queryNumber').html() - 1 ;
+                console.log(yelpData)
+                    $.ajax({
+                        type: "POST",
+                        url: "/YelpData/Save",
+                        data: yelpData.businesses[selectedData]
+                    });    
+                  
                 }else{
                    $(this).switchClass('glyphicon-heart','glyphicon-heart-empty',0);
                     heartoggle = 0;
                 }
             });
         
-            
-            } 
-
-        });
-      });
-};
+                
+                } 
+    
+            });
+          });
+    };
 
 
 </script>
