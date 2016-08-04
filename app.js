@@ -56,23 +56,53 @@ app.use(function(req, res, next){
 });
 
 
-
-app.post("/YelpData",function(req,res){
-    console.log(req.body.term);
-    console.log(req.body.location);
+//send Yelp json files to planner page
+app.post("/favorites",function(req,res){
     yelp.search({ term: req.body.term, location: req.body.location }).then(function (data) {
-      console.log(data);
-      res.json(data);
-      
-    });
     
-app.post("/YelpData/Save",function(req,res){
-   console.log(req.body) 
+      res.json(data);
+    });
+});    
+    
+    
+app.post("/favorites/save",function(req,res){
+    User.findById(req.user.id,function(err,userAccount){
+        if(err){
+            console.log(err);
+        }else if(!userAccount.favorites){
+            userAccount.favorites = req.body.id;
+            console.log(userAccount);
+
+        }else{
+            userAccount.favorites.push(req.body.id);
+            userAccount.save(); 
+            console.log(userAccount);
+        }
+        res.send("");
+    });
 });
 
-//Return Yelp searches in objects
+//remove favorites from Users
+app.delete("/favorites/delete",function(req,res){
+ console.log(req.body.id);
+ console.log(req.user.id);
+     User.update({"_id": req.user.id}, {$pull: {"favorites": req.body.id}}, function(err, data){
+        if(err){
+            console.log(err);
+        }else{
+            console.log(data);
+            
+            
+        }
+        });
 
+        res.send("");
+    
 });
+
+
+
+
 
 app.get('/',function(req, res){
     res.render("planner/Planner");

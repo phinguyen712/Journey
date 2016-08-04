@@ -102,7 +102,7 @@ function initMap() {
         //Post data into node ----> see file app.js    
         $.ajax({
             type: "POST",
-            url: "/YelpData",
+            url: "/favorites",
             data: {term:term, location:location},
             dataType:"json",
             success: function(yelpData){    //Return data obtained from node 
@@ -138,37 +138,48 @@ function initMap() {
             //Select icon on map when hover 
             $('.list-group-item').hover(function(){
                $(this).addClass('well well-lg');
-
+               
             },
                function(){
                $(this).removeClass('well well-lg');
             
                });   
      //toggle heart button, add activities to node database and remove 
-            var heartoggle = 0; //  1/0 state of heart button
-            
-            $('.glyphicon').click(function(){
-                
-                if (heartoggle == 0){
-                   $(this).switchClass('glyphicon-heart-empty','glyphicon-heart',0);
-                   
-                    heartoggle = 1 ;
-                //create array reference for yelpData object
-                var selectedData = $(this).siblings('#heading').children('#queryNumber').html() - 1 ;
-                console.log(yelpData)
-                    $.ajax({
-                        type: "POST",
-                        url: "/YelpData/Save",
-                        data: yelpData.businesses[selectedData]
-                    });    
-                  
-                }else{
-                   $(this).switchClass('glyphicon-heart','glyphicon-heart-empty',0);
-                    heartoggle = 0;
-                }
-            });
-        
-                
+          
+                  $('.glyphicon').click(function(){
+                      
+                      //Post id to node--->save queries id to currentUser
+                      var selectedData = $(this).siblings('#heading').children('#queryNumber').html() - 1 ;
+                      
+                      var favoriteSpots =  yelpData.businesses[selectedData].id;
+                      
+                      if($(this).attr("class") == "glyphicon glyphicon-heart-empty" ){
+                         //Change from hollow heart to red-filled heart
+                          $(this).switchClass('glyphicon-heart-empty','glyphicon-heart',0);
+                           
+                           //Post id to node--->save queries id to currentUser
+                             $.ajax({
+                                 type: "POST",
+                                 url: "/favorites/save",
+                                 data: {'id': favoriteSpots},
+                                 success: function(){}
+                             });    
+                      
+                          
+                      }else{
+                           $(this).switchClass('glyphicon-heart','glyphicon-heart-empty',0);   
+                            //Post id to node--->remove queries id of currentuser when favorite is toggled off
+                             $.ajax({
+                                 type: "DELETE",
+                                 url: "/favorites/delete",
+                                 data: {'id': favoriteSpots},
+                                 success: function(){}
+                             });  
+                      }
+                      
+                      
+                  });
+
                 } 
     
             });

@@ -30,7 +30,7 @@ router.get("/myprofile", function(req,res){
 }),
 
 router.post('/login', passport.authenticate("local",{
-    successRedirect:"/journey",
+    successRedirect:"/",
     failureRedirect:"signup",
 }));
 
