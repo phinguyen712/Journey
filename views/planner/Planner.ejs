@@ -98,7 +98,10 @@ function initMap() {
         
         var term = $("#term").val();         //obtain value from input form
         var location = $("#location").val(); //obtain value from input form
-        
+         
+        var favoritesData;
+         
+
         //Post data into node ----> see file app.js    
         $.ajax({
             type: "POST",
@@ -106,26 +109,46 @@ function initMap() {
             data: {term:term, location:location},
             dataType:"json",
             success: function(yelpData){    //Return data obtained from node 
-                console.log(yelpData);
             
+            var spot = yelpData.businesses; //variable fo business array
+            console.log(spot);
+            
+           
+           
+
+              
             //set center of map to search locations
+            
                 map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
                
-            //Render first 10 results from yelp search and plot on map
+        //Render first 10 results from yelp search and plot on map
+        
+        for( var i = 0 ; i<10 ; i++ ){
             
-            for( var i = 0 ; i<10 ; i++ ){
-                var queryNumber = String(i + 1);
-                  $("#searchResults").append(function(){
+                                   
+                
+               
+                
+                var queryNumber = String(i + 1);//number for listing out search results
+                  
+                $("#searchResults").append(function(){
                 return "<div >"+
                         "<div class='list-group-item'>"+
-                        "<h4 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+yelpData.businesses[i].name+"</h4>"+
-                        "<p class='list-group-item-text'>"+yelpData.businesses[i].snippet_text+"</p></di><div  class='glyphicon glyphicon-heart-empty'></div></div>"
+                        "<h4 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"</h4>"+
+                        "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div  id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div></div>"
                         
                    });
+                   
+                if(spot[i].heartOn=="true"){
+                    console.log(spot[i].id+"pass")
+                   $("#heartIcon"+[i]).addClass('glyphicon-heart').removeClass('glyphicon-heart-empty');
+                    }else{
+                    }
+            
                //add number to queries and markers on maps
              marker = new google.maps.Marker({
-                            position: {lat:yelpData.businesses[i].location.coordinate.latitude, lng:yelpData.businesses[i].location.coordinate.longitude},
-                            title: yelpData.businesses[i].name,
+                            position: {lat:spot[i].location.coordinate.latitude, lng:spot[i].location.coordinate.longitude},
+                            title: spot[i].name,
                             label: queryNumber,
                             });    
                        
@@ -135,7 +158,7 @@ function initMap() {
            
             };
             
-            //Select icon on map when hover 
+      //Select icon on map when hover 
             $('.list-group-item').hover(function(){
                $(this).addClass('well well-lg');
                
@@ -151,9 +174,10 @@ function initMap() {
                       //Post id to node--->save queries id to currentUser
                       var selectedData = $(this).siblings('#heading').children('#queryNumber').html() - 1 ;
                       
-                      var favoriteSpots =  yelpData.businesses[selectedData].id;
+                      var favoriteSpots =  spot[selectedData].id;
                       
-                      if($(this).attr("class") == "glyphicon glyphicon-heart-empty" ){
+                      
+                      if($(this).attr("class") == 'glyphicon glyphicon-heart-empty' ){
                          //Change from hollow heart to red-filled heart
                           $(this).switchClass('glyphicon-heart-empty','glyphicon-heart',0);
                            
@@ -162,7 +186,10 @@ function initMap() {
                                  type: "POST",
                                  url: "/favorites/save",
                                  data: {'id': favoriteSpots},
-                                 success: function(){}
+                                 dataType:"json",
+                                 success: function(dataReturn){
+                                     console.log(dataReturn);
+                                 }
                              });    
                       
                           
@@ -173,7 +200,11 @@ function initMap() {
                                  type: "DELETE",
                                  url: "/favorites/delete",
                                  data: {'id': favoriteSpots},
-                                 success: function(){}
+                                 dataType:"json",
+                                 success: function(deletedSpots){
+                                     console.log(deletedSpots);
+                                     
+                                 }
                              });  
                       }
                       

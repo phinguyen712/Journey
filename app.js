@@ -56,16 +56,60 @@ app.use(function(req, res, next){
 });
 
 
-//send Yelp json files to planner page
+//send Yelp API data to planner page
 app.post("/favorites",function(req,res){
-    yelp.search({ term: req.body.term, location: req.body.location }).then(function (data) {
+    //search businesses with yelp API
+    yelp.search({ term: req.body.term, location: req.body.location }).then(function (yelpData) {
+   
+        
+   
+     User.findById(req.user.id, function(err,currentUserDocument){
+         
+         if(err){
+             console.log(err);
+         }else{
+      
+             //create a poperty for displaying heart as red or empty(if users have already added the yelp location
+             //to their favorite or not)
+             for( var x = 0; x < yelpData.businesses.length ; x++) {
+                
+
+                for(var i = 0; i <currentUserDocument.favorites.length; i++ ) {
+                    
+                    if(yelpData.businesses[x].id == currentUserDocument.favorites[i]){
+                       
+                        yelpData.businesses[x].heartOn="true"; 
+                  
+                    }else{}
+               
+                }
+                   
+         }
+         
+         }
+             
+           res.json(yelpData);
+     });    
+   
+    });
+});    
     
-      res.json(data);
+    
+app.get("/favorites", function(req,res){
+
+    User.findById(req.user.id,function(err,favoritesData){
+        
+        if(err){
+            console.log(err);
+        }
+            console.log(favoritesData.favorites);
+            res.json(favoritesData.favorites);
     });
 });    
     
     
 app.post("/favorites/save",function(req,res){
+
     User.findById(req.user.id,function(err,userAccount){
         if(err){
             console.log(err);
@@ -78,25 +122,33 @@ app.post("/favorites/save",function(req,res){
             userAccount.save(); 
             console.log(userAccount);
         }
-        res.send("");
+        res.json(userAccount);
     });
 });
 
+
 //remove favorites from Users
 app.delete("/favorites/delete",function(req,res){
- console.log(req.body.id);
- console.log(req.user.id);
-     User.update({"_id": req.user.id}, {$pull: {"favorites": req.body.id}}, function(err, data){
+console.log('delete');
+     User.update({"_id": req.user.id}, {$pull: {"favorites": req.body.id}}, function(err, removedFavorites){
         if(err){
             console.log(err);
         }else{
-            console.log(data);
+            console.log(removedFavorites);
+            User.findById(req.user.id, function(err,newData){
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log(newData);
+                     res.json(newData);
+                }
+            });
             
             
         }
         });
 
-        res.send("");
+       
     
 });
 
