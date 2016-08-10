@@ -82,10 +82,11 @@ function initMap() {
                 var queryNumber = String(i + 1);//number for listing out search results
                   
                 $("#searchResults").append(function(){
-                return "<div >"+
+                return "<div class= 'resultboxes'>"+
                         "<div class='list-group-item'>"+
-                        "<h4 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"</h4>"+
-                        "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div  id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div></div>"
+                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"&nbsp&nbsp&nbsp<span>"+
+                        "<img src='"+spot[i].rating_img_url+"'></img></span><span id='reviews' >&nbsp"+spot[i].review_count+" reviews</span></h4>"     +
+                        "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div></div>"
                         
                    });
                    
@@ -107,16 +108,7 @@ function initMap() {
              markMap(map);
            
             };
-            
-      //Select icon on map when hover 
-            $('.list-group-item').hover(function(){
-               $(this).addClass('well well-lg');
-               
-            },
-               function(){
-               $(this).removeClass('well well-lg');
-            
-               });   
+
      //toggle heart button, add activities to node database and remove 
           
                   $('.glyphicon').click(function(){
@@ -157,16 +149,28 @@ function initMap() {
                                  }
                              });  
                       }
-
                   });
+
+            //Select icon on map when hover 
+            $('.list-group-item').hover(function(){
+               
+               $(this).addClass('boxHighlight');
+               
+                },function(){
+                   
+                   $(this).removeClass('boxHighlight');
+            
+               }); 
+                  
+                  
                 } 
             });
           });
     };
+
 </script>
 
 <% include searchContents.html%>
 
 
 
-<%include ../partials/footer%>

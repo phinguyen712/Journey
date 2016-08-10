@@ -12,18 +12,9 @@ var express                 =   require("express"),
     journeysRoutes          =   require("./routes/journeysRoutes.js"),
     commentsRoutes          =   require("./routes/commentsRoutes.js"),
     usersRoutes             =   require("./routes/usersRoutes.js"),
+    favoriteRoutes          =   require("./routes/favoriteRoutes.js"),
     methodOverride          =   require("method-override");
   
-
-
-        
-var yelp = new Yelp({
-  consumer_key: 'LDo2SW89ugeWVJQXDLIqkg',
-  consumer_secret: "kgpjgGAUj5c5_GUwvlWt-g21WzM",
-  token: 'A-qbWCmj7u_pxx2dKZPox11rOdkp8kBf',
-  token_secret: '95n7Fr_0Mdje8F_XbzKQ5qAhZ28',
-});
-      
 
 
     app.use(require("express-session")({
@@ -56,106 +47,6 @@ app.use(function(req, res, next){
 });
 
 
-//send Yelp API data to search page
-app.post("/favorites",function(req,res){
-    //search businesses with yelp API
-    yelp.search({ term: req.body.term, location: req.body.location }).then(function (yelpData) {
-   
-    
-   
-     User.findById(req.user.id, function(err,currentUserDocument){
-         
-         if(err){
-             console.log(err);
-         }else{
-      
-             //create a poperty for displaying heart as red or empty(if users have already added the yelp location
-             //to their favorite or not)
-             for( var x = 0; x < yelpData.businesses.length ; x++) {
-                
-
-                for(var i = 0; i <currentUserDocument.favorites.length; i++ ) {
-                    
-                    if(yelpData.businesses[x].id == currentUserDocument.favorites[i]){
-                       
-                        yelpData.businesses[x].heartOn="true"; 
-                  
-                    }else{}
-               
-                }
-                   
-         }
-         
-         }
-             
-           res.json(yelpData);
-     });    
-   
-    });
-});    
-    
-    
-app.get("/favorites", function(req,res){
-
-    User.findById(req.user.id,function(err,favoritesData){
-        
-        if(err){
-            console.log(err);
-        }
-            console.log(favoritesData.favorites);
-            res.json(favoritesData.favorites);
-    });
-});    
-    
-    
-app.post("/favorites/save",function(req,res){
-
-    User.findById(req.user.id,function(err,userAccount){
-        if(err){
-            console.log(err);
-        }else if(!userAccount.favorites){
-            userAccount.favorites = req.body.id;
-            console.log(userAccount);
-
-        }else{
-            userAccount.favorites.push(req.body.id);
-            userAccount.save(); 
-            console.log(userAccount);
-        }
-        res.json(userAccount);
-    });
-});
-
-
-//remove favorites from Users
-app.delete("/favorites/delete",function(req,res){
-console.log('delete');
-     User.update({"_id": req.user.id}, {$pull: {"favorites": req.body.id}}, function(err, removedFavorites){
-        if(err){
-            console.log(err);
-        }else{
-            console.log(removedFavorites);
-            User.findById(req.user.id, function(err,newData){
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log(newData);
-                     res.json(newData);
-                }
-            });
-            
-            
-        }
-        });
-
-       
-    
-});
-
-
-
-
-
 app.get('/',function(req, res){
     res.render("planner/search");
 });
@@ -164,8 +55,10 @@ app.get('/',function(req, res){
 app.use(journeysRoutes);
 app.use(commentsRoutes);
 app.use(usersRoutes);
+app.use(favoriteRoutes);
 
 
 app.listen(process.env.PORT,process.env.IP,function(){
     console.log("Journey has started ");
 });
+
