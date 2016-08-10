@@ -56,12 +56,12 @@ app.use(function(req, res, next){
 });
 
 
-//send Yelp API data to planner page
+//send Yelp API data to search page
 app.post("/favorites",function(req,res){
     //search businesses with yelp API
     yelp.search({ term: req.body.term, location: req.body.location }).then(function (yelpData) {
    
-        
+    
    
      User.findById(req.user.id, function(err,currentUserDocument){
          
@@ -157,7 +157,7 @@ console.log('delete');
 
 
 app.get('/',function(req, res){
-    res.render("planner/Planner");
+    res.render("planner/search");
 });
 
 
