@@ -4,7 +4,7 @@ var express                 =   require("express"),
     User                    =   require("../models/users.js");
         
         
-        var yelp = new Yelp({
+var yelp = new Yelp({
   consumer_key: 'LDo2SW89ugeWVJQXDLIqkg',
   consumer_secret: "kgpjgGAUj5c5_GUwvlWt-g21WzM",
   token: 'A-qbWCmj7u_pxx2dKZPox11rOdkp8kBf',

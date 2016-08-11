@@ -1,5 +1,6 @@
 var express                 =   require("express"),
     app                     =   express(),
+    $                       =   require("jquery"),
     mongoose                =   require("mongoose"),
     bodyParser              =   require("body-parser"), 
     Yelp                    =   require("yelp"),
@@ -16,6 +17,12 @@ var express                 =   require("express"),
     methodOverride          =   require("method-override");
   
 
+var yelp = new Yelp({
+  consumer_key: 'LDo2SW89ugeWVJQXDLIqkg',
+  consumer_secret: "kgpjgGAUj5c5_GUwvlWt-g21WzM",
+  token: 'A-qbWCmj7u_pxx2dKZPox11rOdkp8kBf',
+  token_secret: '95n7Fr_0Mdje8F_XbzKQ5qAhZ28',
+});
 
     app.use(require("express-session")({
     secret: "Journey code",
@@ -48,7 +55,35 @@ app.use(function(req, res, next){
 
 
 app.get('/',function(req, res){
-    res.render("planner/search");
+    res.render("search/search");
+});
+
+
+var matchFavorites= [];//stored data of user favorites
+
+app.get("/planner",function(req,res){
+       //find current user
+       User.findById(req.user.id, function(err,foundUser){
+        if(err){
+            console.log(err);
+        }else{
+            //search yelp for businesses that matches User.favorites
+              foundUser.favorites.forEach(function(userFavorites){
+                yelp.business(userFavorites).then(function (yelpFavoriteData){
+                    //save matched data in array
+                    matchFavorites.push(yelpFavoriteData);
+                });
+             });
+        }
+    });
+   res.render('planner/planner'); 
+});
+
+app.post("/planner",function(req,res){
+    //send saved array to planner page
+     res.json(matchFavorites);
+     //reset array after all info is sent
+     matchFavorites.length = 0;
 });
 
 

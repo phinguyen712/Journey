@@ -1,58 +1,15 @@
 <%include ../partials/header%>
 
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMMJZOHCIonaJDigVJKsgPV9Y8QUFK6tA&callback=initMap"async defer></script>
 
-
 <style type="text/css">
-       html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        width:45%;
-        position:relative;
-        float:right;
-        top:50px;
-      }
-      
-      .container{
-        height:100%;
-        width:80%;
-      }
-      #searchPanel{
-         width:50%;
-         display: inline-block;
-
-      }
-      #searchResults{
-         
-          
-      }
-      .list-group-item:first-child{
-          border-radius:0px;
-        
-         
-      }
-      .list-group-item:last-child{
-      border-radius:0px;
-        
-      }
-      
-      .navbar-form{
-          margin-bottom:20px;
-      }
-      form{
-          width:30%;
-          margin: 0 auto;
-      }
-      .glyphicon-heart{
-          color:red;
-      }
+ 
+<%include searchStyle.css%>
 </style>
 
-<script>
 
+<script>
 //initiate google maps
 function initMap() {
     //google maps settings
@@ -113,10 +70,6 @@ function initMap() {
             var spot = yelpData.businesses; //variable fo business array
             console.log(spot);
             
-           
-           
-
-              
             //set center of map to search locations
             
                 map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
@@ -124,23 +77,20 @@ function initMap() {
         //Render first 10 results from yelp search and plot on map
         
         for( var i = 0 ; i<10 ; i++ ){
-            
-                                   
-                
-               
-                
+
                 var queryNumber = String(i + 1);//number for listing out search results
                   
                 $("#searchResults").append(function(){
-                return "<div >"+
-                        "<div class='list-group-item'>"+
-                        "<h4 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"</h4>"+
-                        "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div  id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div></div>"
+                return "<div class= 'resultboxes'>"+
+                        "<span class='list-group-item'>"+
+                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"&nbsp&nbsp&nbsp<span>"+
+                        "<img src='"+spot[i].rating_img_url+"'></img></span><span id='reviews' >&nbsp"+spot[i].review_count+" reviews</span></h4>"     +
+                        "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div>"+
+                        "</span><img class='locationImage'src='"+spot[i].image_url+"'></img></div>"
                         
                    });
-                   
+             //show heart as red if User have already added it to favorite. else, shows empty heart      
                 if(spot[i].heartOn=="true"){
-                    console.log(spot[i].id+"pass")
                    $("#heartIcon"+[i]).addClass('glyphicon-heart').removeClass('glyphicon-heart-empty');
                     }else{
                     }
@@ -157,16 +107,7 @@ function initMap() {
              markMap(map);
            
             };
-            
-      //Select icon on map when hover 
-            $('.list-group-item').hover(function(){
-               $(this).addClass('well well-lg');
-               
-            },
-               function(){
-               $(this).removeClass('well well-lg');
-            
-               });   
+
      //toggle heart button, add activities to node database and remove 
           
                   $('.glyphicon').click(function(){
@@ -207,40 +148,28 @@ function initMap() {
                                  }
                              });  
                       }
-                      
-                      
                   });
 
+            //Select icon on map when hover 
+            $('.resultboxes').hover(function(){
+               
+               $(this).addClass('boxHighlight');
+               
+                },function(){
+                   
+                   $(this).removeClass('boxHighlight');
+            
+               }); 
+                  
+                  
                 } 
-    
             });
           });
     };
 
-
 </script>
-<div class="container">
-    <form >
-        <div>
-          <input type="text"  id="term" value="mexican" placeholder="Name of Place,Trails.....">
-          <input type="text"  id="location" value="San Jose" placeholder="Location">
-        </div>
-        <button type="button" id="currentLocation" class="btn btn-default">Submit</button>
-        <button type="button" id="testbutton" class="btn btn-default">Test</button>
-      </form>
 
-<div id="searchPanel">
-      <br></br>
-    <div id="searchResults"></div>
-</div>
-
-<div class ="container" id="map"></div>
-</div>
-<div>
-
-</div>
+<% include searchContent.html%>
 
 
 
-
-<%include ../partials/footer%>

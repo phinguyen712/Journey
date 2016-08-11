@@ -76,19 +76,32 @@
         background-color:#e6e6e6;
       }
       .resultboxes{
-        height:98px;
+        height:128px;
+        width:440px;
       }
       .list-group-item{
+       background-color:transparent;
         border-color:transparent;
+        display:inline-block;
+        width:310px;
+        margin-right:0px;
       }
       h5{
         font-weight:bold;
+        display:inline-block;
       }
       .list-group-item-text{
+        display:inline-block;
         font-size:12px;
+        width:310px;
+        
       }
-    #reviews{
+      #reviews{
       color:gray;
       font-size:10px;
       font-style:italic;
-    }
+      }
+      .locationImage{
+       float:right;
+       margin-top:5px;
+      }

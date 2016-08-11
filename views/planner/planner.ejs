@@ -1,0 +1,53 @@
+
+<%include ../partials/header%>
+
+
+
+
+<style type="text/css">
+ 
+<%include plannerStyle.css%>
+  
+</style>
+
+
+<script>
+
+        //Post data into node ----> see file app.js    
+        $.ajax({
+            type: "POST",
+            url: "/planner",
+            data: "",
+            dataType:"json",
+            success: function(matchFavorites){    //Return data obtained from node 
+            
+           for(var i = 0; i<matchFavorites.length;i++){
+              $("#searchResults").append(function(){
+            return "<div class= 'resultboxes'>"+
+                        "<span class='list-group-item'>"+
+                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+'</span>.'+matchFavorites[i].name+"&nbsp&nbsp&nbsp<span>"+
+                        "</span></h4>"+
+                        "</di>"+
+                        "</span></div>";
+                   });
+           }
+            
+       $( ".resultboxes" ).draggable({
+          distance: 10
+        });
+                    
+        console.log(matchFavorites)
+        //set center of map to search locations
+
+        //Render first 10 results from yelp search and plot on map
+
+        //add number to queries and markers on maps
+
+                } 
+            });
+
+
+</script>
+
+
+<% include plannerContent.html%>
