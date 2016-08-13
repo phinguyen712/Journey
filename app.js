@@ -86,6 +86,18 @@ app.post("/planner",function(req,res){
      matchFavorites.length = 0;
 });
 
+app.post("/planner/new",function(req,res){
+    
+    User.findById(req.user.id,function(err,foundUser){
+         if(err){
+             console.log(err);
+         }else{
+             
+         }
+    });
+   
+});
+
 
 app.use(journeysRoutes);
 app.use(commentsRoutes);

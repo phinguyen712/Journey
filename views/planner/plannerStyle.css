@@ -100,3 +100,22 @@
        float:right;
        margin-top:5px;
       }
+      .sortPanel{
+        background-color:tan;
+        height:100%;
+         width:50%;
+         display: inline-block;
+      }
+      .dropBox{
+        background-color:red;
+      }
+      .ToDo{
+        border-color:gray;
+        border-style:solid;
+        background-color:red;
+        height:50px;
+        
+        
+      }
+      
+      
