@@ -21,11 +21,11 @@
             data: "",
             dataType:"json",
             success: function(matchFavorites){    
-            
+            console.log(matchFavorites);
             //display all favorite data in favorite panel
                 for(var i = 0; i<matchFavorites.length;i++){
                       $("#searchResults").append(function(){
-                            return  "<div class= 'resultboxes' id='"+matchFavorites[i].id+"'>"+
+                            return  "<div class= 'resultboxes' id='"+i+"'>"+
                                     "<span class='list-group-item'>"+
                                     "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+'</span>.'+matchFavorites[i].name+"&nbsp&nbsp&nbsp<span>"+
                                     "</span></h4>"+
@@ -35,7 +35,7 @@
                        }
  
              //create slots for toDo panel
-                for(var x = 0; x<12; x++){ 
+                for(var x = 0; x<5; x++){ 
                     
                         $(".sortPanel").append(function(){
                           return "<div class ='ToDo'></div>";   
@@ -45,7 +45,7 @@
                     
             //features for dragging components
                $( ".resultboxes" ).draggable({
-                  distance: 10
+                  distance: 10,
                 });
             
             
@@ -54,11 +54,31 @@
                     accept:".resultboxes",
                     activeClass:"dropBox",
                     drop: function(event,ui){
-                        var droppedId = ui.draggable.attr("id");
-                        $(this).append("<div class='ToDoItems'>"+droppedId+"</div>");
-                    };
+                        
+                        var toDoArr = ui.draggable.attr("id");
+                        console.log(toDoArr);
+                        //locate object in matchFavorites that 
+                        //has id :droppedId and print yelpData on ToDo Panel
+                        $(this).append(function(){
+                    
+                       //  console.log(toDoThumb);
+                             return "<div class='ToDoItems'>"+
+                            "<span class='list-group-item'>"+
+                            "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+toDoArr+'</span>.'+matchFavorites[toDoArr].name+
+                            "&nbsp&nbsp&nbsp<span>"+
+                            "<img src='"+matchFavorites[toDoArr].rating_img_url+"'></img></span><span id='reviews' >&nbsp"+matchFavorites[toDoArr].review_count+" reviews</span></h4>"+
+                            "<p class='snippet_text'>"+matchFavorites[toDoArr].snippet_text+"</p></di>"+
+                            "</span><img class='locationImage'src='"+matchFavorites[toDoArr].image_url+"'></img>"
+                       });
+                            
+                            
+                        
+                    
+                        //function for searching through matchFavorites
+                       
+                    }
                 });    
-         
+        
       
         //function for removing Todo
         //function for moving Todo
