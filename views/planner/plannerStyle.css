@@ -5,27 +5,9 @@
         padding: 0;
       }
       #map {
-        width:45%;
-        position:relative;
-        height:65%;
-        float:right;
-        top:50px;
-      }
-      
-      .container{
-        height:100%;
-        width:80%;
-      }
-      #searchPanel{
-         width:50%;
-         display: inline-block;
-
-      }
-    
-      .list-group-item:first-child{
-          border-radius:0px;
-        
-         
+       height:300px;
+       width:100%;
+       top:0px;
       }
       .list-group-item:last-child{
       border-radius:0px;
@@ -59,6 +41,8 @@
       #searchPanel{
         height:200px;
         background-color:transparent;
+         width:50%;
+         display: inline-block;
       }
       .boxHighlight{
         background-color:#e6e6e6;
@@ -66,10 +50,13 @@
       .resultboxes{
         display:inline-block;
         height:50px;
-        width:300px;
+        width:200px;
+        font-size:15px;
         border-style:solid;
         border-color:gray;
-      
+      }
+      .glyphicon glyphicon-remove{
+       float:right; 
       }
       .list-group-item{
        background-color:transparent;
@@ -82,26 +69,21 @@
         font-weight:bold;
         display:inline-block;
       }
-      .list-group-item-text{
-        display:inline-block;
-        font-size:12px;
-        width:310px;
-        
-      }
       #reviews{
-      color:gray;
-      font-size:10px;
-      font-style:italic;
+        color:gray;
+        font-size:10px;
+        font-style:italic;
       }
       .locationImage{
-       float:right;
-       margin-top:5px;
+        position:relative;
+        top:-22px;
       }
       .sortPanel{
         background-color:tan;
-        height:100%;
-         width:50%;
-         display: inline-block;
+        height:800;
+        width:45%;
+        min-width:450px;
+        float:left;
       }
       .dropBox{
         background-color:red;
@@ -111,25 +93,40 @@
         border-style:solid;
         background-color:#D3D3D3;
         height:150px;
-        padding-top:15px;
+
       }
       .ToDoItems{
         border-color:white;
         border-style:solid;
         background-color: white;
         width:400px;
-        height:110px;
+        height:120px;
         margin: 0 auto;
+        margin-top:10px;
       }
      .list-group-item{
-       
-         width:290px;
-         height:80px;
+       width:290px;
+       height:80px;
           
      }
      .snippet_text{
        display:block;
        font-size:10px;
        font-family: Arial, Helvetica, sans-serif;
+     }
+     .map_favorites{
+      float:left;
+      width:50%;
+      min-width:300px;
+      height:500px;
+      margin-left:15px;
+     }
+     .container{
+       height:50%;
+     }
+     .searchResults{
+       height:500px;
+       display:block;
+       margin-top:100px;
      }
      

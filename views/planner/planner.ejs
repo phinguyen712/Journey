@@ -1,7 +1,7 @@
 
 <%include ../partials/header%>
 
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMMJZOHCIonaJDigVJKsgPV9Y8QUFK6tA&callback=initMap"async defer></script>
 
 
 <style type="text/css">
@@ -13,26 +13,42 @@
 
 <script>
 
+function initMap() {
+
+    //google map settings
+     var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 10
+    });
+                      
+    // obtain geolocatin of current position
+    if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+        //set map center to current geolocation
+              $("#currentLocation").click(function() { 
+                map.setCenter( {lat: position.coords.latitude, lng: position.coords.longitude});
+              });
+          });
+    }else{
+        console.log("failed")
+    };
+     
+ 
     //display all of the user's favorites items and retrieve yelpData of those items
-        //Post request to node  ----> app.js    
-       $.ajax({
-            type: "POST",
-            url: "/planner",
-            data: "",
-            dataType:"json",
-            success: function(matchFavorites){    
-            console.log(matchFavorites);
-            //display all favorite data in favorite panel
-                for(var i = 0; i<matchFavorites.length;i++){
-                      $("#searchResults").append(function(){
-                            return  "<div class= 'resultboxes' id='"+i+"'>"+
-                                    "<span class='list-group-item'>"+
-                                    "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+'</span>.'+matchFavorites[i].name+"&nbsp&nbsp&nbsp<span>"+
-                                    "</span></h4>"+
-                                    "</di>"+
-                                    "</span></div>";
-                           });
-                       }
+    //Post request to node  ----> app.js    
+   $.ajax({
+        type: "POST",
+        url: "/planner",
+        data: "",
+        dataType:"json",
+        success: function(matchFavorites){    
+        console.log(matchFavorites);
+        //display all favorite data in favorite panel
+            for(var i = 0; i<matchFavorites.length;i++){
+                  $("#searchResults").append(function(){
+                        return  "<div class= 'resultboxes' id='"+i+"'><span>"+matchFavorites[i].name+"</span><button class='glyphicon glyphicon-remove'></button></div>"
+                       });
+                   }
  
              //create slots for toDo panel
                 for(var x = 0; x<5; x++){ 
@@ -93,7 +109,7 @@
                 } 
     });
 
-
+}
 </script>
 
 
