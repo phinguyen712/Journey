@@ -37,32 +37,76 @@ function initMap() {
     //display all of the user's favorites items and retrieve yelpData of those items
     //Post request to node  ----> app.js    
    $.ajax({
-        type: "POST",
-        url: "/planner",
+        type: "GET",
+        url: "/planner/favorites/show",
         data: "",
         dataType:"json",
         success: function(matchFavorites){    
-        console.log(matchFavorites);
         //display all favorite data in favorite panel
             for(var i = 0; i<matchFavorites.length;i++){
                   $("#searchResults").append(function(){
-                        return  "<div class= 'resultboxes' id='"+i+"'><span>"+matchFavorites[i].name+"</span><button class='glyphicon glyphicon-remove'></button></div>"
+                        return  "<div class= 'resultboxes' id='"+i+"'><div>"+matchFavorites[i].name+"</div>"+
+                        "<span class='glyphicon glyphicon-remove'></span><span class='glyphicon glyphicon-plus addToDo'></span></div>"
                        });
                    }
- 
-             //create slots for toDo panel
-                for(var x = 0; x<5; x++){ 
-                    
-                        $(".sortPanel").append(function(){
-                          return "<div class ='ToDo'></div>";   
-                        });
-                    };
-                    
-                    
-            //features for dragging components
-               $( ".resultboxes" ).draggable({
-                  distance: 10,
+       //delete toDo list from schedule
+               
+        //render saved schedule
+                     $.ajax({
+                        type: "GET",
+                        url: "/planner/schedule/show",
+                        dataType:"json",
+                        success:function(schedule){
+                            for( var i=0; i<schedule.length ; i++){
+                                $(".sortPanel").append(function(){
+                                    
+                                   return "<div class='ToDo'><div class='ToDoItems'>"+
+                                        "<span class='list-group-item'>"+
+                                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+i+"</span>"+
+                                        "<span class='scheduleName' id='"+schedule[i].id+"'>."+schedule[i].name+"</span>"+
+                                        "<span>&nbsp<img src='"+schedule[i].rating_img_url+"'></img></span>"+
+                                        "<span id='reviews'>&nbsp"+schedule[i].review_count+"reviews</span></h5>"+
+                                        "<p class='snippet_text'>"+schedule[i].snippet_text+"</p><div class='glyphicon glyphicon-remove removeToDo'></div></di>"+
+                                        "</span><img class='locationImage'src='"+schedule[i].image_url+"'></img></div>"
+                                });
+                            }
+                            $(".removeToDo").on("click",function(){
+                   
+                                var deleteToDo = $(this).siblings("#heading").children("#queryNumber").html();
+                                    console.log(deleteToDo);
+                                  $.ajax({
+                                      type: "DELETE",
+                                      url:"/planner/toDo/delete",
+                                      data:{'id':deleteToDo},
+                                      success:function(){}
+                                      
+                                  });
+                    });    
+                       
+                       
+                       
+                        }  
+                        
+                     });
+
+            
+            //add toDo to schedule
+               $(".addToDo").on("click",function(){
+                   
+                   var newToDo = $(this).parent().attr("id");
+            
+                   $.ajax({
+                        type: "POST",
+                        url: "/planner/toDo/new",
+                        data: {'id':matchFavorites[newToDo].id},
+                        dataType:"json",
+                        success:function(schedule){
+                        }
+                   })
+                        //function for searching through matchFavorites
                 });
+                
+     
             
             
             //features for dropping components    
@@ -76,7 +120,7 @@ function initMap() {
                         //locate object in matchFavorites that 
                         //has id :droppedId and print yelpData on ToDo Panel
                         $(this).append(function(){
-                    
+                        
                        //  console.log(toDoThumb);
                              return "<div class='ToDoItems'>"+
                             "<span class='list-group-item'>"+
@@ -95,7 +139,11 @@ function initMap() {
                     }
                 });    
         
-      
+            //features for dragging components
+               $( ".resultboxes" ).draggable({
+                  distance: 10,
+                });
+                
         //function for removing Todo
         //function for moving Todo
         //function for editing Todo

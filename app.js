@@ -60,6 +60,8 @@ app.get('/',function(req, res){
 
 
 var matchFavorites= [];//stored data of user favorites
+var matchSchedule= [];//stored data of user schedule
+
 
 app.get("/planner",function(req,res){
        //find current user
@@ -67,6 +69,7 @@ app.get("/planner",function(req,res){
         if(err){
             console.log(err);
         }else{
+            console.log(foundUser);
             //search yelp for businesses that matches User.favorites
               foundUser.favorites.forEach(function(userFavorites){
                 yelp.business(userFavorites).then(function (yelpFavoriteData){
@@ -74,30 +77,62 @@ app.get("/planner",function(req,res){
                     matchFavorites.push(yelpFavoriteData);
                 });
              });
+            foundUser.schedule.forEach(function(userSchedule){
+                yelp.business(userSchedule).then(function(yelpScheduleData){
+                    matchSchedule.push(yelpScheduleData);
+            });
+         });
+             
         }
     });
    res.render('planner/planner'); 
 });
 
-app.post("/planner",function(req,res){
+
+app.get("/planner/favorites/show",function(req,res){
+    
     //send saved array to planner page
      res.json(matchFavorites);
      //reset array after all info is sent
      matchFavorites.length = 0;
 });
 
-app.post("/planner/new",function(req,res){
+
+app.get("/planner/schedule/show",function(req,res){
+    //send saved array to planner page
+    res.json(matchSchedule);
+    //reset array after all info is sent
+    matchSchedule.length = 0;
+    });
+  
+    
+app.post("/planner/toDo/new",function(req,res){
     
     User.findById(req.user.id,function(err,foundUser){
          if(err){
              console.log(err);
          }else{
-             
+             foundUser.schedule.push(req.body.id);
+             foundUser.save();
+             res.json(foundUser.schedule);
          }
     });
-   
 });
 
+app.delete("/planner/toDo/delete",function(req,res){
+    User.findById(req.user.id,function(err,foundUser){
+        if(err){
+            console.log(err);
+        }else{
+            var deleteToDo = req.body.id;
+            console.log(deleteToDo);
+            
+            delete foundUser.schedule.splice(deleteToDo,deleteToDo);
+            foundUser.save();
+            console.log(foundUser);
+        }
+    })  ;
+});
 
 app.use(journeysRoutes);
 app.use(commentsRoutes);

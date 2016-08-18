@@ -80,7 +80,7 @@
       }
       .sortPanel{
         background-color:tan;
-        height:800;
+        height:800px;
         width:45%;
         min-width:450px;
         float:left;
@@ -113,6 +113,10 @@
        display:block;
        font-size:10px;
        font-family: Arial, Helvetica, sans-serif;
+       margin-bottom:0px;
+     }
+     glyphicon-remove{
+       margin-top:3px;
      }
      .map_favorites{
       float:left;
