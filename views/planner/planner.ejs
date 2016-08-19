@@ -41,7 +41,8 @@ function initMap() {
         url: "/planner/favorites/show",
         data: "",
         dataType:"json",
-        success: function(matchFavorites){    
+        success: function(matchFavorites){   
+            
         //display all favorite data in favorite panel
             for(var i = 0; i<matchFavorites.length;i++){
                   $("#searchResults").append(function(){
