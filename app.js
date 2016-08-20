@@ -65,11 +65,6 @@ var matchFavorites= [];//stored data of user favorites
 
 
 
-function resData(res,matchData,foundUser,callback){
-
-    callback(matchData,foundUser)
-    res.json(matchData);
-}
 
 app.get("/planner",function(req,res){
       
@@ -91,22 +86,13 @@ app.get("/planner",function(req,res){
 });
 
 
-function yelpSearch(userFavorites,i){      
-    console.log(i);
-     yelp.business(userFavorites[i]).then(function(yelpData,i){
-            return yelpData;
-            }).then(function(yelpDatas){
-                console.log(yelpDatas.id);
+     function loadData(userFavorites){
+            userFavorites.map(function(selectedFav){
+              yelp.business(selectedFav).then(function(data){
+                         return data;
+                     });
             });
-    
-
-}
-
-
-function addData(i,matchData,userFavorites,callback){
-   
-    matchData.splice(i,1, callback(userFavorites,i));
-    }
+           }    
     
 app.get("/planner/favorites/show",function(req,res){
  
@@ -115,20 +101,19 @@ app.get("/planner/favorites/show",function(req,res){
             console.log(err);
         }
         else{
+           
             console.log(foundUser);
-             var userFavorites = foundUser.favorites;
-        
-            for( var i = 0 ; i < userFavorites.length ; i++){
-               addData(i,matchFavorites, userFavorites,yelpSearch);
-            }
+
+            var userFavorites = foundUser.favorites;
+            loadData(userFavorites);
+
         }
-        
     });
     
     // matchFavorites.forEach(function(favorites){
     //            console.log(favorites.id);
     // });
-    //send saved array to planner page
+    //send saved array to planner pagenode
          res.json(matchFavorites);
      //reset array after all info is sent
   
