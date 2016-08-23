@@ -58,13 +58,14 @@ function initMap() {
                $(".addToDo").on("click",function(){
                    
                    var newToDo = $(this).parent().attr("id");
-            
                    $.ajax({
                         type: "POST",
                         url: "/planner/toDo/new",
-                        data: {'id':matchFavorites[newToDo].id},
+                        data: matchFavorites[newToDo],
                         dataType:"json",
                         success:function(schedule){
+                            console.log(schedule)
+                            
                         }
                    })
                         //function for searching through matchFavorites
@@ -133,14 +134,8 @@ function initMap() {
             for( var i=0; i<schedule.length ; i++){
                 $(".sortPanel").append(function(){
                     
-                   return "<div class='ToDo'><div class='ToDoItems'>"+
-                        "<span class='list-group-item'>"+
-                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+i+"</span>"+
-                        "<span class='scheduleName' id='"+schedule[i].id+"'>."+schedule[i].name+"</span>"+
-                        "<span>&nbsp<img src='"+schedule[i].rating_img_url+"'></img></span>"+
-                        "<span id='reviews'>&nbsp"+schedule[i].review_count+"reviews</span></h5>"+
-                        "<p class='snippet_text'>"+schedule[i].snippet_text+"</p><div class='glyphicon glyphicon-remove removeToDo'></div></di>"+
-                        "</span><img class='locationImage'src='"+schedule[i].image_url+"'></img></div>"
+                  return toDoContents(schedule,i);
+                
                 });
             }
             $(".removeToDo").on("click",function(){
@@ -163,7 +158,18 @@ function initMap() {
     });
     
     
-    
+ function toDoContents(toDoObject,i){
+     console.log(toDoObject[i].id + i)
+         return  "<div class='ToDo'><div class='ToDoItems'>"+
+                        "<span class='list-group-item'>"+
+                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+i+"</span>"+
+                        "<span class='scheduleName' id='"+toDoObject[i].id+"'>."+toDoObject[i].name+"</span>"+
+                        "<span>&nbsp<img src='"+toDoObject[i].rating_img_url+"'></img></span>"+
+                        "<span id='reviews'>&nbsp"+toDoObject[i].review_count+"reviews</span></h5>"+
+                        "<p class='snippet_text'>"+toDoObject[i].snippet_text+"</p><div class='glyphicon glyphicon-remove removeToDo'></div></di>"+
+                        "</span><img class='locationImage'src='"+toDoObject[i].image_url+"'></img></div>"
+ };
+  
 
     
     

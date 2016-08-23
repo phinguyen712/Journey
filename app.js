@@ -83,9 +83,7 @@ app.get("/planner/favorites/show",function(req,res){
 
 
 app.get("/planner/schedule/show",function(req,res){
-    console.log(usersRoutes.schedule);
     res.json(usersRoutes.schedule);
-    console.log(req.user);
     });
   
     
@@ -95,9 +93,10 @@ app.post("/planner/toDo/new",function(req,res){
          if(err){
              console.log(err);
          }else{
+             console.log(req.body.id);
              foundUser.schedule.push(req.body.id);
-             foundUser.save();
-             res.json(foundUser.schedule);
+             console.log(req.user);
+             res.json(req.body);
          }
     });
 });
