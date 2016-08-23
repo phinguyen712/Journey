@@ -83,6 +83,7 @@ app.get("/planner/favorites/show",function(req,res){
 
 
 app.get("/planner/schedule/show",function(req,res){
+    console.log(usersRoutes.schedule.forEach(function(yay){console.log(yay.id)}));
     res.json(usersRoutes.schedule);
     });
   
@@ -95,11 +96,13 @@ app.post("/planner/toDo/new",function(req,res){
          }else{
              console.log(req.body.id);
              foundUser.schedule.push(req.body.id);
+             foundUser.save();
              console.log(req.user);
              res.json(req.body);
          }
     });
 });
+
 
 app.delete("/planner/toDo/delete",function(req,res){
     User.findById(req.user.id,function(err,foundUser){

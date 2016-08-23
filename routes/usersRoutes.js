@@ -2,6 +2,7 @@ var express                 =   require("express"),
     router                  =   express.Router({mergeParams:true}),
     User                    =   require("../models/users.js"),
     passport                =   require("passport"),
+    $                       =   require("jquery"),
     Yelp                    =   require("yelp");
 
 
@@ -15,33 +16,62 @@ var yelp = new Yelp({
 var matchFavorites = [];
 var matchSchedule = [];
 
-//function for pre-loading yelp search results into an array based on business
-//id stored in Users  arrays
+//function for searching up yelp's businesses based on users's propoerties e.g
+// schedule/favorite/ToDo
   function loadMatchData(matchArr,userProperties,exportFunction){
+     
+     //Array for storing all search results from yelp
+     var retrievedYelpData = [];
+     
      //clear array
      matchArr.length = 0;
-     
-    //set matchArr[] to lenght of user favorites
-       matchArr = Array.apply(null, Array(userProperties.length)).map(function(){});
+    
+    //Array of non-repeating elements, eliminate repeated yelp search     
+     var uniqueProperties = userProperties.filter(function(elem, index, self){
+            return index == self.indexOf(elem);
+        });
+    
+    //set matchArr[] to lenght of userProperties
+     matchArr = Array.apply(null, Array(userProperties.length)).map(function(){});
    
-    //APi request to yelp for each item on the user.favorites object
-       for(var x = 0 ; x < userProperties.length ; x++){
-            yelp.business(userProperties[x]).then(function(yelpId){
+    // API data request from yelp based on uniqueProperties
+    //counter for initiating next step when async request is complete
+     var counter = 0;
+     
+     //search up all businesses in the unqieue Properties object         
+       for(var x = 0 ; x < uniqueProperties.length ; x++){
+            yelp.business(uniqueProperties[x]).then(function(yelpId){
+                retrievedYelpData.push(yelpId);
+                counter ++;
+           
+           if(counter == uniqueProperties.length){
+               console.log("hey" + counter);
     
-    //Note * this is an Async loop
-    //save index number to each array so that matchArr[] will output
-    //in the same order as User.favorites
-    
-            var  index = userProperties.indexOf(yelpId.id);
-     //insert results from yelp API into matchArr in the same order as
-     //User.favorites
-           matchArr.splice(index,1, yelpId);
-           exportFunction(matchArr);
+            
+            var yelpIndex  =  retrievedYelpData.map(function(dataId){
+                return dataId.id;
+            });
+        
+        for(var z = 0 ; z < userProperties.length ; z++){
+                    
+            
+            var index = yelpIndex.indexOf(userProperties[z]);
+            console.log(index);
+                    
+                   matchArr.splice(z , 1 , retrievedYelpData[index]);
+           
+                }
+                matchArr.forEach(function(hey){
+                    console.log(hey.id);
+                });
+               
+           }
            });
        }
-     
+     exportFunction(matchArr);
     }   
-
+    
+    
 router.get("/signup", function(req,res){
     res.render("signup");
 });
@@ -77,17 +107,20 @@ router.post('/login', passport.authenticate("local"),function(req,res){
         if(err){
             console.log(err);
         }else{
-          
-           loadMatchData(matchFavorites,foundUser.favorites,function(matchFavorites){
-               module.exports.favorites = matchFavorites;
-           });
-           
+        console.log(foundUser);
+      //   loadMatchData(matchFavorites,foundUser.favorites,function(matchFavorites){
+      //       
+      //       module.exports.favorites = matchFavorites;
+      //   });
+    
            loadMatchData(matchSchedule,foundUser.schedule,function(matchSchedule){
+          //        console.log(matchFavorites.id)})});
                module.exports.schedule = matchSchedule;
            });
         }        
     });
-    setTimeout(function(){res.redirect("/planner")},3000);
+ 
+
 });
 
 
