@@ -12,9 +12,35 @@ var yelp = new Yelp({
   token_secret: '95n7Fr_0Mdje8F_XbzKQ5qAhZ28',
 });
 
-var matchFavorites= [];
+var matchFavorites = [];
+var matchSchedule = [];
 
-
+//function for pre-loading yelp search results into an array based on business
+//id stored in Users  arrays
+  function loadMatchData(matchArr,userProperties,exportFunction){
+     //clear array
+     matchArr.length = 0;
+     
+    //set matchArr[] to lenght of user favorites
+       matchArr = Array.apply(null, Array(userProperties.length)).map(function(){});
+   
+    //APi request to yelp for each item on the user.favorites object
+       for(var x = 0 ; x < userProperties.length ; x++){
+            yelp.business(userProperties[x]).then(function(yelpId){
+    
+    //Note * this is an Async loop
+    //save index number to each array so that matchArr[] will output
+    //in the same order as User.favorites
+    
+            var  index = userProperties.indexOf(yelpId.id);
+     //insert results from yelp API into matchArr in the same order as
+     //User.favorites
+           matchArr.splice(index,1, yelpId);
+           exportFunction(matchArr);
+           });
+       }
+     
+    }   
 
 router.get("/signup", function(req,res){
     res.render("signup");
@@ -51,22 +77,17 @@ router.post('/login', passport.authenticate("local"),function(req,res){
         if(err){
             console.log(err);
         }else{
-            var userFavorites = foundUser.favorites;
-           matchFavorites = Array.apply(null, Array(userFavorites.length)).map(function () {})
-           for(var x = 0 ; x < userFavorites.length ; x++){
-                yelp.business(userFavorites[x]).then(function(yelpFavorites){
-                var  index = userFavorites.indexOf(yelpFavorites.id);
-                    
-                matchFavorites.splice(index,1, yelpFavorites);
-                console.log(matchFavorites);
-               
-                 return yelpFavorites;
-               });
-           }
-         
+          
+           loadMatchData(matchFavorites,foundUser.favorites,function(matchFavorites){
+               module.exports.favorites = matchFavorites;
+           });
+           
+           loadMatchData(matchSchedule,foundUser.schedule,function(matchSchedule){
+               module.exports.schedule = matchSchedule;
+           });
         }        
     });
-    res.redirect("/planner");
+    setTimeout(function(){res.redirect("/planner")},3000);
 });
 
 
@@ -76,4 +97,4 @@ router.get("/logout",function(req,res){
     console.log(req.user);
 });
 
-module.exports=router;
+module.exports.router=router;

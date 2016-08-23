@@ -59,11 +59,6 @@ app.get('/',function(req, res){
 });
 
 
-var matchSchedule= [];//stored data of user schedule
-                
-var matchFavorites= [];//stored data of user favorites 
-
-
 
 
 app.get("/planner",function(req,res){
@@ -74,62 +69,28 @@ app.get("/planner",function(req,res){
             console.log(err);
         }else{
             //search yelp for businesses that matches User.favorites
+               res.render('planner/planner'); 
               }
-            foundUser.schedule.forEach(function(userSchedule){
-                yelp.business(userSchedule).then(function(yelpScheduleData){
-                    matchSchedule.push(yelpScheduleData);
-            });
          });
-        });
-  
-   res.render('planner/planner'); 
 });
 
 
-     function loadData(userFavorites){
-            userFavorites.map(function(selectedFav){
-              yelp.business(selectedFav).then(function(data){
-                         return data;
-                     });
-            });
-           }    
+    
     
 app.get("/planner/favorites/show",function(req,res){
- 
-    User.findById(req.user.id, function(err,foundUser){
-        if(err){
-            console.log(err);
-        }
-        else{
-           
-            console.log(foundUser);
-
-            var userFavorites = foundUser.favorites;
-            loadData(userFavorites);
-
-        }
-    });
-    
-    // matchFavorites.forEach(function(favorites){
-    //            console.log(favorites.id);
-    // });
-    //send saved array to planner pagenode
-         res.json(matchFavorites);
-     //reset array after all info is sent
-  
+    res.json(usersRoutes.favorites);
 });
 
 
 app.get("/planner/schedule/show",function(req,res){
-    //send saved array to planner page
-    res.json(matchSchedule);
-    //reset array after all info is sent
-    matchSchedule.length = 0;
+    console.log(usersRoutes.schedule);
+    res.json(usersRoutes.schedule);
+    console.log(req.user);
     });
   
     
 app.post("/planner/toDo/new",function(req,res){
-    console.log(matchFavorites);
+
     User.findById(req.user.id,function(err,foundUser){
          if(err){
              console.log(err);
@@ -158,7 +119,7 @@ app.delete("/planner/toDo/delete",function(req,res){
 
 app.use(journeysRoutes);
 app.use(commentsRoutes);
-app.use(usersRoutes);
+app.use(usersRoutes.router);
 app.use(favoriteRoutes);
 
 
