@@ -41,7 +41,7 @@ function initMap() {
         data: "",
         dataType:"json",
         success: function(matchFavorites){   
-            
+            console.log(matchFavorites)
         //display all favorite data in favorite panel
             for(var i = 0; i<matchFavorites.length;i++){
                   $("#searchResults").append(function(){
@@ -130,24 +130,26 @@ function initMap() {
         data:"",
         dataType:"json",
         success:function(schedule){
-            console.log(schedule);
             for( var i=0; i<schedule.length ; i++){
                 $(".sortPanel").append(function(){
-                    
+                
                   return toDoContents(schedule,i);
                 
                 });
             }
+            
             $(".removeToDo").on("click",function(){
         
                 var deleteToDo = $(this).siblings("#heading").children("#queryNumber").html();
-                    console.log(deleteToDo);
                   $.ajax({
                       type: "DELETE",
                       url:"/planner/toDo/delete",
                       data:{'id':deleteToDo},
-                      success:function(){}
-                      
+                      success:function(deletedSchedule){
+                        
+                        $("#"+deletedSchedule+"").remove();
+                     
+                      }
                   });
         });    
     
@@ -159,8 +161,8 @@ function initMap() {
     
     
  function toDoContents(toDoObject,i){
-     console.log(toDoObject[i].id + i)
-         return  "<div class='ToDo'><div class='ToDoItems'>"+
+     
+         return  "<div id='"+i+"'class='ToDo'><div class='ToDoItems'>"+
                         "<span class='list-group-item'>"+
                         "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+i+"</span>"+
                         "<span class='scheduleName' id='"+toDoObject[i].id+"'>."+toDoObject[i].name+"</span>"+

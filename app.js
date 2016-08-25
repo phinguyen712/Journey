@@ -75,16 +75,29 @@ app.get("/planner",function(req,res){
 });
 
 
-    
+var matchFavorites = "";
+var matchSchedule = "";
+
     
 app.get("/planner/favorites/show",function(req,res){
+    if( matchFavorites==""){
     res.json(usersRoutes.favorites);
+    matchFavorites = usersRoutes.favorites;
+    }else{
+    res.json(matchFavorites);
+    }
 });
 
 
 app.get("/planner/schedule/show",function(req,res){
-    console.log(usersRoutes.schedule.forEach(function(yay){console.log(yay.id)}));
+    if( matchSchedule=="" ){
     res.json(usersRoutes.schedule);
+    usersRoutes.schedule.forEach(function(test){console.log(test.id)})
+    matchSchedule = usersRoutes.schedule;
+    }else{
+    res.json(matchSchedule);
+    matchSchedule.forEach(function(test){console.log(test.id + "hey")});
+    }
     });
   
     
@@ -113,8 +126,12 @@ app.delete("/planner/toDo/delete",function(req,res){
             console.log(deleteToDo);
             
             delete foundUser.schedule.splice(deleteToDo,deleteToDo);
+            
+            matchSchedule.splice(deleteToDo);
+            matchSchedule.forEach(function(test){console.log(test.id+"YOOo")});
+            res.send(deleteToDo);
             foundUser.save();
-            console.log(foundUser);
+           
         }
     })  ;
 });
