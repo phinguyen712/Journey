@@ -111,7 +111,7 @@ function initMap() {
                     
                       var selectedData = $(this).siblings('#heading').children('#queryNumber').html() - 1 ;
                       
-                      var favoriteSpots =  spot[selectedData].id;
+                      var favoriteSpots =  spot[selectedData];
                       
                       
                       if($(this).attr("class") == 'glyphicon glyphicon-heart-empty' ){
@@ -123,7 +123,7 @@ function initMap() {
                           $.ajax({
                              type: "POST",
                              url: "/favorites/save",
-                             data: {'id': favoriteSpots},
+                             data: favoriteSpots,
                              dataType:"json",
                              success: function(dataReturn){
                                  console.log(dataReturn);
@@ -137,7 +137,7 @@ function initMap() {
                              $.ajax({
                                  type: "DELETE",
                                  url: "/favorites/delete",
-                                 data: {'id': favoriteSpots},
+                                 data: favoriteSpots,
                                  dataType:"json",
                                  success: function(deletedSpots){
                                      console.log(deletedSpots);

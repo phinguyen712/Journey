@@ -16,8 +16,31 @@ var yelp = new Yelp({
 });
 
 
-    
-    
+function queryYelpData(userProperties,exportFunction){
+  console.log(userProperties);
+    //Array of non-repeating elements, eliminate repeated yelp search     
+     var uniqueProperties = userProperties.filter(function(elem, index, self){
+            return index == self.indexOf(elem);
+     });
+     console.log(uniqueProperties);
+      for(var x = 0 ; x<uniqueProperties.length ; x++){
+
+  //
+  //look in database if data already exist, if it does. overwrite it. 
+  //if it doesnt, create new database
+            yelp.business(uniqueProperties[x]).then(function(yelpId){
+                console.log(yelpId.id)
+                yelp.findOneAndUpdate({business:{'id':yelpId.id}},{business:yelpId},{new: true},function(err,foundBusiness){
+                    if(err){    
+                        console.log(err);
+                    }else{
+                        console.log(foundBusiness+"hey");
+                    }    
+                });
+        });
+    }
+} 
+
 router.get("/signup", function(req,res){
     res.render("signup");
 });
@@ -52,28 +75,14 @@ router.post('/login', passport.authenticate("local"),function(req,res){
         if(err){
             console.log(err);
         }else{
-            console.log(foundUser.schedule[1]);
-           yelp.business(foundUser.schedule[1]).then(function(yelpId){
-              yelpData.create({"business": yelpId},function(err,yelpData){
-                  if(err){
-                      console.log(err);
-                      }else{
-                          console.log(yelpData);
-                      }
-              });        
-           });
-            var matchFavorites = [];
-            var matchSchedule = [];
-         loadMatchData.loadMatchData(matchFavorites,foundUser.favorites,function(matchFavorites){
-             module.exports.favorites = matchFavorites;
-         });
+          
+          //  queryYelpData(foundUser.favorites,function(matchFavorites){
+          //  });
          
-             loadMatchData.loadMatchData(matchSchedule,foundUser.schedule,function(matchSchedule){
-               module.exports.schedule = matchSchedule;
-               
-            });
-         res.redirect("/planner");
-        
+          //  queryYelpData(foundUser.schedule,function(matchSchedule){
+          //  });
+        res.redirect("/planner");
+         
         }        
     });
  

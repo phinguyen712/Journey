@@ -1,6 +1,7 @@
 var express                 =   require("express"),
     router                  =   express.Router({mergeParams:true}),
     Yelp                    =   require("yelp"),
+    yelpData                =   require("../models/yelp.js"),
     User                    =   require("../models/users.js");
         
         
@@ -69,11 +70,17 @@ router.post("/favorites/save",function(req,res){
         }else if(!userAccount.favorites){
             userAccount.favorites = req.body.id;
             console.log(userAccount);
-
         }else{
             userAccount.favorites.push(req.body.id);
             userAccount.save(); 
-            console.log(userAccount);
+    //store data into favorites
+          yelpData.create({business:req.body},function(err,storedYelpData){
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log(storedYelpData.business.id);
+                }
+            });
         }
         res.json(userAccount);
     });

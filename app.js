@@ -7,6 +7,7 @@ var express                 =   require("express"),
     journey                 =   require("./models/journeys.js"),
     User                    =   require("./models/users.js"),
     comments                =   require("./models/comments.js"),
+    yelpData                =   require("./models/yelp.js"),
     passport                =   require("passport"),
     LocalStrategy           =   require("passport-local"),
     passportLocalMooose     =   require("passport-local-mongoose"),
@@ -75,28 +76,39 @@ app.get("/planner",function(req,res){
 });
 
 
-var matchFavorites = "";
 var matchSchedule = "";
 
     
 app.get("/planner/favorites/show",function(req,res){
-    if( matchFavorites==""){
-    res.json(usersRoutes.favorites);
-    matchFavorites = usersRoutes.favorites;
-    }else{
-    res.json(matchFavorites);
-    }
+    var favoritesArr = [];//array for temprorarily storing favorites
+    var counter = 0;
+    req.user.favorites.forEach(function(userFavorites){
+        console.log(userFavorites);
+        yelpData.findOne({'business.id': userFavorites},function(err,foundFavorites){
+            if(err){
+                console.log(err);
+            }else{
+                favoritesArr.push(foundFavorites.business);
+                counter++;
+                if(counter==3){
+                  res.json(favoritesArr);   
+                }
+            }
+           
+        });
+    });
+    
 });
 
 
 app.get("/planner/schedule/show",function(req,res){
     if( matchSchedule=="" ){
-    res.json(usersRoutes.schedule);
-    usersRoutes.schedule.forEach(function(test){console.log(test.id)})
-    matchSchedule = usersRoutes.schedule;
+        res.json(usersRoutes.schedule);
+    
+        matchSchedule = usersRoutes.schedule;
     }else{
-    res.json(matchSchedule);
-    matchSchedule.forEach(function(test){console.log(test.id + "hey")});
+        res.json(matchSchedule);
+        
     }
     });
   
