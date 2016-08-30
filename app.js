@@ -48,7 +48,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//mount req.user as currentUser to be used in views/header
+//set req.user as currentUser to be used in views/header
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
@@ -60,62 +60,42 @@ app.get('/',function(req, res){
 });
 
 
-
-
 app.get("/planner",function(req,res){
-      
-       //find current user
-       User.findById(req.user.id, function(err,foundUser){
-        if(err){
-            console.log(err);
-        }else{
-            //search yelp for businesses that matches User.favorites
-               res.render('planner/planner'); 
-              }
-         });
+    res.render('planner/planner'); 
 });
 
-    
-app.get("/planner/favorites/show",function(req,res){
-    var favoritesArr = [];//array for temprorarily storing favorites
-    var counter = 0;
-
-    req.user.favorites.forEach(function(userFavorites){
-        yelpData.findOne({'business.id': userFavorites},function(err,foundFavorites){
+//loop through an array with Yelp Id within the req.user object and check 
+//yelpData collection for any matching document.Push these results into tempArr
+//send tempArr to page sending AJAX request
+function populateUsersData(req,res,userYelpArr){
+    var tempArr = [];//array for temprorarily storing populatedData
+    var counter = 0;//counter for handling ASYNC
+    //show all of user's favorites on the planner page by searching through yelpData
+    //and linking to user.favorites
+    userYelpArr.forEach(function(userProperties){
+        yelpData.findOne({'business.id': userProperties},function(err,foundYelpData){
             if(err){
                 console.log(err);
             }else{
-                favoritesArr.push(foundFavorites.business);
+                tempArr.push(foundYelpData.business);
                 counter++;
-                if(counter == req.user.favorites.length){
-                  res.json(favoritesArr);   
+                if(counter == userYelpArr.length){
+                  res.json(tempArr);   
                 }
             }
-           
         });
     });
+}
     
+    
+app.get("/planner/favorites/show",function(req,res){
+    populateUsersData(req,res,req.user.favorites);
 });
 
 
 app.get("/planner/schedule/show",function(req,res){
-    var scheduleArr = [];//array for temprorarily storing favorites
-    var counter = 0;
-    req.user.schedule.forEach(function(userSchedule){
-        console.log(userSchedule);
-        yelpData.findOne({'business.id': userSchedule},function(err,foundSchedule){
-            if(err){
-                console.log(err);
-            }else{
-                scheduleArr.push(foundSchedule.business);
-                counter++;
-                if(counter==req.user.schedule.length){
-                  res.json(scheduleArr);
-                }
-            }
-        });
-    });
-    });
+    populateUsersData(req,res,req.user.schedule);
+});
   
     
 app.post("/planner/toDo/new",function(req,res){

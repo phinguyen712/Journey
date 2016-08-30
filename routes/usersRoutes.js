@@ -16,30 +16,6 @@ var yelp = new Yelp({
 });
 
 
-function queryYelpData(userProperties,exportFunction){
-  console.log(userProperties);
-    //Array of non-repeating elements, eliminate repeated yelp search     
-     var uniqueProperties = userProperties.filter(function(elem, index, self){
-            return index == self.indexOf(elem);
-     });
-     console.log(uniqueProperties);
-      for(var x = 0 ; x<uniqueProperties.length ; x++){
-
-  //
-  //look in database if data already exist, if it does. overwrite it. 
-  //if it doesnt, create new database
-            yelp.business(uniqueProperties[x]).then(function(yelpId){
-                console.log(yelpId.id)
-                yelp.findOneAndUpdate({business:{'id':yelpId.id}},{business:yelpId},{new: true},function(err,foundBusiness){
-                    if(err){    
-                        console.log(err);
-                    }else{
-                        console.log(foundBusiness+"hey");
-                    }    
-                });
-        });
-    }
-} 
 
 router.get("/signup", function(req,res){
     res.render("signup");
@@ -75,12 +51,24 @@ router.post('/login', passport.authenticate("local"),function(req,res){
         if(err){
             console.log(err);
         }else{
-          
-          //  queryYelpData(foundUser.favorites,function(matchFavorites){
-          //  });
-         
-          //  queryYelpData(foundUser.schedule,function(matchSchedule){
-          //  });
+            foundUser.favorites.forEach(function(favorites){
+               yelpData.findOne({'business.id': favorites},function(err,foundFavorites){
+                    if(err){
+                        console.log(err);
+                    }else if(!foundFavorites){
+                        yelp.business(favorites).then(function(favorites){
+                            yelpData.create({business:favorites},function(err,storedYelpData){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    console.log(storedYelpData.business.id)
+                                }
+                            })
+                        })
+                    }
+                });
+            });
+
         res.redirect("/planner");
          
         }        

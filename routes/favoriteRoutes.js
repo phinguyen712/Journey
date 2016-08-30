@@ -16,45 +16,28 @@ var yelp = new Yelp({
 router.post("/favorites",function(req,res){
     //search businesses with yelp API
     yelp.search({ term: req.body.term, location: req.body.location }).then(function (yelpData) {
-   
-    
-   
      User.findById(req.user.id, function(err,currentUserDocument){
-         
          if(err){
              console.log(err);
          }else{
-      
              //create a poperty for displaying heart as red or empty(if users have already added the yelp location
              //to their favorite or not)
              for( var x = 0; x < yelpData.businesses.length ; x++) {
-                
-
                 for(var i = 0; i <currentUserDocument.favorites.length; i++ ) {
-                    
                     if(yelpData.businesses[x].id == currentUserDocument.favorites[i]){
-                       
                         yelpData.businesses[x].heartOn="true"; 
-                  
-                    }else{}
-               
+                    }
                 }
-                   
          }
-         
          }
-             
            res.json(yelpData);
      });    
-   
     });
 });    
     
-    
+//Ajax get request for yelpData from search.ejs    
 router.get("/favorites", function(req,res){
-
     User.findById(req.user.id,function(err,favoritesData){
-        
         if(err){
             console.log(err);
         }
@@ -62,27 +45,29 @@ router.get("/favorites", function(req,res){
     });
 });    
     
+//save favorites when heart toggle is clicked
 router.post("/favorites/save",function(req,res){
-
+console.log(req.user);
     User.findById(req.user.id,function(err,userAccount){
         if(err){
             console.log(err);
-        }else if(!userAccount.favorites){
-            userAccount.favorites = req.body.id;
-            console.log(userAccount);
         }else{
             userAccount.favorites.push(req.body.id);
             userAccount.save(); 
-    //store data into favorites
-          yelpData.create({business:req.body},function(err,storedYelpData){
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log(storedYelpData.business.id);
+            //store data into yelp schema
+            yelpData.findOne({'business.id': req.body.id},function(err,matchFavorites){
+               if(err){
+                   console.log(err);
+                }else if(!matchFavorites){
+                  yelpData.create({business:req.body},function(err,storedYelpData){
+                    if(err){
+                        console.log(err);
+                    }console.log(storedYelpData);
+                  }); 
                 }
+            res.json(userAccount);
             });
         }
-        res.json(userAccount);
     });
 });
 
