@@ -75,22 +75,19 @@ app.get("/planner",function(req,res){
          });
 });
 
-
-var matchSchedule = "";
-
     
 app.get("/planner/favorites/show",function(req,res){
     var favoritesArr = [];//array for temprorarily storing favorites
     var counter = 0;
+
     req.user.favorites.forEach(function(userFavorites){
-        console.log(userFavorites);
         yelpData.findOne({'business.id': userFavorites},function(err,foundFavorites){
             if(err){
                 console.log(err);
             }else{
                 favoritesArr.push(foundFavorites.business);
                 counter++;
-                if(counter==3){
+                if(counter == req.user.favorites.length){
                   res.json(favoritesArr);   
                 }
             }
@@ -102,14 +99,22 @@ app.get("/planner/favorites/show",function(req,res){
 
 
 app.get("/planner/schedule/show",function(req,res){
-    if( matchSchedule=="" ){
-        res.json(usersRoutes.schedule);
-    
-        matchSchedule = usersRoutes.schedule;
-    }else{
-        res.json(matchSchedule);
-        
-    }
+    var scheduleArr = [];//array for temprorarily storing favorites
+    var counter = 0;
+    req.user.schedule.forEach(function(userSchedule){
+        console.log(userSchedule);
+        yelpData.findOne({'business.id': userSchedule},function(err,foundSchedule){
+            if(err){
+                console.log(err);
+            }else{
+                scheduleArr.push(foundSchedule.business);
+                counter++;
+                if(counter==req.user.schedule.length){
+                  res.json(scheduleArr);
+                }
+            }
+        });
+    });
     });
   
     
@@ -139,8 +144,6 @@ app.delete("/planner/toDo/delete",function(req,res){
             
             delete foundUser.schedule.splice(deleteToDo,deleteToDo);
             
-            matchSchedule.splice(deleteToDo);
-            matchSchedule.forEach(function(test){console.log(test.id+"YOOo")});
             res.send(deleteToDo);
             foundUser.save();
            
