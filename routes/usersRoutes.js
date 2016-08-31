@@ -16,7 +16,6 @@ var yelp = new Yelp({
 });
 
 
-
 router.get("/signup", function(req,res){
     res.render("signup");
 });
@@ -36,14 +35,9 @@ router.post("/signup", function(req,res){
 });
 
 
-
-
 router.get("/myprofile", function(req,res){
     res.render("myprofile");
 }),
-
-
-
 
 
 router.post('/login', passport.authenticate("local"),function(req,res){
@@ -61,20 +55,16 @@ router.post('/login', passport.authenticate("local"),function(req,res){
                                 if(err){
                                     console.log(err);
                                 }else{
-                                    console.log(storedYelpData.business.id)
+                                    console.log(storedYelpData.business.id);
                                 }
-                            })
-                        })
+                            });
+                        });
                     }
                 });
             });
-
         res.redirect("/planner");
-         
         }        
     });
- 
-
 });
 
 

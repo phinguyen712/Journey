@@ -121,14 +121,11 @@ app.delete("/planner/toDo/delete",function(req,res){
         }else{
             var deleteToDo = req.body.id;
             console.log(deleteToDo);
-            
             delete foundUser.schedule.splice(deleteToDo,deleteToDo);
-            
             res.send(deleteToDo);
             foundUser.save();
-           
         }
-    })  ;
+    });
 });
 
 app.use(journeysRoutes);

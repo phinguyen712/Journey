@@ -78,7 +78,7 @@
         position:relative;
         top:-22px;
       }
-      .sortPanel{
+      #sortPanel{
         background-color:tan;
         height:800px;
         width:45%;
