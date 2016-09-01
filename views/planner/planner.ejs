@@ -53,11 +53,13 @@ function initMap() {
                     data: matchFavorites[newToDo],
                     dataType:"json",
                     success:function(schedule){
-                     
-                     $("#sortPanel").append(function(){
+                        $("#sortPanel").append(function(){
                           var scheduleLength =  $(".ToDoItems").length;
                           return toDoContents(schedule,scheduleLength);
-                    });
+                        });
+                    
+                    removeToDo();
+                        
                     }
                })
             });
@@ -105,35 +107,49 @@ function initMap() {
                   return toDoContents(schedule[i],i);
                 });
             }
-            var testing = document.getElementById("sortPanel")
-            Sortable.create(testing);
-            
-         $(".removeToDo").on("click",function(){
-          console.log("hey")
-            var deleteToDo = $(this).siblings("#heading").children("#queryNumber").html();
-              $.ajax({
-                  type: "DELETE",
-                  url:"/planner/toDo/delete",
-                  data:{'id':deleteToDo},
-                  success:function(deletedSchedule){
-                    $("#"+deletedSchedule+"").remove();
-                  }
-              });
-        }); 
+             
+             removeToDo();
+          
+           $("#sortPanel").sortable({
+               change:function(){
+                  var reorderSchedule = $(this).sortable('toArray',{attr:'sortid'});
+                  
+                  console.log(reorderSchedule);
+                  $.ajax({
+                      type:"PUT",
+                      url:"/planner/schedule/edit",
+                      data:{id:reorderSchedule},
+                  })
+               }
+           });           
         }  
     });
-    
+   
      //function for returning toDo boxes    
      function toDoContents(toDoObject,i){
-             return  "<div id='"+i+"'class='ToDo'><div class='ToDoItems'>"+
-                            "<span class='list-group-item'>"+
-                            "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+i+"</span>"+
-                            "<span class='scheduleName' id='"+toDoObject.id+"'>."+toDoObject.name+"</span>"+
-                            "<span>&nbsp<img src='"+toDoObject.rating_img_url+"'></img></span>"+
-                            "<span id='reviews'>&nbsp"+toDoObject.review_count+"reviews</span></h5>"+
-                            "<p class='snippet_text'>"+toDoObject.snippet_text+"</p><div class='glyphicon glyphicon-remove removeToDo'></div></di>"+
-                            "</span><img class='locationImage'src='"+toDoObject.image_url+"'></img></div>"
+         return  "<div id='"+toDoObject.id+"'class='ToDo "+i+"'><div class='ToDoItems'>"+
+                        "<span class='list-group-item'>"+
+                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+i+"</span>"+
+                        "<span class='scheduleName' id='"+toDoObject.id+"'>."+toDoObject.name+"</span>"+
+                        "<span>&nbsp<img src='"+toDoObject.rating_img_url+"'></img></span>"+
+                        "<span id='reviews'>&nbsp"+toDoObject.review_count+"reviews</span></h5>"+
+                        "<p class='snippet_text'>"+toDoObject.snippet_text+"</p><div class='glyphicon glyphicon-remove removeToDo'></div></di>"+
+                        "</span><img class='locationImage'src='"+toDoObject.image_url+"'></img></div>"
      };
+     
+     //function for removing ToDo
+     function removeToDo(){ $(".removeToDo").on("click",function(){
+        var deleteToDo = $(this).siblings("#heading").children("#queryNumber").html();
+          $.ajax({
+              type: "DELETE",
+              url:"/planner/toDo/delete",
+              data:{'id':deleteToDo},
+              success:function(deletedSchedule){
+                $("."+deletedSchedule+"").remove()
+                  }
+             });
+        });
+     } 
 
 }
 </script>

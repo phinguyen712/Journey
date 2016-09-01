@@ -77,6 +77,8 @@ function populateUsersData(req,res,userYelpArr){
             if(err){
                 console.log(err);
             }else{
+                console.log(userProperties);
+                console.log(foundYelpData.business);
                 tempArr.push(foundYelpData.business);
                 counter++;
                 if(counter == userYelpArr.length){
@@ -86,9 +88,10 @@ function populateUsersData(req,res,userYelpArr){
         });
     });
 }
-    
+
     
 app.get("/planner/favorites/show",function(req,res){
+    console.log(req.user);
     populateUsersData(req,res,req.user.favorites);
 });
 
@@ -97,21 +100,32 @@ app.get("/planner/schedule/show",function(req,res){
     populateUsersData(req,res,req.user.schedule);
 });
   
+  
     
 app.post("/planner/toDo/new",function(req,res){
-
     User.findById(req.user.id,function(err,foundUser){
          if(err){
              console.log(err);
          }else{
-             console.log(req.body.id);
              foundUser.schedule.push(req.body.id);
              foundUser.save();
-             console.log(req.user);
              res.json(req.body);
          }
     });
 });
+
+app.put("/planner/schedule/edit",function(req,res){
+    User.findById(req.user.id,function(err,foundUser){
+        if(err){
+            console.log(err);
+        }else{
+            foundUser.schedule = req.body.id;
+            foundUser.save();
+            console.log(foundUser.schedule);
+        }
+    });
+});  
+
 
 
 app.delete("/planner/toDo/delete",function(req,res){
@@ -120,10 +134,10 @@ app.delete("/planner/toDo/delete",function(req,res){
             console.log(err);
         }else{
             var deleteToDo = req.body.id;
-            console.log(deleteToDo);
             delete foundUser.schedule.splice(deleteToDo,deleteToDo);
             res.send(deleteToDo);
             foundUser.save();
+
         }
     });
 });
