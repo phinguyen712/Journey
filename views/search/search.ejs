@@ -9,11 +9,19 @@
 //initiate google maps
 function initMap() {
     var markers=[] ; // array for storing all of the markers  
-   //google maps settings
+   
+    //google maps settings
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 10
     });
+    
+    //function for setting markers on map
+    function markMap(map){
+            for ( var i = 0; i < markers.length; i++ ){
+                markers[i].setMap(map);
+            }
+    }
                     
     // obtain geolocatin of current position
     if (navigator.geolocation) {
@@ -27,15 +35,9 @@ function initMap() {
         console.log("failed")
     };
 
-    //render seasrch results using AJAX.
+    //render search results using AJAX.
     //AJAX post request  to node and expect to recieve yelp data in JSON.
     $("#testbutton").click(function(){
-        //function for setting markers on map
-        function markMap(map){
-                for ( var i = 0; i < markers.length; i++ ){
-                    markers[i].setMap(map);
-                }
-        }
         //remove markers on map
         markMap(null);
         //clear markers on map when new search is made
@@ -56,38 +58,38 @@ function initMap() {
             success: function(yelpData){
                 var spot = yelpData.businesses; //variable fo business array
                 //set center of map to search locations
+                console.log(yelpData.region.center.latitude)
                 map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
                 //Render first 10 results from yelp search and plot on map
                 for( var i = 0 ; i<10 ; i++ ){
 
-                var queryNumber = String(i + 1);  //numbers for listing search results
-           
-                //print out serach results on panel
-                $("#searchResults").append(function(){
-                    return "<div class= 'resultboxes'>"+
-                            "<span class='list-group-item'>"+
-                            "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"&nbsp&nbsp&nbsp<span>"+
-                            "<img src='"+spot[i].rating_img_url+"'></img></span><span id='reviews' >&nbsp"+spot[i].review_count+" reviews</span></h4>"     +
-                            "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div>"+
-                            "</span><img class='locationImage'src='"+spot[i].image_url+"'></img></div>"
-                       });
-             
-                //show heart as red if User have already added it to favorite. else, shows empty heart      
-                if(spot[i].heartOn=="true"){
-                   $("#heartIcon"+[i]).addClass('glyphicon-heart').removeClass('glyphicon-heart-empty');
-                    }else{
-                    }
-            
-                 //add number to queries and markers on maps
-                 marker = new google.maps.Marker({
-                                position: {lat:spot[i].location.coordinate.latitude, lng:spot[i].location.coordinate.longitude},
-                                title: spot[i].name,
-                                label: queryNumber,
-                                });    
-                 //load all markers in array to be displayed on google maps              
-                 markers.push(marker);
-                 markMap(map);
-            };
+                    var queryNumber = String(i + 1);  //numbers for listing search results
+               
+                    //print out serach results on panel
+                    $("#searchResults").append(function(){
+                        return "<div class= 'resultboxes'>"+
+                                "<span class='list-group-item'>"+
+                                "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"&nbsp&nbsp&nbsp<span>"+
+                                "<img src='"+spot[i].rating_img_url+"'></img></span><span id='reviews' >&nbsp"+spot[i].review_count+" reviews</span></h4>"     +
+                                "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div>"+
+                                "</span><img class='locationImage'src='"+spot[i].image_url+"'></img></div>"
+                           });
+                 
+                    //show heart as red if User have already added it to favorite. else, shows empty heart      
+                    if(spot[i].heartOn=="true"){
+                       $("#heartIcon"+[i]).addClass('glyphicon-heart').removeClass('glyphicon-heart-empty');
+                        }
+
+                     //add number to markers markers on maps
+                     marker = new google.maps.Marker({
+                                    position: {lat:spot[i].location.coordinate.latitude, lng:spot[i].location.coordinate.longitude},
+                                    title: spot[i].name,
+                                    label: queryNumber,
+                                    });    
+                     //load all markers in array to be displayed on google maps              
+                     markers.push(marker);
+                     markMap(map);
+                };
 
                  //toggle heart button, add activities to node database 
                   $('.glyphicon').click(function(){
@@ -129,7 +131,6 @@ function initMap() {
                 $(this).removeClass('boxHighlight');
                 }
             ); 
-                  
                   
         } 
     });

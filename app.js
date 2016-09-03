@@ -72,32 +72,33 @@ function populateUsersData(req,res,userYelpArr){
     var counter = 0;//counter for handling ASYNC
     //show all of user's favorites on the planner page by searching through yelpData
     //and linking to user.favorites
-    userYelpArr.forEach(function(userProperties){
-        yelpData.findOne({'business.id': userProperties},function(err,foundYelpData){
-            if(err){
-                console.log(err);
-            }else{
-                console.log(userProperties);
-                console.log(foundYelpData.business);
-                tempArr.push(foundYelpData.business);
-                counter++;
-                if(counter == userYelpArr.length){
-                  res.json(tempArr);   
+    if(userYelpArr == "" || userYelpArr==null){
+        res.json(tempArr);
+    }else{
+        userYelpArr.forEach(function(userProperties){
+            yelpData.findOne({'business.id': userProperties},function(err,foundYelpData){
+                if(err){
+                    console.log(err);
+                }else{
+                    tempArr.push(foundYelpData.business);
+                    counter++;
+                    if(counter == userYelpArr.length){
+                      res.json(tempArr);   
+                    }
                 }
-            }
+            });
         });
-    });
+    }
 }
-
     
 app.get("/planner/favorites/show",function(req,res){
-    console.log(req.user);
     populateUsersData(req,res,req.user.favorites);
 });
 
 
 app.get("/planner/schedule/show",function(req,res){
     populateUsersData(req,res,req.user.schedule);
+    console.log(req.user.schedule);
 });
   
   
@@ -134,10 +135,10 @@ app.delete("/planner/toDo/delete",function(req,res){
             console.log(err);
         }else{
             var deleteToDo = req.body.id;
-            delete foundUser.schedule.splice(deleteToDo,deleteToDo);
+            console.log(deleteToDo);
+            delete foundUser.schedule.splice(deleteToDo,1);
             res.send(deleteToDo);
             foundUser.save();
-
         }
     });
 });

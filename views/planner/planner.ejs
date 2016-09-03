@@ -8,32 +8,28 @@
 
 <script>
 function initMap() {
+    
+    var markers=[] ; // array for storing all of the markers  
     //google map settings
     var map = new google.maps.Map(document.getElementById('map'),{
-      center: {lat: -34.397, lng: 150.644},
+      center: {lat: -34.397, lng: 150.644},                      
       zoom: 10
     });
-    // obtain geolocatin of current position
-    if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-              //set map center to current geolocation
-              $("#currentLocation").click(function() { 
-                map.setCenter( {lat: position.coords.latitude, lng: position.coords.longitude});
-              });
-          });
-    }else{
-        console.log("failed")
-    };
-     
-     
-     
+    
+    //function for setting markers on map
+    function markMap(map){
+            for ( var i = 0; i < markers.length; i++ ){
+                markers[i].setMap(map);
+            }
+    }
+    
     //display all of User's favorites in the schedule panel 
      $.ajax({
         type: "GET",
         url: "/planner/favorites/show",
         data: "",
         dataType:"json",
-        success: function(matchFavorites){   
+        success: function(matchFavorites){ 
             console.log(matchFavorites)
             //display all favorite data in favorite panel
             for(var i = 0; i<matchFavorites.length;i++){
@@ -42,7 +38,11 @@ function initMap() {
                         "<span class='glyphicon glyphicon-remove'></span><span class='glyphicon glyphicon-plus addToDo'></span></div>"
                        });
                    }
-           
+        },
+        complete:function(response){
+            console.log(response);
+            var matchFavorites = response.responseJSON
+                
            //add favorites to schedule and save to users collections
            //when the + icon is clicked    
            $(".addToDo").on("click",function(){
@@ -57,42 +57,16 @@ function initMap() {
                           var scheduleLength =  $(".ToDoItems").length;
                           return toDoContents(schedule,scheduleLength);
                         });
-                    
-                    removeToDo();
-                        
+                    },
+                    complete:function(){
+                        removeToDotest();
                     }
                })
             });
-        
-            //features for dropping components    
-            $(".ToDo").droppable({
-                accept:".resultboxes",
-                activeClass:"dropBox",
-                drop: function(event,ui){
-                    
-                    var toDoArr = ui.draggable.attr("id");
-                    console.log(toDoArr);
-                    //locate object in matchFavorites that 
-                    //has id :droppedId and print yelpData on ToDo Panel
-                    $(this).append(function(){
-                   //  console.log(toDoThumb);
-                         return "<div class='ToDoItems'>"+
-                        "<span class='list-group-item'>"+
-                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+toDoArr+'</span>.'+matchFavorites[toDoArr].name+
-                        "&nbsp&nbsp&nbsp<span>"+
-                        "<img src='"+matchFavorites[toDoArr].rating_img_url+"'></img></span><span id='reviews' >&nbsp"+matchFavorites[toDoArr].review_count+" reviews</span></h4>"+
-                        "<p class='snippet_text'>"+matchFavorites[toDoArr].snippet_text+"</p></di>"+
-                        "</span><img class='locationImage'src='"+matchFavorites[toDoArr].image_url+"'></img>"
-                   });
-                }
-            });    
-        
-            //features for dragging components
-           $( ".resultboxes" ).draggable({
-              distance: 10,
-            });
-                } 
-    });
+        }
+     });
+
+   
     
     
     //display user's schedule in the schedule panel
@@ -102,34 +76,51 @@ function initMap() {
         data:"",
         dataType:"json",
         success:function(schedule){
+            console.log(schedule)
+          //remove markers on map
+          markMap(null);
+          //clear markers on map when new search is made
+          markers=[];
             for( var i=0; i<schedule.length ; i++){
                 $("#sortPanel").append(function(){
+                    
+                      //add number to markers markers on maps
+                     marker = new google.maps.Marker({
+                                    position: {lat:parseFloat(schedule[i].location.coordinate.latitude), lng:parseFloat(schedule[i].location.coordinate.longitude)},
+                                    title: schedule[i].name,
+                                    label: "3",
+                                    });    
+                     //load all markers in array to be displayed on google maps              
+                     markers.push(marker);
+                     markMap(map);
+    
                   return toDoContents(schedule[i],i);
                 });
             }
-             
-             removeToDo();
-          
+           removeToDo();
+          var lat = parseFloat(schedule[1].location.coordinate.latitude);
+          var long = parseFloat(schedule[1].location.coordinate.longitude);
+          map.setCenter({lat: lat, lng: long});
+           
            $("#sortPanel").sortable({
-               change:function(){
+               update:function(){
+                  sortQueryNumber();
                   var reorderSchedule = $(this).sortable('toArray',{attr:'sortid'});
-                  
-                  console.log(reorderSchedule);
                   $.ajax({
                       type:"PUT",
                       url:"/planner/schedule/edit",
                       data:{id:reorderSchedule},
                   })
                }
-           });           
+           });
         }  
     });
-   
+
      //function for returning toDo boxes    
      function toDoContents(toDoObject,i){
          return  "<div id='"+toDoObject.id+"'class='ToDo "+i+"'><div class='ToDoItems'>"+
                         "<span class='list-group-item'>"+
-                        "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+i+"</span>"+
+                        "<h5 class='list-group-item-heading' id='heading'><span class='queryNumber'>"+i+"</span>"+
                         "<span class='scheduleName' id='"+toDoObject.id+"'>."+toDoObject.name+"</span>"+
                         "<span>&nbsp<img src='"+toDoObject.rating_img_url+"'></img></span>"+
                         "<span id='reviews'>&nbsp"+toDoObject.review_count+"reviews</span></h5>"+
@@ -138,18 +129,44 @@ function initMap() {
      };
      
      //function for removing ToDo
-     function removeToDo(){ $(".removeToDo").on("click",function(){
-        var deleteToDo = $(this).siblings("#heading").children("#queryNumber").html();
+     
+     function removeToDo(){ 
+        $(".removeToDo").on("click",function(){
+        var deleteToDo = $(this).siblings("#heading").children(".queryNumber").html();
+        $this = $(this);
+        console.log(deleteToDo)
           $.ajax({
               type: "DELETE",
               url:"/planner/toDo/delete",
               data:{'id':deleteToDo},
-              success:function(deletedSchedule){
-                $("."+deletedSchedule+"").remove()
-                  }
-             });
+              complete:function(){
+                   $this.parent().parent().parent().remove();
+                   console.log("hey")
+              }
+         });
         });
      } 
+     function removeToDotest(){ 
+        $(".removeToDo").on("click",function(){
+        var deleteToDo = $(this).siblings("#heading").children(".queryNumber").html();
+        $this = $(this);
+        console.log(deleteToDo)
+          $.ajax({
+              type: "DELETE",
+              url:"/planner/toDo/delete",
+              data:{'id':deleteToDo},
+              complete:function(){
+                   $this.parent().parent().parent().remove();
+                   console.log("hey")
+              }
+         });
+        });
+     } 
+     function sortQueryNumber(){
+          $(".queryNumber").each(function(index){
+              $(this).html(index)
+          }); 
+     };
 
 }
 </script>
