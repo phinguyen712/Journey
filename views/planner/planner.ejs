@@ -23,7 +23,7 @@ function initMap() {
             }
     }
     
-    //display all of User's favorites in the schedule panel 
+    //Populate User's favorites in the result Panel
      $.ajax({
         type: "GET",
         url: "/planner/favorites/show",
@@ -31,42 +31,34 @@ function initMap() {
         dataType:"json",
         success: function(matchFavorites){ 
             console.log(matchFavorites)
-            //display all favorite data in favorite panel
             for(var i = 0; i<matchFavorites.length;i++){
-                  $("#searchResults").append(function(){
-                        return  "<div class= 'resultboxes' id='"+i+"'><div>"+matchFavorites[i].name+"</div>"+
-                        "<span class='glyphicon glyphicon-remove'></span><span class='glyphicon glyphicon-plus addToDo'></span></div>"
-                       });
-                   }
-        },
-        complete:function(response){
-            console.log(response);
-            var matchFavorites = response.responseJSON
-                
-           //add favorites to schedule and save to users collections
-           //when the + icon is clicked    
-           $(".addToDo").on("click",function(){
-               var newToDo = $(this).parent().attr("id");
-               $.ajax({
-                    type: "POST",
-                    url: "/planner/toDo/new",
-                    data: matchFavorites[newToDo],
-                    dataType:"json",
-                    success:function(schedule){
-                        $("#sortPanel").append(function(){
-                          var scheduleLength =  $(".ToDoItems").length;
-                          return toDoContents(schedule,scheduleLength);
-                        });
-                    },
-                    complete:function(){
-                        removeToDotest();
-                    }
-               })
-            });
-        }
-     });
-
-   
+              $("#searchResults").append(function(){
+                    return  "<div class= 'resultboxes' id='"+i+"'><div>"+matchFavorites[i].name+"</div>"+
+                    "<span class='glyphicon glyphicon-remove'>"+
+                    "</span><span id= '"+matchFavorites[i].id+"' class='glyphicon glyphicon-plus addToDo'></span></div>"
+               });
+            }
+        } 
+    });
+    
+   //add favorites to schedule and save to users collections
+   //when the + icon is clicked    
+   $("#searchResults").on("click",".addToDo",function(){
+       var newToDo = $(this).attr("id");
+       $.ajax({
+            type: "POST",
+            url: "/planner/toDo/new",
+            data: {id:newToDo},
+            dataType:"json",
+            success:function(schedule){
+                $("#sortPanel").append(function(){
+                  var scheduleLength =  $(".ToDoItems").length;
+                  return toDoContents(schedule,scheduleLength);
+                });
+            },
+       })
+    });
+    
     
     
     //display user's schedule in the schedule panel
@@ -83,7 +75,6 @@ function initMap() {
           markers=[];
             for( var i=0; i<schedule.length ; i++){
                 $("#sortPanel").append(function(){
-                    
                       //add number to markers markers on maps
                      marker = new google.maps.Marker({
                                     position: {lat:parseFloat(schedule[i].location.coordinate.latitude), lng:parseFloat(schedule[i].location.coordinate.longitude)},
@@ -93,28 +84,47 @@ function initMap() {
                      //load all markers in array to be displayed on google maps              
                      markers.push(marker);
                      markMap(map);
-    
                   return toDoContents(schedule[i],i);
                 });
             }
-           removeToDo();
+          
           var lat = parseFloat(schedule[1].location.coordinate.latitude);
           var long = parseFloat(schedule[1].location.coordinate.longitude);
           map.setCenter({lat: lat, lng: long});
-           
-           $("#sortPanel").sortable({
-               update:function(){
-                  sortQueryNumber();
-                  var reorderSchedule = $(this).sortable('toArray',{attr:'sortid'});
-                  $.ajax({
-                      type:"PUT",
-                      url:"/planner/schedule/edit",
-                      data:{id:reorderSchedule},
-                  })
-               }
-           });
         }  
     });
+
+
+       //allows ToDo  to be sortable on click
+   $("#sortPanel").sortable({
+   update:function(){
+      sortQueryNumber();
+      var reorderSchedule = $(this).sortable('toArray',{attr:'sortid'});
+      $.ajax({
+          type:"PUT",
+          url:"/planner/schedule/edit",
+          data:{id:reorderSchedule},
+          })
+       }
+   });
+
+    //Remove ToDo when x is clicked on the schedule panel
+    $("#sortPanel").on("click",".removeToDo",function(){
+        console.log("hey")
+        var deleteToDo = $(this).siblings("#heading").children(".queryNumber").html();
+        $this = $(this);
+        console.log(deleteToDo)
+          $.ajax({
+              type: "DELETE",
+              url:"/planner/toDo/delete",
+              data:{'id':deleteToDo},
+              complete:function(){
+                   $this.parent().parent().parent().remove();
+              }
+         });
+        });
+
+
 
      //function for returning toDo boxes    
      function toDoContents(toDoObject,i){
@@ -128,40 +138,6 @@ function initMap() {
                         "</span><img class='locationImage'src='"+toDoObject.image_url+"'></img></div>"
      };
      
-     //function for removing ToDo
-     
-     function removeToDo(){ 
-        $(".removeToDo").on("click",function(){
-        var deleteToDo = $(this).siblings("#heading").children(".queryNumber").html();
-        $this = $(this);
-        console.log(deleteToDo)
-          $.ajax({
-              type: "DELETE",
-              url:"/planner/toDo/delete",
-              data:{'id':deleteToDo},
-              complete:function(){
-                   $this.parent().parent().parent().remove();
-                   console.log("hey")
-              }
-         });
-        });
-     } 
-     function removeToDotest(){ 
-        $(".removeToDo").on("click",function(){
-        var deleteToDo = $(this).siblings("#heading").children(".queryNumber").html();
-        $this = $(this);
-        console.log(deleteToDo)
-          $.ajax({
-              type: "DELETE",
-              url:"/planner/toDo/delete",
-              data:{'id':deleteToDo},
-              complete:function(){
-                   $this.parent().parent().parent().remove();
-                   console.log("hey")
-              }
-         });
-        });
-     } 
      function sortQueryNumber(){
           $(".queryNumber").each(function(index){
               $(this).html(index)
