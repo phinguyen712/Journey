@@ -107,17 +107,11 @@ app.post("/planner/toDo/new",function(req,res){
          if(err){
              console.log(err);
          }else{
-            yelpData.findOne({'business.id': req.body.id},function(err,foundYelpData){
-            if(err){
-                console.log(err);
-            }else{
                 foundUser.schedule.push(req.body.id);
                 foundUser.save();
-                res.json(foundYelpData.business);
+                populateUsersData(req,res,foundUser.schedule);
             }
             });
-         }
-    });
 });
 
 
