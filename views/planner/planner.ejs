@@ -74,16 +74,72 @@ function initMap() {
           var lat = parseFloat(schedule[0].location.coordinate.latitude);
           var long = parseFloat(schedule[0].location.coordinate.longitude);
           map.setCenter({lat: lat, lng: long});
-         calculateRoutes(schedule );    
-         
+         calculateRoutes(schedule);    
+         calculateDistance(schedule);
             
         }  
     });
+
+
+function calculateDistance(schedule){
+   
+    var origin=[];//store all the LatLng of locations in odd index
+    var destination=[];//store all the LatLng of locations in even index
+    var service = new google.maps.DistanceMatrixService();//google maps distance API
+ 
+ 
+    for(var i = 0 ; i<schedule.length ; i++ ){
+       var lat = schedule[i].location.coordinate.latitude;
+       var long = schedule[i].location.coordinate.longitude;
+ 
+           origin.push(""+lat+","+long+"");
+           destination.push(""+lat+","+long+"");
+    }  
+    
+    
+    console.log(origin);
+    console.log(destination);
+    
+    //Request distance through Google's API
+    service.getDistanceMatrix(
+      {
+        origins: origin,
+        destinations: destination,
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.IMPERIAL,
+      }, function(response,status){
+          console.log(response);
+    //process recieved Data
+        if(status=="OK"){
+            var distancesArr = [];
+            for(var i = 0 ; i<schedule.length - 1; i++){
+            
+              var distanceTravel = response.rows[i].elements[i+ 1].distance.text;
+              var durationTravel = response.rows[i].elements[i+ 1].duration.text;
+              distanceObj = { "distance": distanceTravel,
+                              "duration": durationTravel
+                            };
+              distancesArr.push(distanceObj);
+            }
+        }else{
+            console.log("err")
+        }
+      });
+
+    
+}
+
+
     
     
     function calculateRoutes(schedule){   
+     
+    
+        
         var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;    
+        
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        
        
         var waypts = [] ;
         var originpts;
@@ -91,9 +147,9 @@ function initMap() {
                
         for( var i = 0 ; i< schedule.length ; i++){
         
-            var lats    = parseFloat(schedule[i].location.coordinate.latitude);
+            var lats    = schedule[i].location.coordinate.latitude;
                 
-            var longs   = parseFloat(schedule[i].location.coordinate.longitude);
+            var longs   = schedule[i].location.coordinate.longitude;
                
             if( i == 0){
                 originpts = ""+lats+","+longs+"" ;
@@ -107,7 +163,8 @@ function initMap() {
     };     
     
     
-    function displayRoutes(directionsService,directionsDisplay,originpts,waypts,endpts){          
+    function displayRoutes(directionsService,directionsDisplay,originpts,waypts,endpts){  
+
         directionsService.route({
               origin: originpts,
               waypoints:waypts,
@@ -117,7 +174,11 @@ function initMap() {
               if (status === 'OK') {
                 directionsDisplay.setDirections(response);
                  directionsDisplay.setMap(map);
-                console.log("complete");
+                 //remove current direction from directionsText element
+                 //and replace with new directions
+                 document.getElementById("directionsText").innerHTML="";
+                 console.log(directionsDisplay);
+                 directionsDisplay.setPanel(document.getElementById("directionsText"));
               } else {
                 console.log('Directions request failed due to ' + status);
               }
@@ -125,7 +186,6 @@ function initMap() {
         );
     };
     
-
 
        //allows ToDo  to be sortable on click
    $("#sortPanel").sortable({
@@ -139,13 +199,12 @@ function initMap() {
                   sortQueryNumber(sortedSchedule);    
               }
           })
-         sortQueryNumber(); 
+      
        }
    });
 
     //Remove ToDo when x is clicked on the schedule panel
     $("#sortPanel").on("click",".removeToDo",function(){
-        console.log("hey")
         var deleteToDo = $(this).siblings("#heading").children(".queryNumber").html();
         $this = $(this);
         console.log(deleteToDo)
@@ -178,6 +237,10 @@ function initMap() {
       $(".queryNumber").each(function(index){
           $(this).html(index)
       }); 
+      console.log(yelpObject);
+      calculateRoutes(yelpObject);
+      calculateRoutes(yelpObject)
+     
 
      };
      
