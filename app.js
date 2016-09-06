@@ -128,6 +128,7 @@ app.put("/planner/schedule/edit",function(req,res){
         }else{
             foundUser.schedule = req.body.id;
             foundUser.save();
+            populateUsersData(req,res,foundUser.schedule);
             console.log(foundUser.schedule);
         }
     });
@@ -141,10 +142,9 @@ app.delete("/planner/toDo/delete",function(req,res){
             console.log(err);
         }else{
             var deleteToDo = req.body.id;
-            console.log(deleteToDo);
             delete foundUser.schedule.splice(deleteToDo,1);
-            res.send(deleteToDo);
             foundUser.save();
+            populateUsersData(req,res,foundUser.schedule);
         }
     });
 });

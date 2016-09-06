@@ -8,7 +8,7 @@
 
 <script>
 function initMap() {
-    
+    var ABC    =["A","B","C","D","E","F","G","H", "I","J","K"]; 
     var markers=[] ; // array for storing all of the markers  
     //google map settings
     var map = new google.maps.Map(document.getElementById('map'),{
@@ -17,13 +17,8 @@ function initMap() {
     });
     
     //function for setting markers on map
-    function markMap(map){
-            for ( var i = 0; i < markers.length; i++ ){
-                markers[i].setMap(map);
-            }
-    }
     
-    //Populate User's favorites in the result Panel
+     //Populate User's favorites in the result Panel
      $.ajax({
         type: "GET",
         url: "/planner/favorites/show",
@@ -68,43 +63,83 @@ function initMap() {
         data:"",
         dataType:"json",
         success:function(schedule){
-            console.log(schedule)
-          //remove markers on map
-          markMap(null);
-          //clear markers on map when new search is made
-          markers=[];
+           
             for( var i=0; i<schedule.length ; i++){
                 $("#sortPanel").append(function(){
-                      //add number to markers markers on maps
-                     marker = new google.maps.Marker({
-                                    position: {lat:parseFloat(schedule[i].location.coordinate.latitude), lng:parseFloat(schedule[i].location.coordinate.longitude)},
-                                    title: schedule[i].name,
-                                    label: "3",
-                                    });    
-                     //load all markers in array to be displayed on google maps              
-                     markers.push(marker);
-                     markMap(map);
                   return toDoContents(schedule[i],i);
                 });
             }
-          
-          var lat = parseFloat(schedule[1].location.coordinate.latitude);
-          var long = parseFloat(schedule[1].location.coordinate.longitude);
+            
+
+          var lat = parseFloat(schedule[0].location.coordinate.latitude);
+          var long = parseFloat(schedule[0].location.coordinate.longitude);
           map.setCenter({lat: lat, lng: long});
+         calculateRoutes(schedule );    
+         
+            
         }  
     });
+    
+    
+    function calculateRoutes(schedule){   
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;    
+       
+        var waypts = [] ;
+        var originpts;
+        var endpts;
+               
+        for( var i = 0 ; i< schedule.length ; i++){
+        
+            var lats    = parseFloat(schedule[i].location.coordinate.latitude);
+                
+            var longs   = parseFloat(schedule[i].location.coordinate.longitude);
+               
+            if( i == 0){
+                originpts = ""+lats+","+longs+"" ;
+           }else if( i == schedule.length - 1){
+               endpts= ""+lats+","+longs+"";
+               displayRoutes(directionsService,directionsDisplay,originpts,waypts,endpts);
+            }else{  
+                 waypts.push({location:""+lats+","+longs+"" , stopover: true}); 
+            }
+        };
+    };     
+    
+    
+    function displayRoutes(directionsService,directionsDisplay,originpts,waypts,endpts){          
+        directionsService.route({
+              origin: originpts,
+              waypoints:waypts,
+              destination: endpts,
+              travelMode: 'DRIVING'
+            }, function(response, status) {
+              if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+                 directionsDisplay.setMap(map);
+                console.log("complete");
+              } else {
+                console.log('Directions request failed due to ' + status);
+              }
+            }      
+        );
+    };
+    
 
 
        //allows ToDo  to be sortable on click
    $("#sortPanel").sortable({
-   update:function(){
-      sortQueryNumber();
-      var reorderSchedule = $(this).sortable('toArray',{attr:'sortid'});
-      $.ajax({
-          type:"PUT",
-          url:"/planner/schedule/edit",
-          data:{id:reorderSchedule},
+       update:function(){
+          var reorderedSchedule = $(this).sortable('toArray',{attr:'sortid'});
+          $.ajax({
+              type:"PUT",
+              url:"/planner/schedule/edit",
+              data:{id:reorderedSchedule},
+              success:function(sortedSchedule){
+                  sortQueryNumber(sortedSchedule);    
+              }
           })
+         sortQueryNumber(); 
        }
    });
 
@@ -118,8 +153,9 @@ function initMap() {
               type: "DELETE",
               url:"/planner/toDo/delete",
               data:{'id':deleteToDo},
-              complete:function(){
+              success:function(deletedYelpData){
                    $this.parent().parent().parent().remove();
+                   sortQueryNumber(deletedYelpData);
               }
          });
         });
@@ -138,11 +174,34 @@ function initMap() {
                         "</span><img class='locationImage'src='"+toDoObject.image_url+"'></img></div>"
      };
      
-     function sortQueryNumber(){
-          $(".queryNumber").each(function(index){
-              $(this).html(index)
-          }); 
+     function sortQueryNumber(yelpObject){
+      $(".queryNumber").each(function(index){
+          $(this).html(index)
+      }); 
+
      };
+     
+     function addMarkerToMap(yelpObject,i){
+        if(i == 0){
+          //remove markers on map
+          markMap(null);
+          //clear markers on map when new search is made
+          markers=[];
+        } 
+        //add number to markers markers on maps
+        var latPos  = parseFloat(yelpObject.location.coordinate.latitude);
+        var longPos = parseFloat(yelpObject.location.coordinate.longitude);
+        var i       = i.toString();
+        
+         marker = new google.maps.Marker({
+            position: {lat:latPos, lng:longPos},
+            title:yelpObject.name,
+            label: i,
+            });    
+         //load all markers in array to be displayed on google maps              
+         markers.push(marker);
+         markMap(map);
+     }
 
 }
 </script>
