@@ -27,9 +27,9 @@ function initMap() {
         success: function(matchFavorites){ 
             for(var i = 0; i<matchFavorites.length;i++){
               $("#searchResults").append(function(){
-                    return  "<div class= 'resultboxes' id='"+i+"'><div>"+matchFavorites[i].name+"</div>"+
+                    return  "<li><div class= 'resultboxes' id='"+i+"'><div>"+matchFavorites[i].name+"</div>"+
                     "<span class='glyphicon glyphicon-remove'>"+
-                    "</span><span id= '"+matchFavorites[i].id+"' class='glyphicon glyphicon-plus addToDo'></span></div>"
+                    "</span><span id= '"+matchFavorites[i].id+"' class='glyphicon glyphicon-plus addToDo'></span></div></li>"
                });
             }
         } 
@@ -112,14 +112,14 @@ function initMap() {
 
      //function for returning toDo boxes    
      function toDoContents(toDoObject,i){
-         return  "<div id='"+toDoObject.id+"'class='ToDo "+i+"'><div class='ToDoItems'>"+
-                        "<span class='list-group-item'>"+
+         console.log(toDoObject);
+         return  "<div id='"+toDoObject.id+"'class='ToDo "+i+"'><div class='ToDoItems'><img class='locationImage'src='"+toDoObject.image_url+"'></img>"+
+                        "<div class='list-group-item'>"+
                         "<h5 class='list-group-item-heading' id='heading'><span class='queryNumber'>"+i+"</span>"+
-                        "<span class='scheduleName' id='"+toDoObject.id+"'>."+toDoObject.name+"</span>"+
-                        "<span>&nbsp<img src='"+toDoObject.rating_img_url+"'></img></span>"+
-                        "<span id='reviews'>&nbsp"+toDoObject.review_count+"reviews</span></h5>"+
+                        "<span class='scheduleName' id='"+toDoObject.id+"'>.<a href='"+toDoObject.url+"'>"+toDoObject.name+"</a></span>"+
+                        "<span id='reviews'><img src='"+toDoObject.rating_img_url+"'></img>&nbsp"+toDoObject.review_count+"reviews</span></h5>"+
                         "<p class='snippet_text'>"+toDoObject.snippet_text+"</p><div class='glyphicon glyphicon-remove removeToDo'></div></di>"+
-                        "</span><img class='locationImage'src='"+toDoObject.image_url+"'></img></div>"
+                        "</div></div>"
      };
      
      

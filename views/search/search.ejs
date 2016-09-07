@@ -67,12 +67,12 @@ function initMap() {
                
                     //print out serach results on panel
                     $("#searchResults").append(function(){
-                        return "<div class= 'resultboxes'>"+
+                        return "<div class= 'resultboxes'><img class='locationImage'src='"+spot[i].image_url+"'></img>    "+
                                 "<span class='list-group-item'>"+
                                 "<h5 class='list-group-item-heading' id='heading'><span id='queryNumber'>"+queryNumber+'</span>.'+spot[i].name+"&nbsp&nbsp&nbsp<span>"+
                                 "<img src='"+spot[i].rating_img_url+"'></img></span><span id='reviews' >&nbsp"+spot[i].review_count+" reviews</span></h4>"     +
                                 "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div>"+
-                                "</span><img class='locationImage'src='"+spot[i].image_url+"'></img></div>"
+                                "</span></div>"
                            });
                  
                     //show heart as red if User have already added it to favorite. else, shows empty heart      

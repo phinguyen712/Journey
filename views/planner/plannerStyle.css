@@ -1,8 +1,11 @@
      html, body {
-        background-color:white;
+        background-color:#fafafa;
         height: 100%;
         margin: 0;
         padding: 0;
+      }
+      .container{
+        padding:0;
       }
       #map {
        height:300px;
@@ -25,16 +28,6 @@
       #search{
         float:left;
       }
-      #testbutton{
-        background-color:#8FBC8F;
-        border-radius:0px;
-        width:90px;
-        height:45px;
-        font-size:20px;
-        font-weight:bold;
-        margin-top:5px;
-        color:#006600;
-      }
       div{
         font-family:Arial, Helvetica, sans-serif
       }
@@ -52,34 +45,29 @@
         height:50px;
         width:200px;
         font-size:15px;
-        border-style:solid;
-        border-color:gray;
       }
       .glyphicon glyphicon-remove{
        float:right; 
-      }
-      .list-group-item{
-       background-color:transparent;
-       border-color:transparent;
-        display:inline-block;
-        width:310px;
-        margin-right:0px;
       }
       h5{
         font-weight:bold;
         display:inline-block;
       }
       #reviews{
+        display:block;
         color:gray;
         font-size:10px;
         font-style:italic;
       }
       .locationImage{
-        position:relative;
-        top:-22px;
+         vertical-align:top;
+         margin-top:15px;
+         margin-left:20px;
+         border-radius:5px;
+         width:110px;
+
       }
       #sortPanel{
-        background-color:tan;
         height:800px;
         width:45%;
         min-width:450px;
@@ -88,36 +76,42 @@
       .dropBox{
         background-color:red;
       }
-      .ToDo{
-        border-color:gray;
-        border-style:solid;
-        background-color:#D3D3D3;
+      .ToDo{ 
         height:150px;
 
       }
       .ToDoItems{
-        border-color:white;
+        border-color:#e2e2e2;
         border-style:solid;
+        border-width:1px;
+        border-radius:4px;
         background-color: white;
-        width:400px;
-        height:120px;
+        width:450px;
+        height:140px;
         margin: 0 auto;
         margin-top:10px;
       }
+      
      .list-group-item{
-       width:290px;
-       height:80px;
+        margin-top:15px;
+       width:250px;
+       height:100px;
+       display:inline-block;
+       border-width:0px;
           
      }
+     
      .snippet_text{
        display:block;
        font-size:10px;
        font-family: Arial, Helvetica, sans-serif;
        margin-bottom:0px;
      }
+     
      glyphicon-remove{
        margin-top:3px;
      }
+     
      .map_favorites{
       float:left;
       width:50%;
@@ -125,15 +119,18 @@
       height:500px;
       margin-left:15px;
      }
-     .container{
-       height:50%;
+     
+     #directionsText{
+      margin-top:10px;
+      height:80%;
+      overflow-y: scroll;
      }
-     .searchResults{
-       height:500px;
-       display:block;
-       margin-top:100px;
-     }
+  
      #Routes{
          height:50px;
          width:130px;
      }
+     .dropdown{
+         display:inline;
+     }
+     
