@@ -13,7 +13,6 @@ function isLoggedIn(req,res,next){
     }
 }
 
-
 router.get("/",function(req, res){
     journey.find({}, function(err,journey){
         if (err){

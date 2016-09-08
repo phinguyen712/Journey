@@ -1,5 +1,5 @@
 <%include ../partials/header%>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMMJZOHCIonaJDigVJKsgPV9Y8QUFK6tA&callback=initMap"async defer>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%include ../../keys/googleKey.html%>&callback=initMap"async defer>
 </script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
 <style type="text/css">
@@ -171,7 +171,6 @@ function initMap() {
                   $(this).html(
                       "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
                       "<span>&nbsp&nbsp"+distancesArr[index].distance+"</span></div>"+
-                      "<"+
                       "<div class='time'><span class='glyphicon glyphicon-time'></span>"+
                       "<span>&nbsp&nbsp"+distancesArr[index].duration+"</span</div>"
                   )
