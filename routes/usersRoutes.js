@@ -2,8 +2,6 @@ var express                 =   require("express"),
     router                  =   express.Router({mergeParams:true}),
     User                    =   require("../models/users.js"),
     passport                =   require("passport"),
-    $                       =   require("jquery"),
-    loadMatchData           =   require("./loadMatchDataFunc.js"),
     yelpData                =   require("../models/yelp.js"),
     Yelp                    =   require("yelp");
 
@@ -16,9 +14,7 @@ var yelp = new Yelp({
 });
 
 
-router.get("/signup", function(req,res){
-    res.render("signup");
-});
+
 
 
 router.post("/signup", function(req,res){
@@ -28,7 +24,7 @@ router.post("/signup", function(req,res){
             console.log(err);
         }else{
             passport.authenticate("local")(req,res, function(){
-               res.render("myprofile"); 
+               res.render("./search/search"); 
             });
         }
     });
@@ -62,7 +58,7 @@ router.post('/login', passport.authenticate("local"),function(req,res){
                     }
                 });
             });
-        res.redirect("/planner");
+        res.redirect("/");
         }        
     });
 });

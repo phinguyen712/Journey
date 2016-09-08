@@ -119,14 +119,14 @@ function initMap() {
                         "<span class='scheduleName' id='"+toDoObject.id+"'>.<a href='"+toDoObject.url+"'>"+toDoObject.name+"</a></span>"+
                         "<span id='reviews'><img src='"+toDoObject.rating_img_url+"'></img>&nbsp"+toDoObject.review_count+"reviews</span></h5>"+
                         "<p class='snippet_text'>"+toDoObject.snippet_text+"</p><div class='glyphicon glyphicon-remove removeToDo'></div></di>"+
-                        "</div></div>"
+                        "</div><div class='distance'></div></div>"
      };
      
      
      function sortQueryNumber(yelpObject){
       $(".queryNumber").each(function(index){
           $(this).html(index)
-      }); 
+      });
       calculateRoutes(yelpObject);
       calculateDistance(yelpObject);
      };
@@ -163,7 +163,19 @@ function initMap() {
                                   "duration": durationTravel
                                 };
                   distancesArr.push(distanceObj);
-                }
+                };
+                
+                $(".distance").each(function(index){
+                  console.log(index);
+                  console.log(distancesArr)
+                  $(this).html(
+                      "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
+                      "<span>&nbsp&nbsp"+distancesArr[index].distance+"</span></div>"+
+                      "<"+
+                      "<div class='time'><span class='glyphicon glyphicon-time'></span>"+
+                      "<span>&nbsp&nbsp"+distancesArr[index].duration+"</span</div>"
+                  )
+              });
             }else{
                 console.log(err)
             }
@@ -191,7 +203,6 @@ function initMap() {
                  waypts.push({location:""+lats+","+longs+"" , stopover: true}); 
             }
         };
-        
     };     
     
     

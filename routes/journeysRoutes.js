@@ -14,7 +14,7 @@ function isLoggedIn(req,res,next){
 }
 
 
-router.get("/journey",function(req, res){
+router.get("/",function(req, res){
     journey.find({}, function(err,journey){
         if (err){
             console.log(err);
