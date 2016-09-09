@@ -6,30 +6,37 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>   
 <style type="text/css">
-
-.jumbotron{
-  background-image:url("https://static.pexels.com/photos/12582/photo-1440557958969-404dc361d86f.jpeg");
-  background-position: 70% 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    font-color:white;
-
-}
-#username{ 
-  font-size:15px;
-}
-
-.editButtons{
-  white-space:nowrap;
-}
-
+<%include headerStyle.css%>
 
 </style>
 <body>
-  
-<nav class="navbar navbar-default ">
+
+<nav class="navbar navbar-default">
   <div class="container-fluid">
-    <a class="navbar-brand " href="#">Journey</a>
+    <a class="navbar-brand " href="#">JOURNEY</a>
+    
+    <!-- Highlight the tabs that are open in the navbar-->
+    <% if (page == 'home'){%> 
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/planner">Planner</a></li>
+      </ul>
+    <% }else if(page == 'search' ){ %> 
+      <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/search">Search</a></li>
+          <li><a href="/planner">Planner</a></li>
+      </ul>
+    <% }else if(page == 'planner' ){%> 
+      <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/search">Search</a></li>
+          <li class="active"><a href="/planner">Planner</a></li>
+      </ul>
+    <% } %>
+    
+  <!-- Display signup, login, or current user in navbar -->
   <% if (!currentUser){%> 
        <form class="navbar-form navbar-right" role="search" action="/login" method="POST">
         <div class="form-group">
@@ -47,8 +54,8 @@
         <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-sm">Sign Up</button>
         </form>
     <% } else {%>
-       <span><h5><a  href="/logout" class="navbar-text navbar-right">logout</a></h5></span>
-       <h5><p class="navbar-text navbar-right">signed in as <a id="username" href="/myprofile"><%= currentUser.username %></a></p></h5>
+       <h4><p class="navbar-text navbar-right">signed in as <a id="username" href="/myprofile"><%= currentUser.username %>
+       </a>&nbsp&nbsp&nbsp&nbsp<a  href="/logout" class="glyphicon glyphicon-log-out"></a>&nbsp&nbsp</p></h4>
      <% }%> 
 </nav>
 

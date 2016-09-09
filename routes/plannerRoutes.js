@@ -7,7 +7,7 @@ var express                 =   require("express"),
 
 
 router.get("/planner",function(req,res){
-    res.render('planner/planner'); 
+    res.render('planner/planner',{page:"planner"}); 
 });
 
 //loop through an array with Yelp Id within the req.user object and check 

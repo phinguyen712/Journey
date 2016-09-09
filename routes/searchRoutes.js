@@ -13,7 +13,7 @@ var yelp = new Yelp({
 });
 
 router.get("/search",function(req,res){
-   res.render("search/search"); 
+   res.render("search/search",{page:"search"}); 
 });
     
 //send Yelp API data to search page
