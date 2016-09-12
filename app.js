@@ -2,8 +2,8 @@ var express                 =   require("express"),
     app                     =   express(),
     mongoose                =   require("mongoose"),
     bodyParser              =   require("body-parser"), 
-    Yelp                    =   require("yelp"),
     User                    =   require("./models/users.js"),
+    journeys                =   require("./models/journeys.js"),
     passport                =   require("passport"),
     LocalStrategy           =   require("passport-local"),
     journeysRoutes          =   require("./routes/journeysRoutes.js"),
@@ -43,6 +43,45 @@ app.use(function(req, res, next){
     next();
 });
 
+
+app.get("/newJourney",function(req,res){
+    
+    res.render("newJourney/newJourney",{ page:'newJourney'});
+});
+
+
+
+app.post("/newJourney",function(req,res){
+    
+     var newJourney = {
+                        userName:req.user.username,
+                        journeyName:req.body.journeyName,
+                        caption:req.body.caption
+    };
+    
+    journeys.create(newJourney,function(err,newJourney){
+        if(err){
+            console.log(err);
+        }else{
+            User.findById(req.user.id,function(err,foundUser){
+                if(err){
+                    console.log(err);
+                }else{
+                foundUser.journeys.push(newJourney.id);
+                foundUser.save();
+                    foundUser.populate("journeys",function(err,userjourney){
+                        if(err){
+                            console.log(err);
+                        }else{
+                        res.redirect("searchRoutes");
+                        }
+                    });
+                }
+            });
+        }
+    });
+    res.redirect("search");
+});
 
 
 app.use(plannerRoutes);

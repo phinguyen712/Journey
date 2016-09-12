@@ -5,7 +5,6 @@
         comment: String,
         title: String,
         date: String
-        
 });
 
 module.exports=mongoose.model("comments",commentsSchema);

@@ -1,0 +1,22 @@
+<%include ../partials/header%>
+
+<div class="container"> 
+    <form class="form-group" action="/newJourney" method="POST">
+    <div>
+      <label for="nameInput">Journey Name</label>
+      <input type="text" class="form-control" id="nameInput" name="journeyName" >
+    </div>
+    <div class="form-group">
+        <label for="locationInput">location</label>
+      <input type="text" class="form-control"  id="locationInput" name="location">
+    </div>
+    <div class="form-group">
+      <label for="descriptionInput">Caption</label>
+      <input class="form-control" id="descriptionInput" name="caption" >
+    </div> 
+    <button class="btn btn-default" type="submit">Submit</button>
+    </form>
+  
+</div>  
+
+<%include ../partials/footer%>

@@ -35,14 +35,16 @@ function initMap() {
         } 
     });
     
+    
    //add favorites to schedule and save to users collections
    //when the + icon is clicked    
    $("#searchResults").on("click",".addToDo",function(){
+       var currentDay = $("#currentDay").val();
        var newToDo = $(this).attr("id");
        $.ajax({
             type: "POST",
             url: "/planner/toDo/new",
-            data: {id:newToDo},
+            data: {id:newToDo , day:currentDay},
             dataType:"json",
             success:function(schedule){
                 $("#sortPanel").append(function(){
@@ -56,7 +58,17 @@ function initMap() {
        })
     });
     
+    $("#previousDay").on("click",function(){
+       var currentday = $("#currentDay").html();
+       if (currentday != 1 ){
+        $("#currentDay").html(currentday-1);
+       }
+    })
     
+    $("#nextDay").on("click",function(){
+       var currentday = $("#currentDay").html();
+        $("#currentDay").html(parseInt(currentday)+1);
+    })
     
     //display user's schedule in the schedule panel
     $.ajax({

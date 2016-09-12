@@ -1,15 +1,18 @@
  var mongoose                = require("mongoose");
  
  var journeySchema= new mongoose.Schema({
-        name: String,
-        location: String,
-        description: String,
-        username: String,
-        image:String, 
-        date:String,
-        comments:[{
-                 type: mongoose.Schema.Types.ObjectId,
-                 ref:"comments"
-                 }]
+                userName:String,
+                journeyName:String,
+                caption:String,
+                dourneyDate:String,
+                images:[String],
+                comments:[{
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref:"comments"
+                }],
+                days:[{
+                        dayIndex:String,
+                        journeySchedule:[String]
+                }]
 });
 module.exports=mongoose.model("journeys",journeySchema);

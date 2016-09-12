@@ -5,8 +5,9 @@ var usersSchema= new mongoose.Schema({
         username: String,
         password: String,
         favorites: [String],
-        schedule:[String]
-
+        journeys:[{ type: mongoose.Schema.Types.ObjectId,
+                        ref:"journeys"
+        }]
 });
 
 usersSchema.plugin(passportLocalMongoose);

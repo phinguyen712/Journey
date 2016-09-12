@@ -1,6 +1,7 @@
 var express                 =   require("express"),
     router                  =   express.Router({mergeParams:true}),
     User                    =   require("../models/users.js"),
+    journeys                =   require("../models/journeys.js"),
     yelpData                =   require("../models/yelp.js");
 
 
@@ -36,7 +37,7 @@ function populateUsersData(req,res,userYelpArr){
         });
     }
 }
-    
+
 router.get("/planner/favorites/show",function(req,res){
     populateUsersData(req,res,req.user.favorites);
 });
@@ -45,14 +46,17 @@ router.get("/planner/favorites/show",function(req,res){
 router.get("/planner/schedule/show",function(req,res){
     populateUsersData(req,res,req.user.schedule);
 });
-  
-  
+
+router.post("/planner/journeyName", function(req,res){
     
+});   
+
 router.post("/planner/toDo/new",function(req,res){
     User.findById(req.user.id,function(err,foundUser){
          if(err){
              console.log(err);
          }else{
+                journeys.create()
                 foundUser.schedule.push(req.body.id);
                 foundUser.save();
                 populateUsersData(req,res,foundUser.schedule);

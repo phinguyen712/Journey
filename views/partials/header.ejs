@@ -19,20 +19,30 @@
     <% if (page == 'home'){%> 
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home</a></li>
-        <li><a href="/search">Search</a></li>
-        <li><a href="/planner">Planner</a></li>
+        <li><a href="/newJourney">1.New Journey</a></li>
+        <li><a href="/search">2.Search</a></li>
+        <li><a href="/planner">3.Planner</a></li>
+      </ul>
+     <% }else if(page == 'newJourney' ){ %> 
+      <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/newJourney">1.New Journey</a></li>
+          <li><a href="/search">2.Search</a></li>
+          <li><a href="/planner">3.Planner</a></li>
       </ul>
     <% }else if(page == 'search' ){ %> 
       <ul class="nav navbar-nav">
           <li><a href="/">Home</a></li>
-          <li class="active"><a href="/search">Search</a></li>
-          <li><a href="/planner">Planner</a></li>
+         <li><a href="/newJourney">1.New Journey</a></li>
+          <li class="active"><a href="/search">2.Search</a></li>
+          <li><a href="/planner">3.Planner</a></li>
       </ul>
     <% }else if(page == 'planner' ){%> 
       <ul class="nav navbar-nav">
           <li><a href="/">Home</a></li>
-          <li><a href="/search">Search</a></li>
-          <li class="active"><a href="/planner">Planner</a></li>
+          <li><a href="/newJourney">1.New Journey</a></li>
+          <li><a href="/search">2.Search</a></li>
+          <li class="active"><a href="/planner">3.Planner</a></li>
       </ul>
     <% } %>
     

@@ -7,6 +7,7 @@
       }
       .container{
         padding:0;
+
       }
       #map {
        height:300px;
@@ -137,5 +138,13 @@
      .dropdown{
          display:inline;
      }
-  
+     .nextButton{
+         position: fixed;
+         color:#999;
+         font-size:50px;
+         right:0px;
+         top:50%;
+     }
+     
+     
      
