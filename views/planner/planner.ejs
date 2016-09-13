@@ -18,6 +18,7 @@ function initMap() {
     
     //function for setting markers on map
     
+    
      //Populate User's favorites in the result Panel
      $.ajax({
         type: "GET",
@@ -35,11 +36,64 @@ function initMap() {
         } 
     });
     
+    //display user's schedule in the schedule panel
+    //display all journeys in the journey's drop down menu
+    $.ajax({
+        type: "GET",
+        url: "/planner/schedule/show",
+        data:"",
+        dataType:"json",
+        success:function(journeys){
+            console.log(journeys);
+            for( var i = 0; i<journeys.schedule.length ; i++){
+                $("#sortPanel").append(function(){
+                  return toDoContents(journeys.schedule[i],i);
+                });
+            }
+            //render Journeys drop-down menu
+            for(var x = 0 ; x<journeys.journeys.length ; x++){
+                
+                 $(".journeyslist").append(function(){
+                    return "<li id='"+journeys.journeys[x]._id+"' class='loadJourney'><a>"+
+                    journeys.journeys[x].journeyName+"</a></li>" 
+                 });
+                 
+                 if( x == journeys.journeys.length - 1){
+                     $(".journeybutton").html(journeys.journeys[x].journeyName +" <span class='caret'>");
+                 }
+            }
+            //calculate routees and distance
+             calculateRoutes(journeys.schedule);    
+             calculateDistance(journeys.schedule);
+        }  
+    });
+    
+   $(".journeyslist").on("click",".loadJourney",function(){
+       var currentDay = $("#currentDay").html();
+       var journeyId = $(this).attr("value")
+       $.ajax({
+       type: "GET",
+       url: "/planner/schedule/show",
+       data:{journeyId:journeyId, day:currentDay},
+       dataType:"json",
+       success:function(schedule){
+           $("#sortPanel").empty();
+             for( var i = 0; i<schedule.length ; i++){
+                $("#sortPanel").append(function(){
+                  return toDoContents(schedule[i],i);
+                });
+            }
+           }
+       })
+   });
+   
+    
     
    //add favorites to schedule and save to users collections
    //when the + icon is clicked    
    $("#searchResults").on("click",".addToDo",function(){
-       var currentDay = $("#currentDay").val();
+       var currentDay = $("#currentDay").html();
+       console.log(currentDay);
        var newToDo = $(this).attr("id");
        $.ajax({
             type: "POST",
@@ -58,34 +112,18 @@ function initMap() {
        })
     });
     
+    
     $("#previousDay").on("click",function(){
        var currentday = $("#currentDay").html();
        if (currentday != 1 ){
         $("#currentDay").html(currentday-1);
        }
     })
-    
     $("#nextDay").on("click",function(){
        var currentday = $("#currentDay").html();
         $("#currentDay").html(parseInt(currentday)+1);
     })
     
-    //display user's schedule in the schedule panel
-    $.ajax({
-        type: "GET",
-        url: "/planner/schedule/show",
-        data:"",
-        dataType:"json",
-        success:function(schedule){
-            for( var i=0; i<schedule.length ; i++){
-                $("#sortPanel").append(function(){
-                  return toDoContents(schedule[i],i);
-                });
-            }
-         calculateRoutes(schedule);    
-         calculateDistance(schedule);
-        }  
-    });
 
 
        //allows ToDo  to be sortable on click
@@ -124,7 +162,6 @@ function initMap() {
 
      //function for returning toDo boxes    
      function toDoContents(toDoObject,i){
-         console.log(toDoObject);
          return  "<div id='"+toDoObject.id+"'class='ToDo "+i+"'><div class='ToDoItems'><img class='locationImage'src='"+toDoObject.image_url+"'></img>"+
                         "<div class='list-group-item'>"+
                         "<h5 class='list-group-item-heading' id='heading'><span class='queryNumber'>"+i+"</span>"+
@@ -176,10 +213,7 @@ function initMap() {
                                 };
                   distancesArr.push(distanceObj);
                 };
-                
                 $(".distance").each(function(index){
-                  console.log(index);
-                  console.log(distancesArr)
                   $(this).html(
                       "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
                       "<span>&nbsp&nbsp"+distancesArr[index].distance+"</span></div>"+

@@ -67,7 +67,9 @@ app.post("/newJourney",function(req,res){
                 if(err){
                     console.log(err);
                 }else{
+                console.log(newJourney.id);
                 foundUser.journeys.push(newJourney.id);
+                foundUser.currentJourney = newJourney.id;
                 foundUser.save();
                     foundUser.populate("journeys",function(err,userjourney){
                         if(err){

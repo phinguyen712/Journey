@@ -54,6 +54,7 @@ router.post("/journey" ,function(req,res){
         } else{
             
             res.redirect("/journey");
+            
         }
     });
 });

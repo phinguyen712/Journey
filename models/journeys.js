@@ -11,7 +11,6 @@
                         ref:"comments"
                 }],
                 days:[{
-                        dayIndex:String,
                         journeySchedule:[String]
                 }]
 });
