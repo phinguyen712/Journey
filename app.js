@@ -56,7 +56,8 @@ app.post("/newJourney",function(req,res){
      var newJourney = {
                         userName:req.user.username,
                         journeyName:req.body.journeyName,
-                        caption:req.body.caption
+                        caption:req.body.caption,
+                        days: [{journeySchedule:null}]
     };
     
     journeys.create(newJourney,function(err,newJourney){

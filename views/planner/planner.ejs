@@ -43,30 +43,35 @@ function initMap() {
         url: "/planner/schedule/show",
         data:"",
         dataType:"json",
-        success:function(journeys){
-            console.log(journeys);
-            for( var i = 0; i<journeys.schedule.length ; i++){
+        success:function(responseData){
+           //firll sort panel with toDo Contents
+           console.log(responseData);
+            for( var i = 0; i<responseData.schedule.length ; i++){
                 $("#sortPanel").append(function(){
-                  return toDoContents(journeys.schedule[i],i);
+                  return toDoContents(responseData.schedule[i],i);
                 });
             }
+            
             //render Journeys drop-down menu
-            for(var x = 0 ; x<journeys.journeys.length ; x++){
-                
+            var journeyslist = responseData.journeys.journeys;
+         
+            for(var x = 0 ; x<journeyslist.length ; x++){
                  $(".journeyslist").append(function(){
-                    return "<li id='"+journeys.journeys[x]._id+"' class='loadJourney'><a>"+
-                    journeys.journeys[x].journeyName+"</a></li>" 
+                    return "<li id='"+journeyslist[x]._id+"' class='loadJourney'><a>"+
+                    journeyslist[x].journeyName+"</a></li>" 
                  });
-                 
-                 if( x == journeys.journeys.length - 1){
-                     $(".journeybutton").html(journeys.journeys[x].journeyName +" <span class='caret'>");
+                 if( x == journeyslist.length - 1){
+                     $(".journeybutton").html(journeyslist[x].journeyName +" <span class='caret'>");
+                     $(".journeybutton").attr("id",journeyslist[x]._id);
                  }
             }
+            
             //calculate routees and distance
-             calculateRoutes(journeys.schedule);    
-             calculateDistance(journeys.schedule);
+             calculateRoutes(responseData.schedule);    
+             calculateDistance(responseData.schedule);
         }  
     });
+    
     
    $(".journeyslist").on("click",".loadJourney",function(){
        var currentDay = $("#currentDay").html();
@@ -93,12 +98,12 @@ function initMap() {
    //when the + icon is clicked    
    $("#searchResults").on("click",".addToDo",function(){
        var currentDay = $("#currentDay").html();
-       console.log(currentDay);
+       var currentJourney = $(".journeybutton").attr("id");
        var newToDo = $(this).attr("id");
        $.ajax({
             type: "POST",
             url: "/planner/toDo/new",
-            data: {id:newToDo , day:currentDay},
+            data: {id:newToDo , day:currentDay , journeyId: currentJourney},
             dataType:"json",
             success:function(schedule){
                 $("#sortPanel").append(function(){
@@ -222,7 +227,7 @@ function initMap() {
                   )
               });
             }else{
-                console.log(err)
+               console.log(status);
             }
           });
     }
