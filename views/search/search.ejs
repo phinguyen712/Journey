@@ -57,14 +57,15 @@ function initMap() {
             //Return data obtained from node 
             success: function(yelpData){
                 var spot = yelpData.businesses; //variable fo business array
+                console.log(spot)
                 //set center of map to search locations
-                console.log(yelpData.region.center.latitude)
                 map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
                 //Render first 10 results from yelp search and plot on map
-                for( var i = 0 ; i<10 ; i++ ){
+                for( var i = 0 ; i<spot.length ; i++ ){
 
                     var queryNumber = String(i + 1);  //numbers for listing search results
-               
+              
+              
                     //print out serach results on panel
                     $("#searchResults").append(function(){
                         return "<div class= 'resultboxes'><img class='locationImage'src='"+spot[i].image_url+"'></img>    "+
@@ -74,7 +75,7 @@ function initMap() {
                                 "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div>"+
                                 "</span></div>"
                            });
-                 
+                  
                     //show heart as red if User have already added it to favorite. else, shows empty heart      
                     if(spot[i].heartOn=="true"){
                        $("#heartIcon"+[i]).addClass('glyphicon-heart').removeClass('glyphicon-heart-empty');

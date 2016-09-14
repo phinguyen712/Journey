@@ -18,7 +18,7 @@ router.get("/",function(req, res){
         if (err){
             console.log(err);
         }else{
-        res.render("journey",{journey:journey,page:"home"});
+        res.render("frontPage/landingPage",{journey:journey,page:"home"});
         }
     });
 });
