@@ -73,7 +73,7 @@ function initMap() {
     });
     
     
-   $(".journeyslist").on("click",".loadJourney",function(){
+   $(".journeyslists").on("click",".loadJourney",function(){
        var currentDay = $("#currentDay").html();
        var journeyId = $(this).attr("value")
        $.ajax({
@@ -134,11 +134,13 @@ function initMap() {
        //allows ToDo  to be sortable on click
    $("#sortPanel").sortable({
        update:function(){
+          var currentDay = $("#currentDay").html();
+          var currentJourney = $(".journeybutton").attr("id");
           var reorderedSchedule = $(this).sortable('toArray',{attr:'sortid'});
           $.ajax({
               type:"PUT",
               url:"/planner/schedule/edit",
-              data:{id:reorderedSchedule},
+              data:{id:reorderedSchedule, day:currentDay , journeyId:currentJourney},
               success:function(sortedSchedule){
                   console.log(sortedSchedule);
                   sortQueryNumber(sortedSchedule);    
@@ -150,12 +152,14 @@ function initMap() {
 
     //Remove ToDo when x is clicked on the schedule panel
     $("#sortPanel").on("click",".removeToDo",function(){
+        var currentDay = $("#currentDay").html();
+        var currentJourney = $(".journeybutton").attr("id");
         var deleteToDo = $(this).siblings("#heading").children(".queryNumber").html();
         $this = $(this);
           $.ajax({
               type: "DELETE",
               url:"/planner/toDo/delete",
-              data:{'id':deleteToDo},
+              data:{'id':deleteToDo , day:currentDay , journeyId: currentJourney},
               success:function(deletedYelpData){
                    $this.parent().parent().parent().remove();
                    console.log(deletedYelpData);
@@ -218,6 +222,7 @@ function initMap() {
                                 };
                   distancesArr.push(distanceObj);
                 };
+                console.log(distancesArr)
                 $(".distance").each(function(index){
                   $(this).html(
                       "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+

@@ -65,7 +65,7 @@ router.get("/planner/schedule/show",function(req,res){
 });
 
 
-router.get("/planner/journeys", function(req,res){
+router.get("/planner/journeyslist", function(req,res){
     journeys.findById(req.body.journeyId,function(err,foundJourney){
         if(err){
             console.log(err);
@@ -96,9 +96,9 @@ router.post("/planner/toDo/new",function(req,res){
                 foundJourney.save();
                 
                 populateUsersData(req,res,foundJourney.days[dayIndex].journeySchedule,
-                function(tempArr){
-                    res.json(tempArr);
-                }   
+                    function(tempArr){
+                        res.json(tempArr);
+                    }   
             );
         }
     });
@@ -106,13 +106,18 @@ router.post("/planner/toDo/new",function(req,res){
 
 
 router.put("/planner/schedule/edit",function(req,res){
-    User.findById(req.user.id,function(err,foundUser){
+   journeys.findById(req.body.journeyId,function(err,foundJourney){
         if(err){
             console.log(err);
         }else{
-            foundUser.schedule = req.body.id;
-            foundUser.save();
-            populateUsersData(req,res,foundUser.schedule,function(tempArr){
+            var dayIndex = parseInt(req.body.day)- 1;
+            console.log(dayIndex);
+            console.log(foundJourney);
+            foundJourney.days[dayIndex].journeySchedule = req.body.id;
+            var scheduleList = foundJourney.days[dayIndex].journeySchedule;
+            foundJourney.save();
+            console.log(scheduleList);
+            populateUsersData(req,res,scheduleList,function(tempArr){
                     res.json(tempArr);
                     });
         }
@@ -121,14 +126,18 @@ router.put("/planner/schedule/edit",function(req,res){
 
 
 router.delete("/planner/toDo/delete",function(req,res){
-    User.findById(req.user.id,function(err,foundUser){
+    journeys.findById(req.body.journeyId,function(err,foundJourney){
         if(err){
             console.log(err);
         }else{
             var deleteToDo = req.body.id;
-            delete foundUser.schedule.splice(deleteToDo,1);
-            foundUser.save();
-            populateUsersData(req,res,foundUser.schedule,function(tempArr){
+            var dayIndex = parseInt(req.body.day)- 1;
+            
+            delete foundJourney.days[dayIndex].journeySchedule.splice(deleteToDo,1);
+            foundJourney.save();
+            
+            populateUsersData(req,res,foundJourney.days[dayIndex].journeySchedule,
+                function(tempArr){
                     res.json(tempArr);
             });
         }
