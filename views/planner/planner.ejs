@@ -44,7 +44,6 @@ function initMap() {
         data:"",
         dataType:"json",
         success:function(responseData){
-            console.log(responseData);
             //load panel with selected Journey
             openSavedJourney(responseData);   
                 
@@ -64,7 +63,6 @@ function initMap() {
        data:{journeyId:selectedJourneyId , journeyName:selectedJourneyName},
        dataType:"json",
        success:function(responseData){
-           console.log(responseData);
             //load panel with selected Journey
             $(".journeybutton").html("");
             $(".journeyslist").html("");
@@ -97,7 +95,6 @@ function initMap() {
                   var newSchedule = schedule[schedule.length- 1];
                   return toDoContents(newSchedule,lastPosIndex);
                 });
-                console.log(schedule);
                 sortQueryNumber(schedule)
             },
        })
@@ -107,48 +104,22 @@ function initMap() {
     $("#previousDay").on("click",function(){
        var currentday = $("#currentDay").html();
        if (currentday != 1 ){
-        $("#currentDay").html(currentday-1);
+            $("#currentDay").html(currentday-1);
        }
         var day = $("#currentDay").html() - 1 ;
-        console.log(day);
         var currentJourney = $(".journeybutton").attr("id");
-         $.ajax({
-            type: "POST",
-            url: "/planner/days",
-            data: {day:day , journeyId: currentJourney},
-            dataType:"json",
-            success:function(responseData){
-             $("#sortPanel").html("");
-             for( var i = 0; i<responseData.length ; i++){
-                $("#sortPanel").append(function(){
-                  return toDoContents(responseData[i],i);
-                });
-                }
-            }
-         })
         
+        refreshSchedule(day,currentJourney);
     })
+    
+    
     
     $("#nextDay").on("click",function(){
         var currentday = $("#currentDay").html();
         $("#currentDay").html(parseInt(currentday)+1);
         var day = $("#currentDay").html()-1;
         var currentJourney = $(".journeybutton").attr("id");
-        console.log(day);
-        $.ajax({
-            type: "POST",
-            url: "/planner/days",
-            data: {day:day , journeyId: currentJourney},
-            dataType:"json",
-            success:function(responseData){
-             $("#sortPanel").html("");
-             for( var i = 0; i<responseData.length ; i++){
-                $("#sortPanel").append(function(){
-                  return toDoContents(responseData[i],i);
-                });
-                }
-            }
-         })
+        refreshSchedule(day,currentJourney);
     })
     
 
@@ -226,6 +197,24 @@ function initMap() {
     }
      
      
+    function refreshSchedule(day, currentJourney){
+         $.ajax({
+            type: "POST",
+            url: "/planner/days",
+            data: {day:day , journeyId: currentJourney},
+            dataType:"json",
+            success:function(responseData){
+             $("#sortPanel").html("");
+             for( var i = 0; i<responseData.length ; i++){
+                $("#sortPanel").append(function(){
+                  return toDoContents(responseData[i],i);
+                });
+                }
+            }
+         })
+    }
+    
+     
      function sortQueryNumber(yelpObject){
       $(".queryNumber").each(function(index){
           $(this).html(index)
@@ -269,6 +258,7 @@ function initMap() {
                 };
                 
                 $(".distance").each(function(index){
+                    console.log(distancesArr);
                   $(this).html(
                       "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
                       "<span>&nbsp&nbsp"+distancesArr[index].distance+"</span></div>"+
