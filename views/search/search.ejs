@@ -61,7 +61,13 @@ function initMap() {
                 //set center of map to search locations
                 map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
                 //Render first 10 results from yelp search and plot on map
-                for( var i = 0 ; i<spot.length ; i++ ){
+                var queryLength ;
+                if(spot.length > 10 ){
+                     queryLength = 10 
+                }else{
+                     queryLength = spot.length
+                }
+                for( var i = 0 ; i< queryLength ; i++ ){
 
                     var queryNumber = String(i + 1);  //numbers for listing search results
               

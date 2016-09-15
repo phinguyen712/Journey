@@ -51,34 +51,43 @@ router.get("/planner/schedule/show",function(req,res){
             console.log(err);
         }else{
           foundUser.journeys.forEach(function(journey){
-              if(journey._id == foundUser.currentJourney){
+              if(journey._id == foundUser.currentJourney.id){
                    populateUsersData(req,res,journey.days[0].journeySchedule,
                     function(tempArr){
                         res.json({schedule:tempArr, journeys:foundUser});
                     }
                 );
-              }else{}
+              }
           });
             
         }
     });
 });
 
-
-router.get("/planner/journeyslist", function(req,res){
-    journeys.findById(req.body.journeyId,function(err,foundJourney){
-        if(err){
+router.post("/planner/journey/show", function(req,res){
+    User.findById(req.user.id).populate("journeys").exec(function(err,foundUser){
+        if(err){ 
             console.log(err);
         }else{
-            var dayIndex = parseInt(req.body.day)- 1;
-            populateUsersData(req,res,foundJourney.days[dayIndex].journeySchedule,
-            function(tempArr){
-                res.json(tempArr);
-            });    
+         var journeyId = req.body.journeyId;
+         var journeyName = req.body.journeyName;
+         foundUser.currentJourney.id = journeyId;
+         foundUser.currentJourney.name = journeyName;
+         foundUser.save();
+          console.log(foundUser);
+          foundUser.journeys.forEach(function(journey){
+              if(journey._id == req.body.journeyId){
+                   populateUsersData(req,res,journey.days[0].journeySchedule,
+                    function(tempArr){
+                        res.json({schedule:tempArr, journeys:foundUser});
+                    }
+                );
+              }
+          });
+            
         }
     });
-});   
-
+}); 
 
 router.post("/planner/toDo/new",function(req,res){
     var dayIndex = parseInt(req.body.day)- 1;//current day of the sortpanel 

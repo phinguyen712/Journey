@@ -44,28 +44,10 @@ function initMap() {
         data:"",
         dataType:"json",
         success:function(responseData){
-           //firll sort panel with toDo Contents
-           console.log(responseData);
-            for( var i = 0; i<responseData.schedule.length ; i++){
-                $("#sortPanel").append(function(){
-                  return toDoContents(responseData.schedule[i],i);
-                });
-            }
-            
-            //render Journeys drop-down menu
-            var journeyslist = responseData.journeys.journeys;
-         
-            for(var x = 0 ; x<journeyslist.length ; x++){
-                 $(".journeyslist").append(function(){
-                    return "<li id='"+journeyslist[x]._id+"' class='loadJourney'><a>"+
-                    journeyslist[x].journeyName+"</a></li>" 
-                 });
-                 if( x == journeyslist.length - 1){
-                     $(".journeybutton").html(journeyslist[x].journeyName +" <span class='caret'>");
-                     $(".journeybutton").attr("id",journeyslist[x]._id);
-                 }
-            }
-            
+            console.log(responseData);
+            //load panel with selected Journey
+            openSavedJourney(responseData);   
+                
             //calculate routees and distance
              calculateRoutes(responseData.schedule);    
              calculateDistance(responseData.schedule);
@@ -73,21 +55,25 @@ function initMap() {
     });
     
     
-   $(".journeyslists").on("click",".loadJourney",function(){
-       var currentDay = $("#currentDay").html();
-       var journeyId = $(this).attr("value")
+   $(".btn-group").on("click",".loadJourney",function(){
+       var selectedJourneyId = $(this).attr("id");
+       var selectedJourneyName = $(this).html();
        $.ajax({
-       type: "GET",
-       url: "/planner/schedule/show",
-       data:{journeyId:journeyId, day:currentDay},
+       type: "POST",
+       url: "/planner/journey/show",
+       data:{journeyId:selectedJourneyId , journeyName:selectedJourneyName},
        dataType:"json",
-       success:function(schedule){
-           $("#sortPanel").empty();
-             for( var i = 0; i<schedule.length ; i++){
-                $("#sortPanel").append(function(){
-                  return toDoContents(schedule[i],i);
-                });
-            }
+       success:function(responseData){
+           console.log(responseData);
+            //load panel with selected Journey
+            $(".journeybutton").html("");
+            $(".journeyslist").html("");
+            $("#sortPanel").html("");
+            openSavedJourney(responseData);   
+                
+            //calculate routees and distance
+             calculateRoutes(responseData.schedule);    
+             calculateDistance(responseData.schedule);
            }
        })
    });
@@ -180,6 +166,29 @@ function initMap() {
                         "</div><div class='distance'></div></div>"
      };
      
+ 
+     function openSavedJourney(responseData){
+            for( var i = 0; i<responseData.schedule.length ; i++){
+            $("#sortPanel").append(function(){
+              return toDoContents(responseData.schedule[i],i);
+            });
+            }
+           
+            //render Journeys drop-down menu
+            var journeyslist = responseData.journeys.journeys;
+           
+            for(var x = 0 ; x<journeyslist.length ; x++){
+                 $(".journeyslist").append(function(){
+                    return "<li id='"+journeyslist[x]._id+"' class='loadJourney'>"+
+                    journeyslist[x].journeyName+"</li>" 
+                 });
+             
+                 $(".journeybutton").html(responseData.journeys.currentJourney.name +" <span class='caret'>");
+                 $(".journeybutton").attr("id",responseData.journeys.currentJourney.id);
+                 
+            }
+    }
+     
      
      function sortQueryNumber(yelpObject){
       $(".queryNumber").each(function(index){
@@ -222,7 +231,7 @@ function initMap() {
                                 };
                   distancesArr.push(distanceObj);
                 };
-                console.log(distancesArr)
+                
                 $(".distance").each(function(index){
                   $(this).html(
                       "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+

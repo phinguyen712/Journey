@@ -70,7 +70,10 @@ app.post("/newJourney",function(req,res){
                 }else{
                 console.log(newJourney.id);
                 foundUser.journeys.push(newJourney.id);
-                foundUser.currentJourney = newJourney.id;
+                var currentId = newJourney.id;
+                var currentName = req.body.journeyName;
+                foundUser.currentJourney.id = currentId;
+                foundUser.currentJourney.name = currentName;
                 foundUser.save();
                     foundUser.populate("journeys",function(err,userjourney){
                         if(err){
