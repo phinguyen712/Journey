@@ -109,10 +109,46 @@ function initMap() {
        if (currentday != 1 ){
         $("#currentDay").html(currentday-1);
        }
+        var day = $("#currentDay").html() - 1 ;
+        console.log(day);
+        var currentJourney = $(".journeybutton").attr("id");
+         $.ajax({
+            type: "POST",
+            url: "/planner/days",
+            data: {day:day , journeyId: currentJourney},
+            dataType:"json",
+            success:function(responseData){
+             $("#sortPanel").html("");
+             for( var i = 0; i<responseData.length ; i++){
+                $("#sortPanel").append(function(){
+                  return toDoContents(responseData[i],i);
+                });
+                }
+            }
+         })
+        
     })
+    
     $("#nextDay").on("click",function(){
-       var currentday = $("#currentDay").html();
+        var currentday = $("#currentDay").html();
         $("#currentDay").html(parseInt(currentday)+1);
+        var day = $("#currentDay").html()-1;
+        var currentJourney = $(".journeybutton").attr("id");
+        console.log(day);
+        $.ajax({
+            type: "POST",
+            url: "/planner/days",
+            data: {day:day , journeyId: currentJourney},
+            dataType:"json",
+            success:function(responseData){
+             $("#sortPanel").html("");
+             for( var i = 0; i<responseData.length ; i++){
+                $("#sortPanel").append(function(){
+                  return toDoContents(responseData[i],i);
+                });
+                }
+            }
+         })
     })
     
 
