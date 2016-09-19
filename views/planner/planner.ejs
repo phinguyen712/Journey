@@ -49,7 +49,6 @@ function initMap() {
                 
             //calculate routees and distance
              calculateRoutes(responseData.schedule);   
-             console.log("schedule/show")
              calculateDistance(responseData.schedule);
         }  
     });
@@ -72,7 +71,6 @@ function initMap() {
                 
             //calculate routees and distance
              calculateRoutes(responseData.schedule);   
-             console.log("jurney/show")
              calculateDistance(responseData.schedule);
            }
        })
@@ -97,7 +95,7 @@ function initMap() {
                   var newSchedule = schedule[schedule.length- 1];
                   return toDoContents(newSchedule,lastPosIndex);
                 });
-                sortQueryNumber(schedule)
+                sortQueryNumber(schedule);
             },
        })
     });
@@ -224,9 +222,9 @@ function initMap() {
           $(this).html(index)
       });
       
-    // $(".ToDo").each(function(index){
-    //     $(this).attr("clas","ToDo "+index+"");
-    // });
+       $(".ToDo").each(function(index){
+           $(this).removeClass().addClass("ToDo "+index+"")
+       })
       
       calculateRoutes(yelpObject);
       calculateDistance(yelpObject);
@@ -268,6 +266,7 @@ function initMap() {
                   distancesArr.push(distanceObj);
                 };
                 
+                $(".distance").empty();    
                for( var x = 0 ; x < distancesArr.length ; x++){
                 $("."+x+" > .ToDoItems > .distance").html(function(){
                     return  "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
@@ -276,14 +275,6 @@ function initMap() {
                      "<span>&nbsp&nbsp"+distancesArr[x].duration+"</span</div>"
                 });
                }
-        //     $(".distance").each(function(index){
-        //       $(this).html(
-        //           "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
-        //           "<span>&nbsp&nbsp"+distancesArr[index].distance+"</span></div>"+
-        //           "<div class='time'><span class='glyphicon glyphicon-time'></span>"+
-        //           "<span>&nbsp&nbsp"+distancesArr[index].duration+"</span</div>"
-        //       )
-        //   });
             }else{
                console.log(status);
             }
