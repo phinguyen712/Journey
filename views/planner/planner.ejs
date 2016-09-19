@@ -48,7 +48,8 @@ function initMap() {
             openSavedJourney(responseData);   
                 
             //calculate routees and distance
-             calculateRoutes(responseData.schedule);    
+             calculateRoutes(responseData.schedule);   
+             console.log("schedule/show")
              calculateDistance(responseData.schedule);
         }  
     });
@@ -70,7 +71,8 @@ function initMap() {
             openSavedJourney(responseData);   
                 
             //calculate routees and distance
-             calculateRoutes(responseData.schedule);    
+             calculateRoutes(responseData.schedule);   
+             console.log("jurney/show")
              calculateDistance(responseData.schedule);
            }
        })
@@ -135,7 +137,6 @@ function initMap() {
               url:"/planner/schedule/edit",
               data:{id:reorderedSchedule, day:currentDay , journeyId:currentJourney},
               success:function(sortedSchedule){
-                  console.log(sortedSchedule);
                   sortQueryNumber(sortedSchedule);    
               }
           })
@@ -155,7 +156,6 @@ function initMap() {
               data:{'id':deleteToDo , day:currentDay , journeyId: currentJourney},
               success:function(deletedYelpData){
                    $this.parent().parent().parent().remove();
-                   console.log(deletedYelpData);
                    sortQueryNumber(deletedYelpData);
               }
          });
@@ -210,6 +210,10 @@ function initMap() {
                   return toDoContents(responseData[i],i);
                 });
                 }
+               
+             calculateRoutes(responseData);  
+             console.log("planenrsday")
+             calculateDistance(responseData);
             }
          })
     }
@@ -219,6 +223,11 @@ function initMap() {
       $(".queryNumber").each(function(index){
           $(this).html(index)
       });
+      
+    // $(".ToDo").each(function(index){
+    //     $(this).attr("clas","ToDo "+index+"");
+    // });
+      
       calculateRoutes(yelpObject);
       calculateDistance(yelpObject);
      };
@@ -248,7 +257,9 @@ function initMap() {
         //process recieved Data
             if(status=="OK"){
                 var distancesArr = [];
+                console.log(response);
                 for(var i = 0 ; i<schedule.length - 1; i++){
+                    console.log(i);
                   var distanceTravel = response.rows[i].elements[i+ 1].distance.text;
                   var durationTravel = response.rows[i].elements[i+ 1].duration.text;
                   distanceObj = { "distance": distanceTravel,
@@ -257,15 +268,22 @@ function initMap() {
                   distancesArr.push(distanceObj);
                 };
                 
-                $(".distance").each(function(index){
-                    console.log(distancesArr);
-                  $(this).html(
-                      "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
-                      "<span>&nbsp&nbsp"+distancesArr[index].distance+"</span></div>"+
-                      "<div class='time'><span class='glyphicon glyphicon-time'></span>"+
-                      "<span>&nbsp&nbsp"+distancesArr[index].duration+"</span</div>"
-                  )
-              });
+               for( var x = 0 ; x < distancesArr.length ; x++){
+                $("."+x+" > .ToDoItems > .distance").html(function(){
+                    return  "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
+                     "<span>&nbsp&nbsp"+distancesArr[x].distance+"</span></div>"+
+                     "<div class='time'><span class='glyphicon glyphicon-time'></span>"+
+                     "<span>&nbsp&nbsp"+distancesArr[x].duration+"</span</div>"
+                });
+               }
+        //     $(".distance").each(function(index){
+        //       $(this).html(
+        //           "<div class='miles'><span class='glyphicon glyphicon-chevron-right'></span>"+
+        //           "<span>&nbsp&nbsp"+distancesArr[index].distance+"</span></div>"+
+        //           "<div class='time'><span class='glyphicon glyphicon-time'></span>"+
+        //           "<span>&nbsp&nbsp"+distancesArr[index].duration+"</span</div>"
+        //       )
+        //   });
             }else{
                console.log(status);
             }
@@ -274,7 +292,6 @@ function initMap() {
     
     
     function calculateRoutes(schedule){   
-        console.log(schedule);
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var waypts = [] ;
@@ -297,7 +314,6 @@ function initMap() {
     
     
     function displayRoutes(directionsService,directionsDisplay,originpts,waypts,endpts){  
-        
         directionsService.route({
              
               origin: originpts,
