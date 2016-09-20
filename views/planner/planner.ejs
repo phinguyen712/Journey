@@ -27,10 +27,12 @@ function initMap() {
         dataType:"json",
         success: function(matchFavorites){ 
             for(var i = 0; i<matchFavorites.length;i++){
-              $("#searchResults").append(function(){
-                    return  "<li><div class= 'resultboxes' id='"+i+"'><div>"+matchFavorites[i].name+"</div>"+
-                    "<span class='glyphicon glyphicon-remove'>"+
-                    "</span><span id= '"+matchFavorites[i].id+"' class='glyphicon glyphicon-plus addToDo'></span></div></li>"
+              $("#favorites").append(function(){
+                    return  "<li><div class= 'favoritesLists' id='"+i+"'>"+
+                    "<div>"+matchFavorites[i].name+"</div>"+
+                    "<span id= '"+matchFavorites[i].id+"' class='glyphicon glyphicon-plus addToDo'></span>"+
+                    "&nbsp&nbsp&nbsp<span class='glyphicon glyphicon-trash removeFavorites'>"+
+                    "</span></div></li>"
                });
             }
         } 
@@ -80,7 +82,7 @@ function initMap() {
     
    //add favorites to schedule and save to users collections
    //when the + icon is clicked    
-   $("#searchResults").on("click",".addToDo",function(){
+   $("#favorites").on("click",".addToDo",function(){
        var currentDay = $("#currentDay").html();
        var currentJourney = $(".journeybutton").attr("id");
        var newToDo = $(this).attr("id");
@@ -158,6 +160,22 @@ function initMap() {
               }
          });
         });
+
+
+    $(".sidebar").on("click",".removeFavorites",function(){
+        console.log("hey")
+        var deleteFavorites = $(this).siblings(".addToDo").attr("id");
+        console.log(deleteFavorites);
+        $.ajax({
+           type: "DELETE",
+           url: "/favorites/delete",
+           data: {id : deleteFavorites},
+           dataType:"json",
+           success: function(responseData){ 
+               $("#"+deleteFavorites+"").parent().parent().remove();
+               }
+           }); 
+       });
 
 
      //function for returning toDo boxes    

@@ -45,6 +45,8 @@ router.get("/planner/favorites/show",function(req,res){
 });
 
 
+
+
 router.get("/planner/schedule/show",function(req,res){
       User.findById(req.user.id).populate("journeys").exec(function(err,foundUser){
         if(err){ 
