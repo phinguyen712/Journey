@@ -57,7 +57,7 @@ app.post("/newJourney",function(req,res){
                         userName:req.user.username,
                         journeyName:req.body.journeyName,
                         caption:req.body.caption,
-                        days: [{journeySchedule:null}]
+                        days: ""
     };
     
     journeys.create(newJourney,function(err,newJourney){
@@ -68,7 +68,6 @@ app.post("/newJourney",function(req,res){
                 if(err){
                     console.log(err);
                 }else{
-                console.log(newJourney.id);
                 foundUser.journeys.push(newJourney.id);
                 var currentId = newJourney.id;
                 var currentName = req.body.journeyName;

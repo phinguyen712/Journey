@@ -47,11 +47,21 @@ function initMap() {
         dataType:"json",
         success:function(responseData){
             //load panel with selected Journey
+            console.log(responseData);
             openSavedJourney(responseData);   
                 
             //calculate routees and distance
              calculateRoutes(responseData.schedule);   
              calculateDistance(responseData.schedule);
+             
+             //populate captions
+             responseData.journeys.journeys.forEach(function(openJourney){
+                 if(openJourney._id == responseData.journeys.currentJourney.id){
+                      $(".captions").html('"'+openJourney.caption+'"');   
+                 }else{
+                     $(".captions").html("no captions");       
+                 }
+             })
         }  
     });
     
@@ -65,6 +75,7 @@ function initMap() {
        data:{journeyId:selectedJourneyId , journeyName:selectedJourneyName},
        dataType:"json",
        success:function(responseData){
+    
             //load panel with selected Journey
             $(".journeybutton").html("");
             $(".journeyslist").html("");
@@ -78,6 +89,19 @@ function initMap() {
        })
    });
    
+   //edit captions
+    $(".captions").dblclick(function(){
+       var captions=$(this).html();
+       console.log(captions);
+        $(this).html(function(){
+        
+       return "<form class='editCaptions' action='demo_form.asp'>"+
+          "<input type='text' value='"+captions+"'><br>"+
+          "<input type='submit' value='edit'>"+
+        "</form>"
+        })
+    })
+    
     
     
    //add favorites to schedule and save to users collections
@@ -379,4 +403,4 @@ function initMap() {
 </script>
 
 
-<% include plannerContent.html%>
+<% include plannerContent.ejs%>

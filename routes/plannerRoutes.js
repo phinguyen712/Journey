@@ -111,18 +111,16 @@ router.post("/planner/days", function(req,res){
 
 router.post("/planner/toDo/new",function(req,res){
     var dayIndex = parseInt(req.body.day)- 1;//current day of the sortpanel 
-    console.log(dayIndex);
+
      //add favorites to journey database in journeys.days[x].journeySchedule 
     journeys.findById(req.body.journeyId,function(err,foundJourney){
         if(err){
             console.log(err);
         }else{
-            //problem reading days[dayIndex];
+           console.log(foundJourney);
               if(foundJourney.days[dayIndex] == "" || !foundJourney.days[dayIndex] ){
-                  console.log("1");
                 foundJourney.days[dayIndex] = {journeySchedule:[req.body.id]};
               }else{
-                 console.log("2"); 
                 foundJourney.days[dayIndex].journeySchedule.push(req.body.id);
               } 
                 foundJourney.save();
