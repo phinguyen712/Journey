@@ -119,17 +119,15 @@
         color:black;
         background-color:#e6e6e6;
      }
-     .captions{
+     #classSelector{
         color: #808080;
         font-size:10px;
      }
-     .captions:hover{
-
-        color:#87ceeb;
-        font-size:12px; 
+     #classSelector:hover{
+        font-size:14px; 
      }
      .editCaptions{
-         border-width: 0px 0px 1px 0px;
+       border-width:0px 0px 2px 0px;
      }
       #sortPanel{
         vertical-align:top;

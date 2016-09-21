@@ -89,21 +89,42 @@ function initMap() {
        })
    });
    
-   //edit captions
-    $(".captions").dblclick(function(){
-       var captions=$(this).html();
-       console.log(captions);
-        $(this).html(function(){
-        
-       return "<form class='editCaptions' action='demo_form.asp'>"+
-          "<input type='text' value='"+captions+"'><br>"+
-          "<input type='submit' value='edit'>"+
-        "</form>"
-        })
-    })
+   
+   
+ //edit captions
+    $("#classSelector").dblclick(function(){
+           if($(this).attr("class") == "captions"){
+                var captions=$(this).html();
+                $(this).html(function(){
+                   return "<form class='editCaptions'onSubmit='return false'>"+
+                      "<input class='editCaptions' type='text' value='"+captions+"'><br>"+
+                    "</form>"
+                })
+                $(this).attr("class",captions);
+                
+           }else{
+                var editedCaptions = $(this).attr("class");
+                $(this).empty();
+                $(this).html(editedCaptions);
+                $(this).attr("class","captions") ; 
+           }
+                  $(".editCaptions").change(function(){
+                  var editedCaptions = $(this).val();
+                  var journeyId = $(".journeybutton").attr("id");
+                  console.log(journeyId);
+                  $("#classSelector").html(editedCaptions); 
+                    $.ajax({
+                        type: "PUT",
+                        url: "/planner/captions/edit",
+                        data:{journeyId:journeyId,editedCaptions:editedCaptions},
+                        dataType:"json",
+                    })
+             });
+        });   
     
+  
     
-    
+         
    //add favorites to schedule and save to users collections
    //when the + icon is clicked    
    $("#favorites").on("click",".addToDo",function(){

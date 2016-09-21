@@ -169,6 +169,19 @@ router.delete("/planner/toDo/delete",function(req,res){
         }
     });
 });
-    
+
+
+
+router.put("/planner/captions/edit",function(req,res){
+    journeys.findById(req.body.journeyId,function(err,foundJourney){
+        if(err){
+            console.log(err);
+        }else{
+           foundJourney.caption = req.body.editedCaptions;
+           foundJourney.save();
+           console.log(foundJourney);
+        }
+    });
+});    
 
 module.exports=router;
