@@ -4,7 +4,8 @@
                 userName:String,
                 journeyName:String,
                 caption:String,
-                dourneyDate:String,
+                publishDate:Date,
+                publish:Boolean,
                 images:[String],
                 comments:[{
                         type: mongoose.Schema.Types.ObjectId,

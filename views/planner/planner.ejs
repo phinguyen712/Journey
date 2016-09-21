@@ -222,6 +222,21 @@ function initMap() {
            }); 
        });
 
+//Publish Journey
+    $(".nextButton").on("click",function(){
+    var currentJourney = $(".journeybutton").attr("id");
+         $.ajax({
+           type: "POST",
+           url: "/journey/publishJourney/Create",
+           data: {journeyId : currentJourney},
+           dataType:"json",
+           success: function(responseData){ 
+             
+               }
+           });
+    })
+
+
 
      //function for returning toDo boxes    
      function toDoContents(toDoObject,i){

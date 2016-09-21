@@ -203,6 +203,9 @@
          right:0px;
          top:50%;
      }
-     
+     .nextButton:hover{
+         color:#20B2AA;
+         font-size:80px;
+     }
      
      
