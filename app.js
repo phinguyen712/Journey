@@ -106,12 +106,10 @@ app.post("/journey/publishJourney/Create",function(req,res){
                 mm='0'+mm;
             } 
             today = mm+'/'+dd+'/'+yyyy;
-            console.log(foundJourney);
             foundJourney.publishDate = today;
             foundJourney.publish = true;
             foundJourney.save();
-            console.log(foundJourney);
-                        
+            res.redirect("/planner");  
         }
     });
     

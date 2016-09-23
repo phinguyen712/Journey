@@ -46,22 +46,24 @@ function initMap() {
         data:"",
         dataType:"json",
         success:function(responseData){
-            //load panel with selected Journey
             console.log(responseData);
-            openSavedJourney(responseData);   
-                
+            //load panel with selected Journeys
+            openSavedJourney(responseData); 
             //calculate routees and distance
              calculateRoutes(responseData.schedule);   
              calculateDistance(responseData.schedule);
              
-             //populate captions
+             //display captions on planner page
+             var captions= "no captions";
+             
              responseData.journeys.journeys.forEach(function(openJourney){
                  if(openJourney._id == responseData.journeys.currentJourney.id){
-                      $(".captions").html('"'+openJourney.caption+'"');   
-                 }else{
-                     $(".captions").html("no captions");       
+                      $(".captions").html('"'+openJourney.caption+'"'); 
+                        return captions='"'+openJourney.caption+'"'
                  }
              })
+             
+             $(".captions").html(captions)
         }  
     });
     
@@ -111,7 +113,6 @@ function initMap() {
                   $(".editCaptions").change(function(){
                   var editedCaptions = $(this).val();
                   var journeyId = $(".journeybutton").attr("id");
-                  console.log(journeyId);
                   $("#classSelector").html(editedCaptions); 
                     $.ajax({
                         type: "PUT",
@@ -208,9 +209,7 @@ function initMap() {
 
 
     $(".sidebar").on("click",".removeFavorites",function(){
-        console.log("hey")
         var deleteFavorites = $(this).siblings(".addToDo").attr("id");
-        console.log(deleteFavorites);
         $.ajax({
            type: "DELETE",
            url: "/favorites/delete",
@@ -225,15 +224,15 @@ function initMap() {
 //Publish Journey
     $(".nextButton").on("click",function(){
     var currentJourney = $(".journeybutton").attr("id");
-         $.ajax({
+    alert("Your Journey have been published for the world to see!");
+        $.ajax({
            type: "POST",
            url: "/journey/publishJourney/Create",
            data: {journeyId : currentJourney},
            dataType:"json",
            success: function(responseData){ 
-             
-               }
-           });
+           }
+        });
     })
 
 

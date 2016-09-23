@@ -1,4 +1,7 @@
-<% include ../partials/header%>
+<%include ../partials/header%>
+<style type="text/css">
+<%include landingPage.css%>
+</style>
 <div class="container">
   <div class="jumbotron" >
     
@@ -8,23 +11,19 @@
    </div>
    
    
-<% journey.forEach(function(journey){ %>
-    <div class="panel panel-default">
-      <div class="panel-footer">
-        <a href="/journey/show/<%=journey._id%>"><%=journey.name %></a> - <span><%=journey.location %></span><span style="float:right"><%=journey.username %></span>
+<% journey.forEach(function(selectedJourney){ %>
+ 
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img class="thumbimage" src="..." alt="...">
+      <div class="caption">
+        <h3><%= selectedJourney.journeyName%></h3>
+        <p><%= selectedJourney.caption%></p>
       </div>
-      <div class="panel-body"> <%=journey.description %>
-      </div>
-    
-    <% if(currentUser && currentUser.username==journey.username){ %>
-        <a type="button" class="btn btn-warning editButtons" href="/edit/<%=journey._id%>">edit</a>
-        <form class="form inline"action="/journey/<%=journey.id%>/?_method=DELETE" method="Post">
-          <button class="btn btn-danger editButtons" type="submit">Delete</button>
-        </form>
-    <%  } %>
     </div>
-<% }); %>
-</div>
+  </div>
+  
+<% }) %>
 
 <% include ../partials/footer %>
 

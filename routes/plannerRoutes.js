@@ -117,7 +117,6 @@ router.post("/planner/toDo/new",function(req,res){
         if(err){
             console.log(err);
         }else{
-           console.log(foundJourney);
               if(foundJourney.days[dayIndex] == "" || !foundJourney.days[dayIndex] ){
                 foundJourney.days[dayIndex] = {journeySchedule:[req.body.id]};
               }else{
@@ -129,7 +128,7 @@ router.post("/planner/toDo/new",function(req,res){
                         res.json(tempArr);
                     }   
             );
-        }
+        }   
     });
 });
 
@@ -183,5 +182,7 @@ router.put("/planner/captions/edit",function(req,res){
         }
     });
 });    
+
+
 
 module.exports=router;

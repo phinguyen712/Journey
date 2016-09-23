@@ -7,6 +7,7 @@
                 publishDate:Date,
                 publish:Boolean,
                 images:[String],
+                likes:Number,
                 comments:[{
                         type: mongoose.Schema.Types.ObjectId,
                         ref:"comments"
