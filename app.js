@@ -51,69 +51,7 @@ app.get("/newJourney",function(req,res){
 
 
 
-app.post("/newJourney",function(req,res){
-    
-     var newJourney = {
-                        userName:req.user.username,
-                        journeyName:req.body.journeyName,
-                        caption:req.body.caption,
-                        days:"",
-                        publish:false,
-    };
-    
-    journeys.create(newJourney,function(err,newJourney){
-        if(err){
-            console.log(err);
-        }else{
-            User.findById(req.user.id,function(err,foundUser){
-                if(err){
-                    console.log(err);
-                }else{
-                foundUser.journeys.push(newJourney.id);
-                var currentId = newJourney.id;
-                var currentName = req.body.journeyName;
-                foundUser.currentJourney.id = currentId;
-                foundUser.currentJourney.name = currentName;
-                foundUser.save();
-                    foundUser.populate("journeys",function(err,userjourney){
-                        if(err){
-                            console.log(err);
-                        }else{
-                        res.redirect("searchRoutes");
-                        }
-                    });
-                }
-            });
-        }
-    });
-    res.redirect("search");
-});
 
-   //turn publish property to "true" and set published date in --> journey object
-app.post("/journey/publishJourney/Create",function(req,res){
-    journeys.findById(req.body.journeyId,function(err,foundJourney){
-        if(err){
-            console.log(err);
-        }else{
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            if(dd<10) {
-                dd='0'+dd;
-            } 
-            if(mm<10) {
-                mm='0'+mm;
-            } 
-            today = mm+'/'+dd+'/'+yyyy;
-            foundJourney.publishDate = today;
-            foundJourney.publish = true;
-            foundJourney.save();
-            res.redirect("/planner");  
-        }
-    });
-    
-});
 
 
 app.use(plannerRoutes);
@@ -123,7 +61,7 @@ app.use(usersRoutes.router);
 app.use(searchRoutes);
 
 
-app.listen(process.env.PORT,process.env.IP,function(){
-    console.log("Journey has started ");
-});
+//app.listen(process.env.PORT,process.env.IP,function(){
+//    console.log("Journey has started ");
+//});
 
