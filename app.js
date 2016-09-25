@@ -37,7 +37,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//set req.user as currentUser to be used in views/header
+//set req.user as currentUser to be used in views/headesr
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
