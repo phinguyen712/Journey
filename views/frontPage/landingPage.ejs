@@ -16,7 +16,7 @@
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
    <% var imagelen =  images[journame].length %>
-    <% console.log(imagelen) %>
+    <% console.log(imagelen) %> 
    <% if(imagelen > 6){ %>
         <%for( var x = 0 ; x < 6 ; x++){ %>
         <img class="thumbimage" src=<%=images[journame][x]%> alt="...">
@@ -29,6 +29,7 @@
           
       <div class="caption">
         <h3><%= selectedJourney.journeyName%></h3>
+        <p><%= selectedJourney.caption%></p>
         <p><%= selectedJourney.caption%></p>
       </div>
     </div>

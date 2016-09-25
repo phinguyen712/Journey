@@ -2,3 +2,7 @@
 .thumbnail>img{
     display:inline-block;
 }
+
+.thumbimage{
+    margin-top:5px;
+}
