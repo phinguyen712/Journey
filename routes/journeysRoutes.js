@@ -20,7 +20,7 @@ router.get("/",function(req, res){
         if (err){
         }else{
         //obtain images for all published journeys
-            var all_Images = [];
+            var all_Images = {};
             var journeyCounter = 0;
             for( var x = 0 ; x < journey.length ; x++){
                 var daycounter = 0;
@@ -39,12 +39,13 @@ router.get("/",function(req, res){
                         if(queryCounter == yelpData.length ){
                             daycounter++;
                             if(daycounter == journey[x].days.length ){
-                                 journeyObj = ({[journeyName]:journeyId});  
-                                 all_Images.push(journeyObj);
+                                var uniqueId = removeRepeats(journeyId);
+                                 journeyObj = ({[journeyName]:uniqueId});  
+                                 all_Images[journeyName] = uniqueId;
                                  journeyCounter++;
                                  if(journeyCounter == journey.length){
-                                 console.log(all_Images);
-                                   res.render("frontPage/landingPage",{journey:journey,images:all_Images,page:"home"});
+                                  res.render("frontPage/landingPage",{journey:journey,images:all_Images,page:"home"});
+                                   
                                 }
                                  journeyId = [];
                                  daycounter = 0;
@@ -132,6 +133,22 @@ router.post("/newJourney",function(req,res){
     });
     res.redirect("search");
 });
+
+
+function removeRepeats(Arr) {
+    var seen = {};
+    var out = [];
+    var length = Arr.length;
+    var j = 0;
+    for(var i = 0; i < length; i++) {
+         var item = Arr[i];
+         if(seen[item] !== 1) {
+               seen[item] = 1;
+               out[j++] = item;
+         }
+    }
+    return out;
+}
 
 
 //loop through an array with Yelp Id within the req.user object and check 

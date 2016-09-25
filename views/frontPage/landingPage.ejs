@@ -2,6 +2,7 @@
 <style type="text/css">
 <%include landingPage.css%>
 </style>
+
 <div class="container">
   <div class="jumbotron" >
     
@@ -9,20 +10,29 @@
     <p>Plan and Share your adventures with Journey</p>
     <a href="/newJourney" type="button" class="btn btn-default navbar-btn">Create journeys</a>
    </div>
-   
-   
+  
 <% journey.forEach(function(selectedJourney){ %>
- 
+   <% var journame = selectedJourney.journeyName%>  
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img class="thumbimage" src="..." alt="...">
+   <% var imagelen =  images[journame].length %>
+    <% console.log(imagelen) %>
+   <% if(imagelen > 6){ %>
+        <%for( var x = 0 ; x < 6 ; x++){ %>
+        <img class="thumbimage" src=<%=images[journame][x]%> alt="...">
+        <% } %>
+        <% }else{ %>
+            <%  images[journame].forEach(function(images){ %>
+                <img class="thumbimage" src=<%=images%> alt="...">
+            <% });%>
+          <% }  %>
+          
       <div class="caption">
         <h3><%= selectedJourney.journeyName%></h3>
         <p><%= selectedJourney.caption%></p>
       </div>
     </div>
   </div>
-  
 <% }) %>
 
 <% include ../partials/footer %>
