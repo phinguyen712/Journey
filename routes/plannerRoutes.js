@@ -2,41 +2,17 @@ var express                 =   require("express"),
     router                  =   express.Router({mergeParams:true}),
     User                    =   require("../models/users.js"),
     journeys                =   require("../models/journeys.js"),
+    middlewareObj           =   require("../middleware/middlewareObj.js"),
     yelpData                =   require("../models/yelp.js");
 
 
 
 
-router.get("/planner",function(req,res){
+router.get("/planner",middlewareObj.isLoggedIn,function(req,res){
     res.render('planner/planner',{page:"planner"}); 
 });
 
-//loop through an array with Yelp Id within the req.user object and check 
-//yelpData collection for any matching document.Push these results into tempArr
-//send tempArr to page sending AJAX request
-function populateUsersData(req,res,userYelpArr,callback){
-    var tempArr = [];//array for temprorarily storing populatedData
-    var counter = 0;//counter for handling ASYNC
-    //show all of user's favorites on the planner page by searching through yelpData
-    //and linking to user.favorites
-    if(!userYelpArr || userYelpArr == "" || userYelpArr==null){
-        callback(tempArr);
-    }else{
-        userYelpArr.forEach(function(userProperties){
-            yelpData.findOne({'business.id': userProperties},function(err,foundYelpData){
-                if(err){
-                    console.log(err);
-                }else{
-                    tempArr.push(foundYelpData.business);
-                    counter++;
-                    if(counter == userYelpArr.length){
-                      callback(tempArr);   
-                    }
-                }
-            });
-        });
-    }
-}
+
 
 router.get("/planner/favorites/show",function(req,res){
   populateUsersData(req,res,req.user.favorites,function(tempArr){
@@ -183,6 +159,33 @@ router.put("/planner/captions/edit",function(req,res){
     });
 });    
 
+
+//loop through an array with Yelp Id within the req.user object and check 
+//yelpData collection for any matching document.Push these results into tempArr
+//send tempArr to page sending AJAX request
+function populateUsersData(req,res,userYelpArr,callback){
+    var tempArr = [];//array for temprorarily storing populatedData
+    var counter = 0;//counter for handling ASYNC
+    //show all of user's favorites on the planner page by searching through yelpData
+    //and linking to user.favorites
+    if(!userYelpArr || userYelpArr == "" || userYelpArr==null){
+        callback(tempArr);
+    }else{
+        userYelpArr.forEach(function(userProperties){
+            yelpData.findOne({'business.id': userProperties},function(err,foundYelpData){
+                if(err){
+                    console.log(err);
+                }else{
+                    tempArr.push(foundYelpData.business);
+                    counter++;
+                    if(counter == userYelpArr.length){
+                      callback(tempArr);   
+                    }
+                }
+            });
+        });
+    }
+}
 
 
 module.exports=router;

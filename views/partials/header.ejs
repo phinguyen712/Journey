@@ -51,12 +51,12 @@
        <form class="navbar-form navbar-right" role="search" action="/login" method="POST">
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail3">Email address</label> 
-          <input type="text" class="form-control" id="exampleInputEmail3" name="username" placeholder="Username" value="karl">
+          <input type="text" class="form-control" id="exampleInputEmail3" name="username" placeholder="Username">
         </div>
        <!-- Sign In-password input -->
         <div class="form-group">
           <label class="sr-only" for="exampleInputPassword3">Password</label>
-          <input type="text" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password" value="marx">
+          <input type="text" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password">
         </div>
         
         <button type="submit" class="btn btn-default">login</button>
@@ -64,7 +64,7 @@
         <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-sm">Sign Up</button>
         </form>
     <% } else {%>
-       <h4><p class="navbar-text navbar-right">signed in as <a id="username" href="/myprofile"><%= currentUser.username %>
+       <h4><p class="navbar-text navbar-right">You are logged in as <a id="username" href="/myprofile"><%= currentUser.username %>
        </a>&nbsp&nbsp&nbsp&nbsp<a  href="/logout" class="glyphicon glyphicon-log-out"></a>&nbsp&nbsp</p></h4>
      <% }%> 
 </nav>
@@ -95,5 +95,3 @@
     </div>
   </div>
 </div>
-
-

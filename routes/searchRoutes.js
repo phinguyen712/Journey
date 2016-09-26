@@ -2,6 +2,7 @@ var express                 =   require("express"),
     router                  =   express.Router({mergeParams:true}),
     Yelp                    =   require("yelp"),
     yelpData                =   require("../models/yelp.js"),
+    middlewareObj           =   require("../middleware/middlewareObj.js"),
     User                    =   require("../models/users.js");
         
         
@@ -12,7 +13,7 @@ var yelp = new Yelp({
   token_secret: '95n7Fr_0Mdje8F_XbzKQ5qAhZ28',
 });
 
-router.get("/search",function(req,res){
+router.get("/search",middlewareObj.isLoggedIn,function(req,res){
    res.render("search/search",{page:"search"}); 
 });
     

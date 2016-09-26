@@ -4,6 +4,9 @@
 </style>
 
 <div class="container">
+  <%if(error && error.length){%>
+  <div class="alert alert-danger" id="sucessFlash" role="alert"><%= error %></div>
+  <% } %>
   <div class="jumbotron" >
     
     <h1>Adventures is out there</h1>
@@ -16,7 +19,6 @@
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
    <% var imagelen =  images[journame].length %>
-    <% console.log(imagelen) %> 
    <% if(imagelen > 6){ %>
         <%for( var x = 0 ; x < 6 ; x++){ %>
         <img class="thumbimage" src=<%=images[journame][x]%> alt="...">

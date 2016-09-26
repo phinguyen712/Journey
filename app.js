@@ -3,6 +3,7 @@ var express                 =   require("express"),
     mongoose                =   require("mongoose"),
     bodyParser              =   require("body-parser"), 
     User                    =   require("./models/users.js"),
+    flash                   =   require("connect-flash"),
     journeys                =   require("./models/journeys.js"),
     passport                =   require("passport"),
     LocalStrategy           =   require("passport-local"),
@@ -12,7 +13,8 @@ var express                 =   require("express"),
     searchRoutes            =   require("./routes/searchRoutes.js"),
     plannerRoutes           =   require("./routes/plannerRoutes.js"),
     methodOverride          =   require("method-override");
-  
+    
+   
 
     app.use(require("express-session")({
     secret: "Journey code",
@@ -20,9 +22,10 @@ var express                 =   require("express"),
     saveUninitialized: false
 }));
 
-
+app.use(flash());
 
 app.use(methodOverride("_method"));
+
 
 var url = process.env.DATABASEURL || "mongodb://localhost/journey_app";
 mongoose.connect(url);
@@ -39,20 +42,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 //set req.user as currentUser to be used in views/headesr
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
-
-
-app.get("/newJourney",function(req,res){
-    
-    res.render("newJourney/newJourney",{ page:'newJourney'});
-});
-
-
-
 
 
 

@@ -1,35 +1,11 @@
 var express                 = require("express"),
     router                  = express.Router({mergeParams:true}),
     Comments                = require("../models/comments.js"),
-    User                    =   require("../models/users.js"),
+    User                    = require("../models/users.js"),
     yelpData                = require("../models/yelp.js"),
+    middlewareObj           = require("../middleware/middlewareObj.js"),
     journey                 = require("../models/journeys.js");
 
-
-
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }else{
-    res.redirect("/signup");
-    }
-}
-
-
-function removeRepeats(Arr) {
-    var seen = {};
-    var out = [];
-    var length = Arr.length;
-    var j = 0;
-    for(var i = 0; i < length; i++) {
-         var item = Arr[i];
-         if(seen[item] !== 1) {
-               seen[item] = 1;
-               out[j++] = item;
-         }
-    }
-    return out;
-}
 
 router.get("/",function(req, res){
     journey.find({publish:true}, function(err,journey){
@@ -50,17 +26,20 @@ router.get("/",function(req, res){
                      var journeyName = journey[x].journeyName;
                       var journeyObj={} ;
                     yelpData.forEach(function(yelpId){
+                        console.log("1");
                         journeyId.push(yelpId.image_url);
                         queryCounter++;
                         if(queryCounter == yelpData.length ){
                             daycounter++;
                             if(daycounter == journey[x].days.length ){
+                                console.log("2");
                                 var uniqueId = removeRepeats(journeyId);
                                  journeyObj = ({[journeyName]:uniqueId});  
                                  all_Images[journeyName] = uniqueId;
                                  journeyCounter++;
                                  if(journeyCounter == journey.length){
-                                  res.render("frontPage/landingPage",{journey:journey,images:all_Images,page:"home"});
+                                     console.log("3");
+                                  res.render("frontPage/landingPage",{journey:journey,images:all_Images,page:"home",flashMesssage:req.flash("error")});
                                    
                                 }
                                  journeyId = [];
@@ -77,8 +56,7 @@ router.get("/",function(req, res){
     });
 });
 
-router.get("/newJourney",function(req,res){
-    
+router.get("/newJourney",middlewareObj.isLoggedIn,function(req,res){
     res.render("newJourney/newJourney",{ page:'newJourney'});
 });
 
@@ -151,7 +129,20 @@ router.post("/newJourney",function(req,res){
     res.redirect("search");
 });
 
-
+function removeRepeats(Arr) {
+    var seen = {};
+    var out = [];
+    var length = Arr.length;
+    var j = 0;
+    for(var i = 0; i < length; i++) {
+         var item = Arr[i];
+         if(seen[item] !== 1) {
+               seen[item] = 1;
+               out[j++] = item;
+         }
+    }
+    return out;
+}
 
 
 //loop through an array with Yelp Id within the req.user object and check 
