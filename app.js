@@ -23,8 +23,8 @@ var express                 =   require("express"),
 
 
 app.use(methodOverride("_method"));
-console.log(process.env.DATABASEURL);
-var url = mongoose.connect(process.env.DATABASEURL) || "mongodb://localhost/journey_app";
+
+var url = process.env.DATABASEURL || "mongodb://localhost/journey_app";
 mongoose.connect(url);
 
 app.use(bodyParser.urlencoded({extended:true}));
