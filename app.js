@@ -23,9 +23,9 @@ var express                 =   require("express"),
 
 
 app.use(methodOverride("_method"));
-
-//mongoose.connect("mongodb://localhost/journey_app");
-mongoose.connect("mongodb://phinguyen712:welcome123@ds041486.mlab.com:41486/journeytripplanner");
+console.log(process.env.DATABASEURL);
+mongoose.connect(process.env.DATABASEURL);
+//mongoose.connect("mongodb://phinguyen712:welcome123@ds041486.mlab.com:41486/journeytripplanner");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine","ejs" );
 
