@@ -1,7 +1,8 @@
 var express                 = require("express"),
     router                  = express.Router({mergeParams:true}),
     Comments                = require("../models/comments.js"),
-    yelpData                =   require("../models/yelp.js"),
+    User                    =   require("../models/users.js"),
+    yelpData                = require("../models/yelp.js"),
     journey                 = require("../models/journeys.js");
 
 
@@ -14,6 +15,21 @@ function isLoggedIn(req,res,next){
     }
 }
 
+
+function removeRepeats(Arr) {
+    var seen = {};
+    var out = [];
+    var length = Arr.length;
+    var j = 0;
+    for(var i = 0; i < length; i++) {
+         var item = Arr[i];
+         if(seen[item] !== 1) {
+               seen[item] = 1;
+               out[j++] = item;
+         }
+    }
+    return out;
+}
 
 router.get("/",function(req, res){
     journey.find({publish:true}, function(err,journey){
@@ -110,7 +126,8 @@ router.post("/newJourney",function(req,res){
         if(err){
             console.log(err);
         }else{
-            router.findById(req.user.id,function(err,foundUser){
+            console.log(req.user.id);
+            User.findById(req.user.id,function(err,foundUser){
                 if(err){
                     console.log(err);
                 }else{
@@ -135,20 +152,6 @@ router.post("/newJourney",function(req,res){
 });
 
 
-function removeRepeats(Arr) {
-    var seen = {};
-    var out = [];
-    var length = Arr.length;
-    var j = 0;
-    for(var i = 0; i < length; i++) {
-         var item = Arr[i];
-         if(seen[item] !== 1) {
-               seen[item] = 1;
-               out[j++] = item;
-         }
-    }
-    return out;
-}
 
 
 //loop through an array with Yelp Id within the req.user object and check 
