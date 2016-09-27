@@ -1,0 +1,38 @@
+<div class="container">
+  <%if(error && error.length){%>
+  <div class="alert alert-danger" id="sucessFlash" role="alert"><%= error %></div>
+  <% } %>
+  <div class="jumbotron" >
+    
+    <h1>Adventures is out there</h1>
+    <p>Plan and Share your adventures with Journey</p>
+    <a href="/newJourney" type="button" class="btn btn-default navbar-btn">Create journeys</a>
+   </div>
+  
+<% journey.forEach(function(selectedJourney){ %>
+   <% var journame = selectedJourney.journeyName%>  
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+   <% var imagelen =  images[journame].length %>
+   <% if(imagelen > 6){ %>
+        <%for( var x = 0 ; x < 6 ; x++){ %>
+        <img class="thumbimage" src=<%=images[journame][x]%> alt="...">
+        <% } %>
+        <% }else{ %>
+            <%  images[journame].forEach(function(images){ %>
+                <img class="thumbimage" src=<%=images%> alt="...">
+            <% });%>
+          <% }  %>
+          
+      <div class="caption">
+        <h3><%= selectedJourney.journeyName%></h3>
+        <p><%= selectedJourney.caption%></p>
+        <p class="user_buttons" ><span>-<%= selectedJourney.userName%></span>
+        	&nbsp	&nbsp	&nbsp<span class="fa fa-map" data-toggle="tooltip" title="Add Journey to Planner!"></span>
+      		&nbsp<span class="fa fa-thumbs-up" aria-hidden="true" data-toggle="tooltip" title="Like Journey!"></span>
+      		&nbsp<span class="fa fa-comment" data-toggle="tooltip" title="Write a comment!"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+<% }) %>

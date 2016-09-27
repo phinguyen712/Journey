@@ -26,19 +26,19 @@ router.get("/",function(req, res){
                      var journeyName = journey[x].journeyName;
                       var journeyObj={} ;
                     yelpData.forEach(function(yelpId){
-                        console.log("1");
+                        console.log(queryCounter+"queryCounter");
                         journeyId.push(yelpId.image_url);
                         queryCounter++;
                         if(queryCounter == yelpData.length ){
                             daycounter++;
+                            console.log(daycounter+"daycounter");
                             if(daycounter == journey[x].days.length ){
-                                console.log("2");
                                 var uniqueId = removeRepeats(journeyId);
                                  journeyObj = ({[journeyName]:uniqueId});  
                                  all_Images[journeyName] = uniqueId;
+                                 console.log(journeyCounter +"all_Imagesasdfasdfasdf");
                                  journeyCounter++;
                                  if(journeyCounter == journey.length){
-                                     console.log("3");
                                   res.render("frontPage/landingPage",{journey:journey,images:all_Images,page:"home",flashMesssage:req.flash("error")});
                                    
                                 }
@@ -61,7 +61,7 @@ router.get("/newJourney",middlewareObj.isLoggedIn,function(req,res){
 });
 
 
-   //turn publish property to "true" and set published date in --> journey object
+//publish journey and store in published collections
 router.post("/journey/publishJourney/Create",function(req,res){
     journey.findById(req.body.journeyId,function(err,foundJourney){
         if(err){
@@ -97,8 +97,6 @@ router.post("/newJourney",function(req,res){
                         days:"",
                         publish:false,
     };
-    
-    
     
     journey.create(newJourney,function(err,newJourney){
         if(err){

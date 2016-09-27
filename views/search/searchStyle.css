@@ -43,6 +43,11 @@
       .glyphicon-heart{
           color:red;
       }
+      .glyphicon:hover{
+          color:red;
+          cursor: pointer;
+      }
+      
       #search{
         float:left;
       }

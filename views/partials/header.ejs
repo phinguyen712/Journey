@@ -4,11 +4,12 @@
 <script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<script src="https://use.fontawesome.com/4a0033c7e7.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>   
 <style type="text/css">
 <%include headerStyle.css%>
-
 </style>
+</head>
 <body>
 
 <nav class="navbar navbar-default">
@@ -56,7 +57,7 @@
        <!-- Sign In-password input -->
         <div class="form-group">
           <label class="sr-only" for="exampleInputPassword3">Password</label>
-          <input type="text" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password">
+          <input type="password" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password">
         </div>
         
         <button type="submit" class="btn btn-default">login</button>
@@ -68,7 +69,6 @@
        </a>&nbsp&nbsp&nbsp&nbsp<a  href="/logout" class="glyphicon glyphicon-log-out"></a>&nbsp&nbsp</p></h4>
      <% }%> 
 </nav>
-
 
 
 <!-- Modal for sign up page -->
@@ -87,7 +87,7 @@
           </div>
           <div class="form-group">
             <label for="descriptionInput">Password</label>
-            <input class="form-control" id="descriptionInput" type="text" name="password" >
+            <input class="form-control" id="descriptionInput" type="password" name="password" >
           </div> 
           <button class="btn btn-primary" type="submit">Submit</button>
           </form>

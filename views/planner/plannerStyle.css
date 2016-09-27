@@ -104,7 +104,7 @@
          color:	#F08080;
          margin-right: 5px;
      }
-     .glyphicon-folder-open{
+     .fa-map{
         color: #20B2AA;
         margin-right: 5px;
      }
@@ -206,6 +206,9 @@
      .nextButton:hover{
          color:#20B2AA;
          font-size:80px;
+     }
+     .fa glyphicon:hover{
+         cursor: pointer;
      }
      
      

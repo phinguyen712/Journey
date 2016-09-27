@@ -9,3 +9,11 @@
 #sucessFlash{
     text-align:center;
 }
+.user_buttons{
+    font-size:15px;
+    color:#b3b3b3;
+}
+.fa:hover{
+    color:#333333;
+    cursor: pointer;
+}
