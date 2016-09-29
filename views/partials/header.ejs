@@ -62,7 +62,7 @@
         
         <button type="submit" class="btn btn-default">login</button>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-sm">Sign Up</button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".signUp">Sign Up</button>
         </form>
     <% } else {%>
        <h4><p class="navbar-text navbar-right">You are logged in as <a id="username" href="/myprofile"><%= currentUser.username %>
@@ -72,7 +72,7 @@
 
 
 <!-- Modal for sign up page -->
-<div class="modal fade bs-example-modal-sm" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade bs-example-modal-sm signUp" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
