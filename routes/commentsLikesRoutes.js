@@ -30,7 +30,7 @@ router.post("/journey/likes",isLoggedIn, function(req,res){
                     foundUser.save();
                     foundJourney.likes.push(userObj);
                     foundJourney.save();
-                        res.json({likes:foundJourney.likes , thumbsUp:true});
+                    res.json({likes:foundJourney.likes , thumbsUp:true});
                 }else{
                 //remove likes for user and Journey
                    foundUser.liked.splice(indexOfUser,1);

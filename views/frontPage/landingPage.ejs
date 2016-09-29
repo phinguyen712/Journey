@@ -14,6 +14,8 @@ $(".fa-thumbs-up").on("click",function(){
        data:{id:id},
        dataType:"json",
        success:function(responseData){
+          var likes_count = responseData.likes.length;
+          $(element).parent().siblings("div").children().html(likes_count);
            if(responseData.thumbsUp == true){
                $(element).css("color","#0074D9");
            }else{
@@ -24,9 +26,6 @@ $(".fa-thumbs-up").on("click",function(){
 });
 
 
-
-
- 
 </script>
 
 

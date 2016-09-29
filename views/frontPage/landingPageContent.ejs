@@ -37,28 +37,32 @@
               <%   } %>
         		&nbsp<span style="color:<%=thumbColor%>" class="fa fa-thumbs-up" aria-hidden="true" data-toggle="tooltip" title="Like Journey!">Like</span>
         		&nbsp<span class="fa fa-comment" data-toggle="tooltip" title="Write a comment!">Comment</span>
-        		<div><span  class="fa fa-thumbs-up" data-toggle="modal" data-target="#likedModal"><%=selectedJourney.likes.length%>
+        		<div><span  class="fa fa-thumbs-up likes_count" data-toggle="modal" data-target="#modal<%=selectedJourney.id%>"><%=selectedJourney.likes.length%>
         		</span>
         		</div>
           </p>
         </div>
       </div>
     </div>
-  <% }) %>
-<% }%>
-
-<div class="modal fade bs-example-modal-sm" id="likedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Likes</h4>
-      </div>
-      <div class="modal-body">
-      <%  selectedJourney.likes.forEach(function(users){ %>
-        <div><%= users.username %></div>
-      <%  });  %>
+    
+  <div class="modal fade bs-example-modal-sm" id="modal<%=selectedJourney.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Likes</h4>
+        </div>
+        <div class="modal-body">
+        <%  selectedJourney.likes.forEach(function(users){ %>
+          <div><%= users.username %></div>
+        <%  });  %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  
+  <% }) %>
+<% }%>
+
+
+
         		
