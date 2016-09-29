@@ -5,6 +5,7 @@ var usersSchema= new mongoose.Schema({
         username: String,
         password: String,
         favorites: [String],
+        liked:[String],
         currentJourney: { id: String,
                         name: String
         },

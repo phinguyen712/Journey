@@ -14,43 +14,65 @@ router.get("/",function(req, res){
         //obtain images for all published journeys
             var all_Images = {};
             var journeyCounter = 0;
-            for( var x = 0 ; x < journey.length ; x++){
-                var daycounter = 0;
-                var journeyId = [];
-               
-                journey[x].days.forEach(function(eachDay){
-               
-                var queryCounter = 0;//counter for waiting until ajax is complete
-
-                  populateUsersData(req,res,daycounter,journey,x,eachDay.journeySchedule,function(yelpData,x){
-                     var journeyName = journey[x].journeyName;
-                      var journeyObj={} ;
-                    yelpData.forEach(function(yelpId){
-                        console.log(queryCounter+"queryCounter");
-                        journeyId.push(yelpId.image_url);
-                        queryCounter++;
-                        if(queryCounter == yelpData.length ){
-                            daycounter++;
-                            console.log(daycounter+"daycounter");
-                            if(daycounter == journey[x].days.length ){
-                                var uniqueId = removeRepeats(journeyId);
-                                 journeyObj = ({[journeyName]:uniqueId});  
-                                 all_Images[journeyName] = uniqueId;
-                                 console.log(journeyCounter +"all_Imagesasdfasdfasdf");
-                                 journeyCounter++;
-                                 if(journeyCounter == journey.length){
-                                  res.render("frontPage/landingPage",{journey:journey,images:all_Images,page:"home",flashMesssage:req.flash("error")});
-                                   
-                                }
-                                 journeyId = [];
-                                 daycounter = 0;
-                            }
-                            
-                        }
-                    }); 
-                  });
+           //allow loading of landing page even if no data is present
+           //for developers
+            if(journey.length == 0){
+                res.render("frontPage/landingPage",{
+                    user:"",journey:[""],images:[""],page:"home",flashMesssage:req.flash("error")
                 });
-
+            }else{
+                for( var x = 0 ; x < journey.length ; x++){
+                    var daycounter = 0;
+                    var journeyId = [];
+                   
+                    journey[x].days.forEach(function(eachDay){
+                   
+                    var queryCounter = 0;//counter for waiting until ajax is complete
+    
+                      populateUsersData(req,res,daycounter,journey,x,eachDay.journeySchedule,function(yelpData,x){
+                         var journeyName = journey[x].journeyName;
+                         var journeyObj={} ;
+                        yelpData.forEach(function(yelpId){
+                            journeyId.push(yelpId.image_url);
+                            queryCounter++;
+                           
+                            if(queryCounter == yelpData.length ){
+                                daycounter++;
+                               
+                                if(daycounter == journey[x].days.length ){
+                                    
+                                    var uniqueId = removeRepeats(journeyId);
+                                    
+                                     journeyObj = ({[journeyName]:uniqueId});  
+                                     all_Images[journeyName] = uniqueId;
+                                     journeyCounter++;
+                                     
+                                     if(journeyCounter == journey.length){
+                                     var user = req.user; 
+                                     
+                                     if(!req.user){
+                                         user = {id:"",username:""};
+                                     }
+                                     var data = {user:user,
+                                                journey:journey,
+                                                images:all_Images,
+                                                page:"home",
+                                                flashMesssage:req.flash("error")
+                                                };
+                                                
+                                      res.render("frontPage/landingPage",data);
+                                       
+                                    }
+                                     journeyId = [];
+                                     daycounter = 0;
+                                }
+                                
+                            }
+                        }); 
+                      });
+                    });
+    
+                }
             }
         }
     });

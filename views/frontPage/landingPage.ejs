@@ -2,11 +2,26 @@
 <style type="text/css">
 <%include landingPage.css%>
 </style>
+<%include landingPageContent.ejs%>
 <script>
 
-$(".glyphicon-thumbs-up").on("click",function(){
-    $(this).css("color:#3B5998")
-})
+$(".fa-thumbs-up").on("click",function(){
+    var element = this;
+    var id=$(element).parent().parent().attr("id");
+     $.ajax({
+       type: "POST",
+       url: "/journey/likes",
+       data:{id:id},
+       dataType:"json",
+       success:function(responseData){
+           if(responseData.thumbsUp == true){
+               $(element).css("color","#0074D9");
+           }else{
+               $(element).css("color","#b3b3b3");  
+           }
+       }
+    });
+});
 
 
 
@@ -16,4 +31,3 @@ $(".glyphicon-thumbs-up").on("click",function(){
 
 
 
-<%include landingPageContent.ejs%>

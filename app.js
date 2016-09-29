@@ -8,7 +8,7 @@ var express                 =   require("express"),
     passport                =   require("passport"),
     LocalStrategy           =   require("passport-local"),
     journeysRoutes          =   require("./routes/journeysRoutes.js"),
-    commentsRoutes          =   require("./routes/commentsRoutes.js"),
+    commentsLikesRoutes     =   require("./routes/commentsLikesRoutes.js"),
     usersRoutes             =   require("./routes/usersRoutes.js"),
     searchRoutes            =   require("./routes/searchRoutes.js"),
     plannerRoutes           =   require("./routes/plannerRoutes.js"),
@@ -55,7 +55,7 @@ app.use(function(req, res, next){
 
 app.use(plannerRoutes);
 app.use(journeysRoutes);
-app.use(commentsRoutes);
+app.use(commentsLikesRoutes);
 app.use(usersRoutes.router);
 app.use(searchRoutes);
 

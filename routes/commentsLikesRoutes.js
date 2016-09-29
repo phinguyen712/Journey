@@ -1,6 +1,7 @@
 var express                 =   require("express"),
     router                  =   express.Router({mergeParams:true}),
     Comments                =   require("../models/comments.js"),
+    User                    =   require("../models/users.js"),
     journey                 =   require("../models/journeys.js");
 
 function isLoggedIn(req,res,next){
@@ -11,6 +12,38 @@ function isLoggedIn(req,res,next){
     }
 }
 
+router.post("/journey/likes",isLoggedIn, function(req,res){
+   User.findById(req.user.id,function(err,foundUser){
+       if(err){
+           console.log(err);
+       }else{
+        journey.findById(req.body.id, function(err,foundJourney){
+            if(err){
+                console.log(err);
+            }else{
+            var indexOfUser = foundUser.liked.indexOf(req.body.id); 
+            var indexOfJourney = foundJourney.likes.indexOf(req.user.id);
+            var userObj = {id:req.user.id , username:req.user.username};
+                if(indexOfUser == -1 ){
+                //add likes for user and Journey
+                    foundUser.liked.push(req.body.id);
+                    foundUser.save();
+                    foundJourney.likes.push(userObj);
+                    foundJourney.save();
+                        res.json({likes:foundJourney.likes , thumbsUp:true});
+                }else{
+                //remove likes for user and Journey
+                   foundUser.liked.splice(indexOfUser,1);
+                   foundJourney.likes.splice(indexOfJourney,1);
+                   foundUser.save();
+                   foundJourney.save();
+                   res.json({likes:foundJourney.likes , thumbsUp:false});
+                }
+            }
+        });
+       }
+   }); 
+});
 
 router.get("/journey/show/:id/Comments/new",isLoggedIn, function(req,res){
     journey.findById(req.params.id, function(err,journey){
