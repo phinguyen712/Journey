@@ -52,7 +52,6 @@ app.use(function(req, res, next){
 });
 
 
-
 app.use(plannerRoutes);
 app.use(journeysRoutes);
 app.use(commentsLikesRoutes);

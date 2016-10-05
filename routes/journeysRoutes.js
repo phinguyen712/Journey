@@ -78,6 +78,7 @@ router.get("/",function(req, res){
     });
 });
 
+
 router.get("/newJourney",middlewareObj.isLoggedIn,function(req,res){
     res.render("newJourney/newJourney",{ page:'newJourney'});
 });
@@ -149,6 +150,7 @@ router.post("/newJourney",function(req,res){
     res.redirect("search");
 });
 
+
 function removeRepeats(Arr) {
     var seen = {};
     var out = [];
@@ -163,6 +165,8 @@ function removeRepeats(Arr) {
     }
     return out;
 }
+
+
 
 
 //loop through an array with Yelp Id within the req.user object and check 
