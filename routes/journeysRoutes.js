@@ -7,7 +7,7 @@ var express                 = require("express"),
     journey                 = require("../models/journeys.js");
 
 
-router.get("/",function(req, res){
+router.get("/test",function(req, res){
     journey.find({publish:true}, function(err,journey){
         if (err){
         }else{
@@ -24,32 +24,32 @@ router.get("/",function(req, res){
                 for( var x = 0 ; x < journey.length ; x++){
                     var daycounter = 0;
                     var journeyId = [];
-                   
+
                     journey[x].days.forEach(function(eachDay){
-                   
+
                     var queryCounter = 0;//counter for waiting until ajax is complete
-    
+
                       populateUsersData(req,res,daycounter,journey,x,eachDay.journeySchedule,function(yelpData,x){
                          var journeyName = journey[x].journeyName;
                          var journeyObj={} ;
                         yelpData.forEach(function(yelpId){
                             journeyId.push(yelpId.image_url);
                             queryCounter++;
-                           
+
                             if(queryCounter == yelpData.length ){
                                 daycounter++;
-                               
+
                                 if(daycounter == journey[x].days.length ){
-                                    
+
                                     var uniqueId = removeRepeats(journeyId);
-                                    
-                                     journeyObj = ({[journeyName]:uniqueId});  
+
+                                     journeyObj = ({[journeyName]:uniqueId});
                                      all_Images[journeyName] = uniqueId;
                                      journeyCounter++;
-                                     
+
                                      if(journeyCounter == journey.length){
-                                     var user = req.user; 
-                                     
+                                     var user = req.user;
+
                                      if(!req.user){
                                          user = {id:"",username:""};
                                      }
@@ -59,19 +59,19 @@ router.get("/",function(req, res){
                                                 page:"home",
                                                 flashMesssage:req.flash("error")
                                                 };
-                                                
+
                                       res.render("frontPage/landingPage",data);
-                                       
+
                                     }
                                      journeyId = [];
                                      daycounter = 0;
                                 }
-                                
+
                             }
-                        }); 
+                        });
                       });
                     });
-    
+
                 }
             }
         }
@@ -96,23 +96,23 @@ router.post("/journey/publishJourney/Create",function(req,res){
             var yyyy = today.getFullYear();
             if(dd<10) {
                 dd='0'+dd;
-            } 
+            }
             if(mm<10) {
                 mm='0'+mm;
-            } 
+            }
             today = mm+'/'+dd+'/'+yyyy;
             foundJourney.publishDate = today;
             foundJourney.publish = true;
             foundJourney.save();
-            res.redirect("/planner");  
+            res.redirect("/planner");
         }
     });
-    
+
 });
 
 
 router.post("/newJourney",function(req,res){
-    
+
      var newJourney = {
                         userName:req.user.username,
                         journeyName:req.body.journeyName,
@@ -120,7 +120,7 @@ router.post("/newJourney",function(req,res){
                         days:"",
                         publish:false,
     };
-    
+
     journey.create(newJourney,function(err,newJourney){
         if(err){
             console.log(err);
@@ -169,7 +169,7 @@ function removeRepeats(Arr) {
 
 
 
-//loop through an array with Yelp Id within the req.user object and check 
+//loop through an array with Yelp Id within the req.user object and check
 //yelpData collection for any matching document.Push these results into tempArr
 //send tempArr to page sending AJAX request
 function populateUsersData(req,res,daycouner,journey,x,userYelpArr,callback){
@@ -188,7 +188,7 @@ function populateUsersData(req,res,daycouner,journey,x,userYelpArr,callback){
                     tempArr.push(foundYelpData.business);
                     counter++;
                     if(counter == userYelpArr.length){
-                      callback(tempArr , x , journey);   
+                      callback(tempArr , x , journey);
                     }
                 }
             });
