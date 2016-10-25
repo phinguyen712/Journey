@@ -1,0 +1,32 @@
+<%include ../partials/header%>
+<style type="text/css">
+<%include landingPage.css%>
+</style>
+<%include landingPageContent.ejs%>
+<script>
+
+$(".fa-thumbs-up").on("click",function(){
+    var element = this;
+    var id=$(element).parent().parent().attr("id");
+     $.ajax({
+       type: "POST",
+       url: "/journey/likes",
+       data:{id:id},
+       dataType:"json",
+       success:function(responseData){
+          var likes_count = responseData.likes.length;
+          $(element).parent().siblings("div").children().html(likes_count);
+           if(responseData.thumbsUp == true){
+               $(element).css("color","#0074D9");
+           }else{
+               $(element).css("color","#b3b3b3");  
+           }
+       }
+    });
+});
+
+
+</script>
+
+
+

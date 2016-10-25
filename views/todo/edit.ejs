@@ -1,0 +1,20 @@
+<%include ../partials/header%>
+
+<div class="container"> 
+    <h1>Edit Journeys</h1>
+         <form class="form-group" action="/journey/<%=journey._id%>?_method=PUT" method="POST">
+        <div>
+            <label for="nameInput">Name of place</label>
+            <input type="text" class="form-control" id="nameInput" name="journey[Name]" value="<%= journey.Name%>">
+        </div>
+        <div class="form-group">
+            <label for="locationInput">location</label>
+            <input type="text" class="form-control"  id="locationInput" name="journey[Location]" value="<%= journey.Location%>">
+        </div>
+        <div class="form-group">
+              <label for="descriptionInput">description</label>
+              <input class="form-control" id="descriptionInput" name="journey[Description]" value="<%=journey.Description%>">
+        </div> 
+        <button class="btn btn-default" type="submit">Button</button>
+    </form>
+</div>  

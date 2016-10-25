@@ -1,0 +1,112 @@
+     html, body {
+        background-color:white;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        width:45%;
+        position:relative;
+        height:65%;
+        float:right;
+        top:50px;
+      }
+      
+      .container{
+        height:100%;
+        width:80%;
+      }
+      #searchPanel{
+         width:50%;
+         display: inline-block;
+
+      }
+    
+      .list-group-item:first-child{
+          border-radius:0px;
+        
+         
+      }
+      .list-group-item:last-child{
+         border-radius:0px;
+        
+      }
+      
+      .navbar-form{
+          margin-bottom:20px;
+      }
+      form{
+        max-width:700px;
+         width:75%;
+         margin: 0 auto;
+      }
+      .glyphicon-heart{
+          color:red;
+      }
+      .glyphicon:hover{
+          color:red;
+          cursor: pointer;
+      }
+      
+      #search{
+        float:left;
+      }
+      .searchBox{
+        margin-top: 5px;
+        padding-left:15px;  
+        border:none;
+        color:#f2f2f2;
+        background-color:#504C86;
+        height:45px;
+        width:300px;
+        font-size:20px;
+      }
+      #testbutton{
+        background-color:#8FBC8F;
+        border-radius:0px;
+        width:90px;
+        height:45px;
+        font-size:20px;
+        font-weight:bold;
+        margin-top:5px;
+        color:#006600;
+      }
+      div{
+        font-family:Arial, Helvetica, sans-serif
+      }
+      #searchPanel{
+        height:200px;
+      }
+      .boxHighlight{
+        background-color:#e6e6e6;
+      }
+      .resultboxes{
+        height:128px;
+        width:440px;
+      }
+      .list-group-item{
+        background-color:transparent;
+        border-color:transparent;
+        display:inline-block;
+        width:310px;
+        margin-right:0px;
+      }
+      h5{
+        font-weight:bold;
+        display:inline-block;
+      }
+      .list-group-item-text{
+        display:inline-block;
+        font-size:12px;
+        width:310px;
+        
+      }
+      #reviews{
+        color:gray;
+        font-size:10px;
+        font-style:italic;
+      }
+      .locationImage{
+       float:right;
+       margin-top:5px;
+      }

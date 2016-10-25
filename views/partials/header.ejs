@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<script   src="https://code.jquery.com/jquery-3.1.0.js"   integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk="   crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<script src="https://use.fontawesome.com/4a0033c7e7.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>   
+<style type="text/css">
+<%include headerStyle.css%>
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <a class="navbar-brand " href="#">JOURNEY</a>
+    
+    <!-- Highlight the tabs that are open in the navbar-->
+    <% if (page == 'home'){%> 
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/newJourney">1.New Journey</a></li>
+        <li><a href="/search">2.Search</a></li>
+        <li><a href="/planner">3.Planner</a></li>
+      </ul>
+     <% }else if(page == 'newJourney' ){ %> 
+      <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/newJourney">1.New Journey</a></li>
+          <li><a href="/search">2.Search</a></li>
+          <li><a href="/planner">3.Planner</a></li>
+      </ul>
+    <% }else if(page == 'search' ){ %> 
+      <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+         <li><a href="/newJourney">1.New Journey</a></li>
+          <li class="active"><a href="/search">2.Search</a></li>
+          <li><a href="/planner">3.Planner</a></li>
+      </ul>
+    <% }else if(page == 'planner' ){%> 
+      <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/newJourney">1.New Journey</a></li>
+          <li><a href="/search">2.Search</a></li>
+          <li class="active"><a href="/planner">3.Planner</a></li>
+      </ul>
+    <% } %>
+    
+  <!-- Display signup, login, or current user in navbar -->
+  <% if (!currentUser){%> 
+       <form class="navbar-form navbar-right" role="search" action="/login" method="POST">
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail3">Email address</label> 
+          <input type="text" class="form-control" id="exampleInputEmail3" name="username" placeholder="Username">
+        </div>
+       <!-- Sign In-password input -->
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword3">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password">
+        </div>
+        
+        <button type="submit" class="btn btn-default">login</button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".signUp">Sign Up</button>
+        </form>
+    <% } else {%>
+       <h4><p class="navbar-text navbar-right">You are logged in as <a id="username" href="/myprofile"><%= currentUser.username %>
+       </a>&nbsp&nbsp&nbsp&nbsp<a  href="/logout" class="glyphicon glyphicon-log-out"></a>&nbsp&nbsp</p></h4>
+     <% }%> 
+</nav>
+
+
+<!-- Modal for sign up page -->
+<div class="modal fade bs-example-modal-sm signUp" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Sign Up Page</h4>
+      </div>
+      <div class="modal-body">
+          <form class="form-group" action="/signup" method="POST">
+          <div>
+            <label for="nameInput">Username</label>
+            <input type="text" class="form-control" id="nameInput" type="text" name="username" >
+          </div>
+          <div class="form-group">
+            <label for="descriptionInput">Password</label>
+            <input class="form-control" id="descriptionInput" type="password" name="password" >
+          </div> 
+          <button class="btn btn-primary" type="submit">Submit</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
