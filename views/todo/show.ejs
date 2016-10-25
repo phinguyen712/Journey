@@ -1,0 +1,23 @@
+<%include ../partials/header%>
+
+
+
+    <div class="panel panel-default">
+      <div class="panel-footer">
+         <%=journey.name%>- <span><%=journey.location %></span>
+      </div>
+      <div class="panel-body"> <%=journey.description %>
+      </div>
+      <a class="btn btn-default" type="button" href="/journey/show/<%=journey._id%>/comments/new">Add comments</a>
+    </div>
+ <% journey.comments.forEach(function(comments){%>
+    <p> <%= comments.username%>-<%=comments.title%>- <%= comments.comment%></p>
+    <% if(currentUser && currentUser.username==comments.username){ %>
+    <p><a href="/comments/edit/<%=comments._id%>">edit</a></p>
+    <form action="comments/<%=comments.id%>/?_method=DELETE" method="Post">
+      <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+    <% } %>
+ <% }); %>
+
+<%include ../partials/footer%>

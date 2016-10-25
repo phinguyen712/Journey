@@ -1,17 +1,22 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var HomePage = require('HomePage');
+var Navbar = require('Navbar');
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
-
-// Load foundation
-$(document).foundation();
+require("bootstrap-webpack");
 
 // App css
-require('style!css!sass!applicationStyles')
+
 
 ReactDOM.render(
   <Router history={hashHistory}>
-    <Route path="/" component={HomePage}>
-    </Route>
+    <Route path="/" component={Main}/>
+      <Router history={hashHistory}>
+        <Route path="/" component={Main}>
+          <Route path="countdown" component={Countdown}/>
+          <IndexRoute component={Timer}/>
+        </Route>
+      </Router>,
   </Router>,
   document.getElementById('app')
 );
