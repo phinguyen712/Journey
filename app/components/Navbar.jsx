@@ -1,28 +1,29 @@
 var React = require('react');
+var {Link, IndexLink} = require('react-router');
 
 var Navbar = React.createClass({
   render: function () {
     return (
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <a class="navbar-brand " href="#">JOURNEY</a>
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="/">Home</a></li>
-              <li><a href="/newJourney">1.New Journey</a></li>
-              <li><a href="/search">2.Search</a></li>
-              <li><a href="/planner">3.Planner</a></li>
+      <nav className="navbar navbar-default">
+        <div className="container-fluid">
+          <a className="navbar-brand " href="#">JOURNEY</a>
+            <ul className="nav navbar-nav">
+              <li className="active"><Link to="/" activeClassName="active-link">Home</Link></li>
+              <li><Link to="/NewJourney" activeClassName="active-link">New Journey</Link></li>
+              <li><Link to="/ActivitySearch" activeClassName="active-link">Search</Link></li>
+              <li><Link to="/Planner" activeClassName="active-link">Planner</Link></li>
             </ul>
-           <form class="navbar-form navbar-right" role="search" action="/login" method="POST">
-              <div class="form-group">
-                <label class="sr-only" for="exampleInputEmail3">Email address</label>
-                <input type="text" class="form-control" id="exampleInputEmail3" name="username" placeholder="Username"/>
+           <form className="navbar-form navbar-right" role="search" action="/login" method="POST">
+              <div className="form-group">
+                <label className="sr-only" form="exampleInputEmail3">Email address</label>
+                <input type="text" className="form-control" id="exampleInputEmail3" name="username" placeholder="Username"/>
               </div>
-              <div class="form-group">
-                <label class="sr-only" for="exampleInputPassword3">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword3" name="password" placeholder="Password"/>
+              <div className="form-group">
+                <label className="sr-only" form="exampleInputPassword3">Password</label>
+                <input type="password" className="form-control" id="exampleInputPassword3" name="password" placeholder="Password"/>
               </div>
-              <button type="submit" class="btn btn-default">login</button>
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target=".signUp">Sign Up</button>
+              <button type="submit" className="btn btn-default">login</button>
+              <button type="button" className="btn btn-default" data-toggle="modal" data-target=".signUp">Sign Up</button>
               </form>
             </div>
         </nav>
