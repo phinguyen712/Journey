@@ -24,7 +24,12 @@ module.exports = {
     alias: {
       applicationStyles: 'app/styles/app.scss',
       HomePage: 'app/components/HomePage.jsx',
-      Navbar:'app/components/Navbar.jsx'
+      Navbar:'app/components/Navbar.jsx',
+      Main:'app/components/Main.jsx',
+      ActivitySearch:'app/components/ActivitySearch.jsx',
+      NewJourney: 'app/components/NewJourney.jsx',
+      Planner:'app/components/Planner.jsx',
+      JumboTron:'app/components/JumboTron.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
