@@ -29,7 +29,9 @@ module.exports = {
       ActivitySearch:'app/components/ActivitySearch.jsx',
       NewJourney: 'app/components/NewJourney.jsx',
       Planner:'app/components/Planner.jsx',
-      JumboTron:'app/components/JumboTron.jsx'
+      JumboTron:'app/components/JumboTron.jsx',
+      SignUp:'app/components/SignUp',
+      configureStore: 'app/store/configureStore.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
