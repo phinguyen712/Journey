@@ -1,7 +1,7 @@
 var express                 =   require("express"),
     app                     =   express(),
     mongoose                =   require("mongoose"),
-    bodyParser              =   require("body-parser"), 
+    bodyParser              =   require("body-parser"),
     User                    =   require("./models/users.js"),
     flash                   =   require("connect-flash"),
     journeys                =   require("./models/journeys.js"),
@@ -13,22 +13,22 @@ var express                 =   require("express"),
     searchRoutes            =   require("./routes/searchRoutes.js"),
     plannerRoutes           =   require("./routes/plannerRoutes.js"),
     methodOverride          =   require("method-override");
-    
-   
 
-    app.use(require("express-session")({
+
+
+app.use(require("express-session")({
     secret: "Journey code",
     resave: false,
     saveUninitialized: false
 }));
+
+app.use(express.static('public'));
 
 app.use(flash());
 
 app.use(methodOverride("_method"));
 
 
-var url = process.env.DATABASEURL || "mongodb://localhost/journey_app";
-mongoose.connect(url);
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine","ejs" );
@@ -52,14 +52,13 @@ app.use(function(req, res, next){
 });
 
 
-app.use(plannerRoutes);
-app.use(journeysRoutes);
-app.use(commentsLikesRoutes);
+
+const port = process.env.PORT || "3000";
+mongoose.connect('mongodb://localhost:27017/Journey');
 app.use(usersRoutes.router);
-app.use(searchRoutes);
 
 
-app.listen(process.env.PORT,process.env.IP,function(){
-    console.log("Journey has started ");
+
+app.listen(port,function(){
+    console.log('Journey has started port'+ port);
 });
-

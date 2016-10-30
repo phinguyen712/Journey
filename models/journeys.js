@@ -1,5 +1,5 @@
  var mongoose                = require("mongoose");
- 
+
  var journeySchema= new mongoose.Schema({
                 userName:String,
                 journeyName:String,

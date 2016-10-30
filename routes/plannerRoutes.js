@@ -99,9 +99,9 @@ router.post("/planner/days", function(req, res) {
 });
 
 router.post("/planner/toDo/new", function(req, res) {
-    var dayIndex = parseInt(req.body.day) - 1; //current day of the sortpanel 
+    var dayIndex = parseInt(req.body.day) - 1; //current day of the sortpanel
 
-    //add favorites to journey database in journeys.days[x].journeySchedule 
+    //add favorites to journey database in journeys.days[x].journeySchedule
     journeys.findById(req.body.journeyId, function(err, foundJourney) {
         if (err) {
             console.log(err);
@@ -180,7 +180,7 @@ router.put("/planner/captions/edit", function(req, res) {
 });
 
 
-//loop through an array with Yelp Id within the req.user object and check 
+//loop through an array with Yelp Id within the req.user object and check
 //yelpData collection for any matching document.Push these results into tempArr
 //send tempArr to page sending AJAX request
 function populateUsersData(req, res, userYelpArr, callback) {
