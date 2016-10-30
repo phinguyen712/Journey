@@ -3,12 +3,14 @@ var JumboTron = require('JumboTron');
 var {connect} = require('react-redux');
 var actions = require('actions');
 
-var HomePage = () => {
-  return (
-    <div className="container">
-      <JumboTron/>
-    </div>
-  );
-}
+var HomePage = React.createClass({
+  render:function(){
+    return (
+      <div className="container">
+        <JumboTron/>
+      </div>
+    );
+  }
+});
 
-module.exports = HomePage;
+export default connect()(HomePage)

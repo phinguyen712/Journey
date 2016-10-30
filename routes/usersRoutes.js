@@ -14,17 +14,27 @@ router.post("/signup", function(req,res){
             return res.redirect("/");
         }else{
             passport.authenticate("local")(req,res, function(){
-               res.redirect("/"); 
+               res.redirect("/");
             });
         }
     });
 });
 
 
-router.get("/myprofile", function(req,res){
-    res.render("profile/myprofile");
-}),
 
+router.get("/userdata",function(req,res){
+  if(!req.user){
+      res.json({'foundUser':{'username':false}})
+  }else{
+    User.findById(req.user.id,function(err,foundUser){
+        if(err){
+            console.log(err);
+        }else{
+            res.json({foundUser})
+        }
+      });
+    }
+});
 
 router.post('/login', passport.authenticate("local",{failureRedirect:'/',failureFlash:true}),function(req,res){
         User.findById(req.user.id,function(err,foundUser){
@@ -48,8 +58,9 @@ router.post('/login', passport.authenticate("local",{failureRedirect:'/',failure
                         }
                     });
                 });
+
             res.redirect("/");
-            }        
+            }
         });
 });
 
