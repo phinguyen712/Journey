@@ -3,15 +3,26 @@
   <div class="alert alert-danger" id="sucessFlash" role="alert"><%= error %></div>
   <% } %>
   <div class="jumbotron" >
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
     <h1>Adventures is out there</h1>
     <p>Plan and Share your adventures with Journey</p>
     <a href="/newJourney" type="button" class="btn btn-default navbar-btn">Create journeys</a>
    </div>
+<<<<<<< HEAD
    
 <%if(journey.length > 0){%>
   <% journey.forEach(function(selectedJourney){ %>
      <% var journame = selectedJourney.journeyName%>  
+=======
+
+<%if(journey.length > 0){%>
+  <% journey.forEach(function(selectedJourney){ %>
+     <% var journame = selectedJourney.journeyName%>
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
     <div class="col-sm-6 col-md-4">
       <div class="thumbnail">
      <% var imagelen =  images[journame].length %>
@@ -29,7 +40,11 @@
           <p><%= selectedJourney.caption%></p>
           <p class="user_buttons" ><span>-<%= selectedJourney.userName%></span>
           	&nbsp	&nbsp	&nbsp<span class="fa fa-map" data-toggle="tooltip" title="Add Journey to Planner!">Save</span>
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
             <% var index=selectedJourney.likes.map(function(likes){return likes.id}).indexOf(user.id)%>
             <% var thumbColor = "#b3b3b3"; %>
               <% if(index !=-1){ %>
@@ -44,7 +59,11 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
   <div class="modal fade bs-example-modal-sm" id="modal<%=selectedJourney.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
@@ -59,6 +78,7 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
   
   <% }) %>
 <% }%>
@@ -66,3 +86,8 @@
 
 
         		
+=======
+
+  <% }) %>
+<% }%>
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10

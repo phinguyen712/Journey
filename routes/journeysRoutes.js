@@ -7,7 +7,11 @@ var express                 = require("express"),
     journey                 = require("../models/journeys.js");
 
 
+<<<<<<< HEAD
 router.get("/",function(req, res){
+=======
+router.get("/test",function(req, res){
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
     journey.find({publish:true}, function(err,journey){
         if (err){
         }else{
@@ -24,17 +28,26 @@ router.get("/",function(req, res){
                 for( var x = 0 ; x < journey.length ; x++){
                     var daycounter = 0;
                     var journeyId = [];
+<<<<<<< HEAD
                    
                     journey[x].days.forEach(function(eachDay){
                    
                     var queryCounter = 0;//counter for waiting until ajax is complete
     
+=======
+
+                    journey[x].days.forEach(function(eachDay){
+
+                    var queryCounter = 0;//counter for waiting until ajax is complete
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
                       populateUsersData(req,res,daycounter,journey,x,eachDay.journeySchedule,function(yelpData,x){
                          var journeyName = journey[x].journeyName;
                          var journeyObj={} ;
                         yelpData.forEach(function(yelpId){
                             journeyId.push(yelpId.image_url);
                             queryCounter++;
+<<<<<<< HEAD
                            
                             if(queryCounter == yelpData.length ){
                                 daycounter++;
@@ -50,6 +63,23 @@ router.get("/",function(req, res){
                                      if(journeyCounter == journey.length){
                                      var user = req.user; 
                                      
+=======
+
+                            if(queryCounter == yelpData.length ){
+                                daycounter++;
+
+                                if(daycounter == journey[x].days.length ){
+
+                                    var uniqueId = removeRepeats(journeyId);
+
+                                     journeyObj = ({[journeyName]:uniqueId});
+                                     all_Images[journeyName] = uniqueId;
+                                     journeyCounter++;
+
+                                     if(journeyCounter == journey.length){
+                                     var user = req.user;
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
                                      if(!req.user){
                                          user = {id:"",username:""};
                                      }
@@ -59,19 +89,34 @@ router.get("/",function(req, res){
                                                 page:"home",
                                                 flashMesssage:req.flash("error")
                                                 };
+<<<<<<< HEAD
                                                 
                                       res.render("frontPage/landingPage",data);
                                        
+=======
+
+                                      res.render("frontPage/landingPage",data);
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
                                     }
                                      journeyId = [];
                                      daycounter = 0;
                                 }
+<<<<<<< HEAD
                                 
                             }
                         }); 
                       });
                     });
     
+=======
+
+                            }
+                        });
+                      });
+                    });
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
                 }
             }
         }
@@ -96,23 +141,41 @@ router.post("/journey/publishJourney/Create",function(req,res){
             var yyyy = today.getFullYear();
             if(dd<10) {
                 dd='0'+dd;
+<<<<<<< HEAD
             } 
             if(mm<10) {
                 mm='0'+mm;
             } 
+=======
+            }
+            if(mm<10) {
+                mm='0'+mm;
+            }
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
             today = mm+'/'+dd+'/'+yyyy;
             foundJourney.publishDate = today;
             foundJourney.publish = true;
             foundJourney.save();
+<<<<<<< HEAD
             res.redirect("/planner");  
         }
     });
     
+=======
+            res.redirect("/planner");
+        }
+    });
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
 });
 
 
 router.post("/newJourney",function(req,res){
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
      var newJourney = {
                         userName:req.user.username,
                         journeyName:req.body.journeyName,
@@ -120,7 +183,11 @@ router.post("/newJourney",function(req,res){
                         days:"",
                         publish:false,
     };
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
     journey.create(newJourney,function(err,newJourney){
         if(err){
             console.log(err);
@@ -169,7 +236,11 @@ function removeRepeats(Arr) {
 
 
 
+<<<<<<< HEAD
 //loop through an array with Yelp Id within the req.user object and check 
+=======
+//loop through an array with Yelp Id within the req.user object and check
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
 //yelpData collection for any matching document.Push these results into tempArr
 //send tempArr to page sending AJAX request
 function populateUsersData(req,res,daycouner,journey,x,userYelpArr,callback){
@@ -188,7 +259,11 @@ function populateUsersData(req,res,daycouner,journey,x,userYelpArr,callback){
                     tempArr.push(foundYelpData.business);
                     counter++;
                     if(counter == userYelpArr.length){
+<<<<<<< HEAD
                       callback(tempArr , x , journey);   
+=======
+                      callback(tempArr , x , journey);
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
                     }
                 }
             });
@@ -196,4 +271,8 @@ function populateUsersData(req,res,daycouner,journey,x,userYelpArr,callback){
     }
 }
 
+<<<<<<< HEAD
 module.exports=router;
+=======
+module.exports=router;
+>>>>>>> c5ed12839258dc6795379778d816266c15abec10
