@@ -31,7 +31,11 @@ module.exports = {
       Planner:'app/components/Planner.jsx',
       JumboTron:'app/components/JumboTron.jsx',
       SignUp:'app/components/SignUp',
-      configureStore: 'app/store/configureStore.jsx'
+      actions: 'app/actions/actions.jsx',
+      reducers: 'app/reducers/reducers.jsx',
+      configureStore: 'app/store/configureStore.jsx',
+      LogIn:'app/components/LogIn.jsx',
+      LoggedInUser:'app/components/LoggedInUser.jsx',
     },
     extensions: ['', '.js', '.jsx']
   },

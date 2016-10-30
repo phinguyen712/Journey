@@ -1,7 +1,8 @@
 var React = require('react');
-var Navbar  = require("Navbar")
+import Navbar from 'Navbar';
 
 var Main = (props) => {
+
   return (
     <div>
       <Navbar/>

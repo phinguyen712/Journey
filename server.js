@@ -29,8 +29,6 @@ app.use(flash());
 app.use(methodOverride("_method"));
 
 
-const port = process.env.PORT || "3000";
-mongoose.connect('mongodb://localhost:27017/Journey');
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine","ejs" );
@@ -54,11 +52,11 @@ app.use(function(req, res, next){
 });
 
 
-app.use(plannerRoutes);
-app.use(journeysRoutes);
-app.use(commentsLikesRoutes);
+
+const port = process.env.PORT || "3000";
+mongoose.connect('mongodb://localhost:27017/Journey');
 app.use(usersRoutes.router);
-app.use(searchRoutes);
+
 
 
 app.listen(port,function(){
