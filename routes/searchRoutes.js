@@ -14,9 +14,6 @@ var yelp = new Yelp({
   token_secret: '95n7Fr_0Mdje8F_XbzKQ5qAhZ28',
 });
 
-router.get("/search",middlewareObj.isLoggedIn,function(req,res){
-   res.render("search/search",{page:"search"});
-});
 
 //send Yelp API data to search page
 router.post("/favorites",function(req,res){

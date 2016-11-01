@@ -35,7 +35,7 @@ module.exports = {
       reducers: 'app/reducers/reducers.jsx',
       configureStore: 'app/store/configureStore.jsx',
       LogIn:'app/components/LogIn.jsx',
-      LoggedInUser:'app/components/LoggedInUser.jsx',
+      NewJourney:'app/components/NewJourney.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
