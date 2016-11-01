@@ -1,10 +1,11 @@
 var React = require('react');
+import ActivitySearchBar from 'ActivitySearchBar';
 
 var ActivitySearch = () => {
   return (
-    <h1>
-      ActivitySearch Page
-    </h1>
+    <div className='container'>
+      <ActivitySearchBar/>
+    </div>
   );
 }
 

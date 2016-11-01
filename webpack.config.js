@@ -35,7 +35,12 @@ module.exports = {
       reducers: 'app/reducers/reducers.jsx',
       configureStore: 'app/store/configureStore.jsx',
       LogIn:'app/components/LogIn.jsx',
-      NewJourney:'app/components/NewJourney.jsx'
+      NewJourney:'app/components/NewJourney.jsx',
+      ActivitySearchBar:'app/components/ActivitySearchBar.jsx',
+      ActivitySearchResults:'app/components/ActivitySearchResults.jsx',
+      NewJourney:'app/components/NewJourney.jsx',
+      GoogleMap:'app/components/Map.jsx'
+
     },
     extensions: ['', '.js', '.jsx']
   },

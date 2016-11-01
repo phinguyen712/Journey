@@ -11,7 +11,7 @@
         float:right;
         top:50px;
       }
-      
+
       .container{
         height:100%;
         width:80%;
@@ -21,17 +21,17 @@
          display: inline-block;
 
       }
-    
+
       .list-group-item:first-child{
           border-radius:0px;
-        
-         
+
+
       }
       .list-group-item:last-child{
          border-radius:0px;
-        
+
       }
-      
+
       .navbar-form{
           margin-bottom:20px;
       }
@@ -47,13 +47,13 @@
           color:red;
           cursor: pointer;
       }
-      
+
       #search{
         float:left;
       }
       .searchBox{
         margin-top: 5px;
-        padding-left:15px;  
+        padding-left:15px;
         border:none;
         color:#f2f2f2;
         background-color:#504C86;
@@ -99,7 +99,7 @@
         display:inline-block;
         font-size:12px;
         width:310px;
-        
+
       }
       #reviews{
         color:gray;

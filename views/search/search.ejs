@@ -1,33 +1,33 @@
-<%include ../partials/header%>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=<%include ../../keys/googleKey.html%>&callback=initMap"async defer>
 </script>
 <style type="text/css">
-<%include searchStyle.css%>
+
 </style>
 
 <script>
-//initiate google maps
+initiate google maps
 function initMap() {
-    var markers=[] ; // array for storing all of the markers  
-   
-    //google maps settings
+    var markers=[] ; // array for storing all of the markers
+
+    google maps settings
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 10
     });
-    
+
     //function for setting markers on map
     function markMap(map){
             for ( var i = 0; i < markers.length; i++ ){
                 markers[i].setMap(map);
             }
     }
-                    
+
     // obtain geolocatin of current position
     if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(function(position) {
         //set map center to current geolocation
-              $("#currentLocation").click(function() { 
+              $("#currentLocation").click(function() {
                 map.setCenter( {lat: position.coords.latitude, lng: position.coords.longitude});
               });
           });
@@ -47,31 +47,31 @@ function initMap() {
         var term = $("#term").val();         //obtain value from input form
         var location = $("#location").val(); //obtain value from input form
         var favoritesData;
-         
-        //Post request to node ---->  app.js    
+
+        //Post request to node ---->  app.js
         $.ajax({
             type: "POST",
             url: "/favorites",
             data: {term:term, location:location},
             dataType:"json",
-            //Return data obtained from node 
+            //Return data obtained from node
             success: function(yelpData){
                 var spot = yelpData.businesses; //variable fo business array
                 console.log(spot)
                 //set center of map to search locations
-                map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude}); 
+                map.setCenter({lat: yelpData.region.center.latitude , lng: yelpData.region.center.longitude});
                 //Render first 10 results from yelp search and plot on map
                 var queryLength ;
                 if(spot.length > 10 ){
-                     queryLength = 10 
+                     queryLength = 10
                 }else{
                      queryLength = spot.length
                 }
                 for( var i = 0 ; i< queryLength ; i++ ){
 
                     var queryNumber = String(i + 1);  //numbers for listing search results
-              
-              
+
+
                     //print out serach results on panel
                     $("#searchResults").append(function(){
                         return "<div class= 'resultboxes'><img class='locationImage'src='"+spot[i].image_url+"'></img>    "+
@@ -81,8 +81,8 @@ function initMap() {
                                 "<p class='list-group-item-text'>"+spot[i].snippet_text+"</p></di><div id='heartIcon"+[i]+"' class='glyphicon glyphicon-heart-empty'></div>"+
                                 "</span></div>"
                            });
-                  
-                    //show heart as red if User have already added it to favorite. else, shows empty heart      
+
+                    //show heart as red if User have already added it to favorite. else, shows empty heart
                     if(spot[i].heartOn=="true"){
                        $("#heartIcon"+[i]).addClass('glyphicon-heart').removeClass('glyphicon-heart-empty');
                         }
@@ -92,17 +92,17 @@ function initMap() {
                                     position: {lat:spot[i].location.coordinate.latitude, lng:spot[i].location.coordinate.longitude},
                                     title: spot[i].name,
                                     label: queryNumber,
-                                    });    
-                     //load all markers in array to be displayed on google maps              
+                                    });
+                     //load all markers in array to be displayed on google maps
                      markers.push(marker);
                      markMap(map);
                 };
 
-                 //toggle heart button, add activities to node database 
+                 //toggle heart button, add activities to node database
                   $('.glyphicon').click(function(){
                       var selectedData = $(this).siblings('#heading').children('#queryNumber').html() - 1 ;
                       var favoriteSpots =  spot[selectedData];
-                      
+
                       if($(this).attr("class") == 'glyphicon glyphicon-heart-empty' ){
                          //Change from hollow heart to red-filled heart
                           $(this).switchClass('glyphicon-heart-empty','glyphicon-heart',0);
@@ -117,7 +117,7 @@ function initMap() {
                              }
                              });
                       }else{
-                           $(this).switchClass('glyphicon-heart','glyphicon-heart-empty',0);   
+                           $(this).switchClass('glyphicon-heart','glyphicon-heart-empty',0);
                             //Post id to node--->remove queries id of currentuser when favorite is toggled off
                              $.ajax({
                                  type: "DELETE",
@@ -127,26 +127,21 @@ function initMap() {
                                  success: function(deletedSpots){
                                      console.log(deletedSpots);
                                  }
-                             });  
+                             });
                       }
                   });
 
-            //Select icon on map when hover 
+            //Select icon on map when hover
             $('.resultboxes').hover(function(){
                $(this).addClass('boxHighlight');
             },function(){
                 $(this).removeClass('boxHighlight');
                 }
-            ); 
-                  
-        } 
+            );
+
+        }
     });
   });
 };
 
 </script>
-
-<% include searchContent.ejs%>
-
-
-
