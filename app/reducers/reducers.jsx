@@ -4,10 +4,10 @@ var uuid = require('node-uuid');
 //Reducers can cal objections based on actions
 //Reducers have to be pure functions
 
-export var searchTextReducer = (state = 'User1', action) => {
+export var yelpSearchResultsReducer = (state = '', action) => {
   switch (action.type) {
-    case 'USER':
-      return state;
+    case 'YELP_SEARCH':
+      return action.YelpSearchResults;
     default:
       return state;
   };

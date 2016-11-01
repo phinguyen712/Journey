@@ -1,12 +1,13 @@
 var redux = require('redux');
-var {userLogInReducer} = require('reducers');
+var {userLogInReducer, yelpSearchResultsReducer} = require('reducers');
 
 
 
 export var configure = (initialState = {}) => {
   //Combine all reducers into one
   var reducer = redux.combineReducers({
-    User:userLogInReducer
+    User:userLogInReducer,
+    YelpSearchResults: yelpSearchResultsReducer
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

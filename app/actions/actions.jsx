@@ -4,3 +4,10 @@ export var LoggedInUser = (User) => {
     User
   };
 };
+
+export var yelpSearch = (YelpSearchResults) => {
+  return {
+    type: 'YELP_SEARCH',
+    YelpSearchResults
+  };
+};
