@@ -24,8 +24,8 @@ require('style!css!sass!applicationStyles');
     }).then(function(response){
       return response.json()
     }).then(function(Data){
-      store.dispatch(actions.LoggedInUser(Data.foundUser.username));
-      console.log(Data.foundUser.username)
+      store.dispatch(actions.loggedInUser(Data.foundUser.username));
+      store.dispatch(actions.userFavorites(Data.foundUser.favorites));
   })
 
 ReactDOM.render(

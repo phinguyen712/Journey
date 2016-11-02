@@ -38,26 +38,28 @@ router.post("/favorites",function(req,res){
     });
 });
 
-//Ajax get request for yelpData from search.ejs
-router.get("/favorites", function(req,res){
-    User.findById(req.user.id,function(err,favoritesData){
-        if(err){
-            console.log(err);
-        }
-            res.json(favoritesData.favorites);
-    });
-});
 
 //save favorites when heart toggle is clicked
 router.post("/favorites/save",function(req,res){
-console.log(req.user);
     User.findById(req.user.id,function(err,userAccount){
         if(err){
             console.log(err);
         }else{
+
+          var index = userAccount.favorites.indexOf(req.body.id);
+
+          if(index == -1){
+            //add favorites
+            console.log("1")
             userAccount.favorites.push(req.body.id);
             userAccount.save();
-            //store data into yelp schema
+          }else{
+            userAccount.favorites.splice(index,1);
+            userAccount.save();
+          }
+
+          res.json(userAccount);
+            //store data into yelp schema for faster load when re-rendering in in planner
             yelpData.findOne({'business.id': req.body.id},function(err,matchFavorites){
                if(err){
                    console.log(err);
@@ -65,36 +67,13 @@ console.log(req.user);
                   yelpData.create({business:req.body},function(err,storedYelpData){
                     if(err){
                         console.log(err);
-                    }console.log(storedYelpData);
+                    };
                   });
                 }
-            res.json(userAccount);
             });
         }
     });
 });
 
-
-//remove favorites from Users
-router.delete("/favorites/delete",function(req,res){
-console.log('delete');
-     User.update({"_id": req.user.id}, {$pull: {"favorites": req.body.id}}, function(err, removedFavorites){
-        if(err){
-            console.log(err);
-        }else{
-            console.log(removedFavorites);
-            User.findById(req.user.id, function(err,newData){
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log(newData);
-                     res.json(newData);
-                }
-            });
-
-
-        }
-        });
-});
 
 module.exports=router;

@@ -4,8 +4,30 @@ var actions = require('actions');
 
 export var ActivitySearchPlaces = React.createClass({
 
+  handleClick:function(results){
+    var {dispatch} = this.props
+    $.ajax({
+       type: "POST",
+       url: "/favorites/save",
+       data: results,
+       dataType:"json",
+       success:function(userAccount){
+         dispatch(actions.userFavorites(userAccount.favorites));
+       }
+     });
+  },
+
+  heartIconToggle:function(userFavorites,id){
+
+      if(userFavorites.indexOf(id) == -1){
+        return("glyphicon glyphicon-heart-empty");
+      }else{
+        return("glyphicon glyphicon-heart");
+      }
+  },
+
   render:function(){
-    var {YelpSearchResults, index, results}=this.props
+    var {index, results, UserFavorites}=this.props
     return(
       <div className ='resultboxes'>
         <img className='locationImage'src={results.image_url}></img>
@@ -15,7 +37,7 @@ export var ActivitySearchPlaces = React.createClass({
             <img src={results.rating_img_url}></img><span id='reviews'>{results.review_count} reviews </span>
           </h5>
           <p className='list-group-item-text'>{results.snippet_text}</p>
-          <div id='heartIcon' className='glyphicon glyphicon-heart-empty'></div>
+          <div id='heartIcon' onClick={()=>this.handleClick(results)} className={this.heartIconToggle(UserFavorites,results.id)}></div>
         </span>
       </div>
     )
@@ -26,7 +48,7 @@ export var ActivitySearchPlaces = React.createClass({
 export default connect(
   (state)=>{
     return{
-      YelpSearchResults:state.YelpSearchResults
+      UserFavorites:state.UserFavorites
     }
   }
 )(ActivitySearchPlaces)

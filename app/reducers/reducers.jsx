@@ -21,3 +21,12 @@ export var userLogInReducer = (state = false, action) => {
       return state;
   };
 };
+
+export var userFavoritesReducer = (state = "false", action) => {
+  switch (action.type) {
+    case 'USER_FAVORITES':
+      return action.userFavorites;
+    default:
+      return state;
+  };
+};
