@@ -7,7 +7,7 @@ export var configure = (initialState = {}) => {
   //Combine all reducers into one
   var reducer = redux.combineReducers({
     User:userLogInReducer,
-    YelpSearchResults: yelpSearchResultsReducer
+    YelpSearchResults:yelpSearchResultsReducer
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

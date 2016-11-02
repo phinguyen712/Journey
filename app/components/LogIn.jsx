@@ -9,7 +9,6 @@ var LogIn = React.createClass({
   render: function () {
     var {User} = this.props;
     if(!User){
-      console.log(1)
       return(
         <form className="navbar-form navbar-right" role="search" action="/login" method="POST">
           <div className="form-group">
@@ -29,7 +28,6 @@ var LogIn = React.createClass({
         </form>
       )
     }else{
-        console.log(2)
       return(
         <h4 className="navbar-form navbar-right"><p className="navbar-text navbar-right">You are logged in as
            <a id="username" href="/myprofile">  {User}</a>

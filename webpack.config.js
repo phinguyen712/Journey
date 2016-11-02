@@ -38,6 +38,7 @@ module.exports = {
       NewJourney:'app/components/NewJourney.jsx',
       ActivitySearchBar:'app/components/ActivitySearchBar.jsx',
       ActivitySearchResults:'app/components/ActivitySearchResults.jsx',
+      ActivitySearchPlaces:'app/components/ActivitySearchPlaces.jsx',
       NewJourney:'app/components/NewJourney.jsx',
       GoogleMap:'app/components/Map.jsx'
 

@@ -1,5 +1,4 @@
 var React = require('react');
-var JumboTron = require('JumboTron');
 var {connect} = require('react-redux');
 var actions = require('actions');
 
@@ -15,7 +14,6 @@ export var ActivitySearchBar = React.createClass({
         data: {term:term, location:location},
         dataType:"json",
           success: function(yelpSearchResults){
-          console.log(yelpSearchResults);
           dispatch(actions.yelpSearch(yelpSearchResults));
         }
    })

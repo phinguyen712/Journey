@@ -17,7 +17,7 @@ require("bootstrap-webpack");
 require('style!css!sass!applicationStyles');
 //
 
-  
+
   fetch('/userdata', {
       credentials : 'same-origin',
     	method: 'GET'
