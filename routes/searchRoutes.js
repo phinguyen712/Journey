@@ -21,7 +21,7 @@ router.post("/favorites",function(req,res){
     yelp.search({ term: req.body.term, location: req.body.location }).then(function (yelpData) {
      User.findById(req.user.id, function(err,currentUserDocument){
          if(err){
-             console.log(err);
+
          }else{
              //create a poperty for displaying heart as red or empty(if users have already added the yelp location
              //to their favorite or not)

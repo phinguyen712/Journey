@@ -10,9 +10,9 @@ export var ActivitySearchResults = React.createClass({
     var yelpResults = () => {
       if(YelpSearchResults.businesses){
         return(
-          YelpSearchResults.businesses.map(function(results){
+          YelpSearchResults.businesses.map(function(results,index){
             return(
-              <ActivitySearchPlaces key={results.id} results={results}/>
+              <ActivitySearchPlaces key={results.id} index={index} results={results}/>
             )
           })
         )

@@ -1,0 +1,48 @@
+#searchPanel{
+   width:50%;
+   display: inline-block;
+
+}
+
+.glyphicon-heart{
+    color:red;
+}
+.glyphicon:hover{
+    color:red;
+    cursor: pointer;
+}
+.resultboxes{
+  height:128px;
+  width:440px;
+}
+
+.resultboxes:hover{
+  background-color:$highLightGrey;
+}
+.list-group-item{
+  background-color:transparent;
+  border-color:transparent;
+  display:inline-block;
+  width:310px;
+  margin-right:0px;
+}
+
+.list-group-item-text{
+  display:inline-block;
+  font-size:12px;
+  width:310px;
+}
+
+h5{
+  font-weight:bold;
+  display:inline-block;
+}
+#reviews{
+  color:gray;
+  font-size:10px;
+  font-style:italic;
+}
+.locationImage{
+ float:right;
+ margin-top:12px;
+}
