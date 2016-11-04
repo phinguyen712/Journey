@@ -1,12 +1,18 @@
 var React = require('react');
 import ActivitySearchBar from 'ActivitySearchBar';
 import ActivitySearchResults from 'ActivitySearchResults';
+import GoogleMap from 'GoogleMap'
 
 var ActivitySearch = () => {
   return (
-    <div className='container'>
+    <div className='container row'>
       <ActivitySearchBar/>
-      <ActivitySearchResults/>
+        <div className='col-xs-8 col-md-6 col-md-push-6'>
+        <GoogleMap/>
+        </div>
+      <div className="col-xs-12 col-md-6 col-md-pull-6 ">
+        <ActivitySearchResults/>
+      </div>
     </div>
   );
 }

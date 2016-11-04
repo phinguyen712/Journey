@@ -13,6 +13,7 @@ import NewJourney from 'NewJourney'
 require("bootstrap-webpack");
 
 
+
 // App css
 require('style!css!sass!applicationStyles');
 //
@@ -38,6 +39,7 @@ ReactDOM.render(
           <Route path="NewJourney" component={NewJourney}/>
         </Route>
     </Router>
-    </Provider>,
+    </Provider>
+,
   document.getElementById('app')
 );

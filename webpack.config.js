@@ -40,7 +40,7 @@ module.exports = {
       ActivitySearchResults:'app/components/ActivitySearchResults.jsx',
       ActivitySearchPlaces:'app/components/ActivitySearchPlaces.jsx',
       NewJourney:'app/components/NewJourney.jsx',
-      GoogleMap:'app/components/Map.jsx'
+      GoogleMap:'app/components/GoogleMap.jsx'
 
     },
     extensions: ['', '.js', '.jsx']
