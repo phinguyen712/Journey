@@ -33,7 +33,7 @@ export var ActivitySearchPlaces = React.createClass({
         <img className='locationImage'src={results.image_url}></img>
         <span className='list-group-item'>
           <h5 className='list-group-item-heading' id='heading'>
-            <span id='queryNumber'>{index}.</span><span>{results.name}  </span>
+            <span id='queryNumber'>{index}.</span><span><a href={results.url}>{results.name}</a> </span>
             <img src={results.rating_img_url}></img><span id='reviews'>{results.review_count} reviews </span>
           </h5>
           <p className='list-group-item-text'>{results.snippet_text}</p>

@@ -3,6 +3,7 @@ var {connect} = require('react-redux');
 var actions = require('actions');
 
 export var ActivitySearchBar = React.createClass({
+//sesarch Yelp based on query and return results/coordinates
   onSubmit: function(e){
     var {dispatch} = this.props;
     e.preventDefault();
@@ -13,8 +14,16 @@ export var ActivitySearchBar = React.createClass({
         url: "/favorites",
         data: {term:term, location:location},
         dataType:"json",
-          success: function(yelpSearchResults){
+        success: function(yelpSearchResults){
+//Store yelp data into reducer to display search results
           dispatch(actions.yelpSearch(yelpSearchResults));
+//put coordinate in reducer for GoogleMap
+          var coordinates = yelpSearchResults.businesses.map(function(yelpPlaces){
+            return yelpPlaces.location.coordinate;
+          })
+          var centerCoordinates= yelpSearchResults.region.center;
+
+          dispatch(actions.yelpSearchCoordinate(coordinates,centerCoordinates));
         }
    })
  },

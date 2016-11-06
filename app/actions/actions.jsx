@@ -12,9 +12,24 @@ export var yelpSearch = (YelpSearchResults) => {
   };
 };
 
-export var userFavorites = (userFavorites) => {
+export var userFavorites = (UserFavorites) => {
   return {
     type: 'USER_FAVORITES',
     userFavorites
   };
 };
+
+export var yelpSearchCoordinate = (Coordinates,CenterCoordinates)=>{
+  return{
+    type:'UPDATE_SEARCH_COORDINATES',
+    Coordinates,
+    CenterCoordinates
+  }
+}
+
+export var yelpSearchCoordinateCenter = (Coordinates)=>{
+  return{
+    type:'UPDATE_SEARCH_COORDINATES_Center',
+    Coordinates
+  }
+}

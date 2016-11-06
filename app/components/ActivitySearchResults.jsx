@@ -5,32 +5,36 @@ import ActivitySearchPlaces from "ActivitySearchPlaces"
 
 export var ActivitySearchResults = React.createClass({
 
-  render:function(){
-    var {YelpSearchResults} = this.props;
-    var yelpResults = () => {
-      if(YelpSearchResults.businesses){
-        return(
-          YelpSearchResults.businesses.map(function(results,index){
+    render:function(){
+        var {YelpSearchResults} = this.props;
+        var yelpResults = () => {
+          if(YelpSearchResults.businesses){
+
             return(
-              <ActivitySearchPlaces key={results.id} index={index} results={results}/>
+              YelpSearchResults.businesses.map(function(results,index){
+                return(
+                  <ActivitySearchPlaces key={results.id} index={index} results={results}/>
+                );
+              })
+            );
+
+          }else{
+            return(
+              <h1>pending</h1>
             )
-          })
-        )
-      }else{
+          }
+
+        };
+
         return(
-          <h1>pending</h1>
+          <div id="searchPanel">
+                <br></br>
+              <div id="searchResults">
+                {yelpResults()}
+            </div>
+          </div>
         )
-      }
-    };
-    return(
-      <div id="searchPanel">
-            <br></br>
-          <div id="searchResults">
-            {yelpResults()}
-        </div>
-      </div>
-    )
-  }
+    }
 });
 
 

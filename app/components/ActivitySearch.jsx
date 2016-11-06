@@ -7,7 +7,7 @@ var ActivitySearch = () => {
   return (
     <div className='container row'>
       <ActivitySearchBar/>
-        <div className='col-xs-8 col-md-6 col-md-push-6'>
+        <div className='col-xs-12 col-md-6 col-md-push-6'>
         <GoogleMap/>
         </div>
       <div className="col-xs-12 col-md-6 col-md-pull-6 ">

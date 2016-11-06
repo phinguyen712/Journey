@@ -25,18 +25,7 @@ export var userLogInReducer = (state = false, action) => {
 export var userFavoritesReducer = (state = "false", action) => {
   switch (action.type) {
     case 'USER_FAVORITES':
-      return action.UserFavorites;
-    default:
-      return state;
-  };
-};
-
-export var searchCoordinatesReducer =(state = '', action)=>{
-  switch(action.type){
-    case 'UPDATE_SEARCH_COORDINATES':
-      return {coordinates:action.Coordinates,
-              centerCoordinates:action.CenterCoordinates
-            };
+      return action.userFavorites;
     default:
       return state;
   };

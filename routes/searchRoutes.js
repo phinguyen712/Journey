@@ -18,7 +18,7 @@ var yelp = new Yelp({
 //send Yelp API data to search page
 router.post("/favorites",function(req,res){
     //search businesses with yelp API
-    yelp.search({ term: req.body.term, location: req.body.location }).then(function (yelpData) {
+    yelp.search({ term: req.body.term, location: req.body.location, limit:10 }).then(function (yelpData) {
      User.findById(req.user.id, function(err,currentUserDocument){
          if(err){
 
