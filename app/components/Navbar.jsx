@@ -5,6 +5,7 @@ var actions = require('actions');
 import LogIn from 'LogIn';
 
 var Navbar = React.createClass({
+
   render: function () {
     return (
       <nav className="navbar navbar-default">

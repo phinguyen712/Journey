@@ -5,7 +5,7 @@ import GoogleMap from 'GoogleMap'
 
 var ActivitySearch = () => {
   return (
-    <div className='container row'>
+    <div className='container'>
       <ActivitySearchBar/>
         <div className='col-xs-12 col-md-6 col-md-push-6'>
         <GoogleMap/>

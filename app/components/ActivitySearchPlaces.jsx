@@ -3,7 +3,7 @@ var {connect} = require('react-redux');
 var actions = require('actions');
 
 export var ActivitySearchPlaces = React.createClass({
-
+//add places to userFavorites when heart button is clicked
   handleClick:function(results){
     var {dispatch} = this.props
     $.ajax({

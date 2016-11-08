@@ -9,7 +9,6 @@ export var ActivitySearchResults = React.createClass({
         var {YelpSearchResults} = this.props;
         var yelpResults = () => {
           if(YelpSearchResults.businesses){
-
             return(
               YelpSearchResults.businesses.map(function(results,index){
                 return(
@@ -17,13 +16,11 @@ export var ActivitySearchResults = React.createClass({
                 );
               })
             );
-
           }else{
             return(
               <h1>pending</h1>
             )
           }
-
         };
 
         return(

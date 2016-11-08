@@ -10,19 +10,24 @@ var express = require("express"),
 
 
 
+
+
+
+router.get("/user/favorites", function(req, res) {
+  if(!req.user){
+      res.json({favorites:false,username:false})
+  }else
+    populateUsersData(req, res, req.user.favorites, function(tempArr) {
+        res.json({favorites:tempArr, username:req.user.username});
+    });
+});
+
 router.get("/planner", middlewareObj.isLoggedIn, function(req, res) {
     res.render('planner/planner', {
         page: "planner"
     });
 });
 
-
-
-router.get("/planner/favorites/show", function(req, res) {
-    populateUsersData(req, res, req.user.favorites, function(tempArr) {
-        res.json(tempArr);
-    });
-});
 
 
 

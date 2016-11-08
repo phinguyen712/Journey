@@ -20,9 +20,8 @@ export var GoogleMapComponent = React.createClass({
     if(this.markers.length > 0){
      markMap(null,this.markers);
      this.markers.length = 0;
-     console.log('hey')
      }
-    //clear markers on map when new search is madeh
+
 
     this.map.setCenter({lat:center.latitude,lng:center.longitude})
     //create array of markers with MarKer()
@@ -45,7 +44,6 @@ export var GoogleMapComponent = React.createClass({
 
      function markMap(map,markers){
              for ( var i = 0; i < markers.length; i++ ){
-               console.log(i);
                 markers[i].setMap(map);
              }
      };

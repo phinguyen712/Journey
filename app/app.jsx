@@ -3,13 +3,13 @@ var ReactDOM = require('react-dom');
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 var Main  = require("Main");
 var ActivitySearch = require("ActivitySearch");
-var Planner = require("Planner");
 var SignUp = require("SignUp");
 var {Provider} = require('react-redux');
 var store = require('configureStore').configure();
 var actions = require('actions');
 import HomePage from 'HomePage';
 import NewJourney from 'NewJourney'
+import Planner from 'Planner'
 require("bootstrap-webpack");
 
 
@@ -18,16 +18,19 @@ require("bootstrap-webpack");
 require('style!css!sass!applicationStyles');
 //
 
+var refreshUserData =()=>{
+    $.ajax({
+     type: "GET",
+     url: "/user/favorites",
+     dataType:"json",
+     success:function(userData){
+       store.dispatch(actions.loggedInUser(userData.username));
+       store.dispatch(actions.userFavorites(userData.favorites));
+     }
+   });
+}
 
-  fetch('/userdata', {
-      credentials : 'same-origin',
-    	method: 'GET'
-    }).then(function(response){
-      return response.json()
-    }).then(function(Data){
-      store.dispatch(actions.loggedInUser(Data.foundUser.username));
-      store.dispatch(actions.userFavorites(Data.foundUser.favorites));
-  })
+refreshUserData();
 
 ReactDOM.render(
   <Provider store={store}>
@@ -37,6 +40,7 @@ ReactDOM.render(
           <Route path="ActivitySearch" component={ActivitySearch}/>
           <Route path="SignUp" component={SignUp}/>
           <Route path="NewJourney" component={NewJourney}/>
+          <Route path="Planner" component={Planner} onEnter={refreshUserData()}/>
         </Route>
     </Router>
     </Provider>

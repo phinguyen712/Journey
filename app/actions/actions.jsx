@@ -15,7 +15,7 @@ export var yelpSearch = (YelpSearchResults) => {
 export var userFavorites = (UserFavorites) => {
   return {
     type: 'USER_FAVORITES',
-    userFavorites
+    UserFavorites
   };
 };
 

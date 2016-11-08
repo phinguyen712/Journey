@@ -39,9 +39,12 @@ module.exports = {
       ActivitySearchBar:'app/components/ActivitySearchBar.jsx',
       ActivitySearchResults:'app/components/ActivitySearchResults.jsx',
       ActivitySearchPlaces:'app/components/ActivitySearchPlaces.jsx',
+      GoogleMap:'app/components/GoogleMap.jsx',
       NewJourney:'app/components/NewJourney.jsx',
-      GoogleMap:'app/components/GoogleMap.jsx'
-
+      Favorites:'app/components/Favorites.jsx',
+      JourneysPanel:'app/components/JourneysPanel.jsx',
+      SchedulePanel:'app/components/SchedulePanel.jsx',
+      MapsDirectionsPanel:'app/components/MapsDirectionsPanel.jsx',
     },
     extensions: ['', '.js', '.jsx']
   },

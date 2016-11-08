@@ -58,6 +58,7 @@ mongoose.connect('mongodb://localhost:27017/Journey');
 app.use(usersRoutes.router);
 app.use(journeysRoutes);
 app.use(searchRoutes);
+app.use(plannerRoutes);
 
 
 
