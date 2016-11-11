@@ -30,7 +30,7 @@ var LogIn = React.createClass({
     }else{
       return(
         <h4 className="navbar-form navbar-right"><p className="navbar-text navbar-right">You are logged in as
-           <a id="username" href="/myprofile">  {User}</a>
+           <a id="username" href="/myprofile">  {User}  </a>
            <a href="/logout" className="glyphicon glyphicon-log-out"></a></p></h4>
       )
     }
@@ -40,7 +40,7 @@ var LogIn = React.createClass({
 export default connect(
   (state)=>{
     return{
-      User:state.User
+      User:state.User.username
     }
   }
 )(LogIn)

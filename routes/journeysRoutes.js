@@ -112,7 +112,8 @@ router.post("/journey/publishJourney/Create",function(req,res){
 
 
 router.post("/newJourney",function(req,res){
-
+  console.log(req.body.journeyName);
+  console.log(req.body.caption);
      var newJourney = {
                         userName:req.user.username,
                         journeyName:req.body.journeyName,
@@ -140,14 +141,14 @@ router.post("/newJourney",function(req,res){
                         if(err){
                             console.log(err);
                         }else{
-                        res.redirect("searchRoutes");
+                          res.json(userjourney);
                         }
                     });
                 }
             });
         }
     });
-    res.redirect("search");
+  ;
 });
 
 

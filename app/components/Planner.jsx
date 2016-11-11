@@ -4,7 +4,7 @@ import MapsDirectonsPanel from 'MapsDirectionsPanel';
 import JourneysPanel from 'JourneysPanel'
 
 var Planner = () => {
-  
+
   return (
     <div className='container'>
         <div className='col-xs-12 col-md-2'>

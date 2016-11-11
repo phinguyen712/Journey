@@ -6,14 +6,6 @@ var express                 =   require("express"),
     yelp                    =   require("../keys/yelpKey.js");
 
 
-    var express                 =   require("express"),
-        router                  =   express.Router({mergeParams:true}),
-        User                    =   require("../models/users.js"),
-        passport                =   require("passport"),
-        yelpData                =   require("../models/yelp.js"),
-        yelp                    =   require("../keys/yelpKey.js");
-
-
     router.post("/signup", function(req,res){
         User.register(new User({username: req.body.username}), req.body.password, function(err,users){
             if(err){

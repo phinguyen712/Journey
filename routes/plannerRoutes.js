@@ -1,7 +1,5 @@
 var express = require("express"),
-    router = express.Router({
-        mergeParams: true
-    }),
+    router = express.Router({mergeParams: true}),
     User = require("../models/users.js"),
     journeys = require("../models/journeys.js"),
     middlewareObj = require("../middleware/middlewareObj.js"),
@@ -9,17 +7,20 @@ var express = require("express"),
 
 
 
-
-
-
-
+//
 router.get("/user/favorites", function(req, res) {
   if(!req.user){
       res.json({favorites:false,username:false})
-  }else
-    populateUsersData(req, res, req.user.favorites, function(tempArr) {
-        res.json({favorites:tempArr, username:req.user.username});
+  }else{
+    User.findById(req.user.id).populate("journeys").exec(function(err, foundUser) {
+      if(err){}
+      else{
+        populateUsersData(req, res, req.user.favorites, function(tempArr) {
+            res.json({favorites:tempArr, user:foundUser});
+        });
+      }
     });
+  }
 });
 
 router.get("/planner", middlewareObj.isLoggedIn, function(req, res) {
@@ -184,11 +185,69 @@ router.put("/planner/captions/edit", function(req, res) {
     });
 });
 
+//
+//remove favorites from Users
+router.delete("/favorites/delete",function(req,res){
+     User.update({"_id": req.user.id}, {$pull: {"favorites": req.body.id}}, function(err, removedFavorites){
+        if(err){
+            console.log(err);
+        }else{
+            User.findById(req.user.id, function(err,newData){
+                if(err){
+                    console.log(err);
+                }else{
+                  populateUsersData(req,res,newData.favorites,function(tempArr){
+                     res.json(tempArr);
+                   }
+                 );
+                }
+            });
+        }
+        });
+});
+
+//
+//save favorites when heart toggle is clicked
+router.post("/favorites/save",function(req,res){
+    User.findById(req.user.id,function(err,userAccount){
+        if(err){
+            console.log(err);
+        }else{
+
+          var index = userAccount.favorites.indexOf(req.body.id);
+
+          if(index == -1){
+            userAccount.favorites.push(req.body.id);
+            userAccount.save();
+          }else{
+            userAccount.favorites.splice(index,1);
+            userAccount.save();
+          }
+
+          populateUsersData(req,res,userAccount.favorites,function(userFavorites){
+              res.json(userFavorites);
+          });
+
+            //store data into yelp schema for faster load when re-rendering in planner
+            yelpData.findOne({'business.id': req.body.id},function(err,matchFavorites){
+               if(err){
+                   console.log(err);
+                }else if(!matchFavorites){
+                  yelpData.create({business:req.body},function(err,storedYelpData){
+                    if(err){
+                        console.log(err);
+                    };
+                  });
+                }
+            });
+        }
+    });
+});
 
 //loop through an array with Yelp Id within the req.user object and check
 //yelpData collection for any matching document.Push these results into tempArr
 //send tempArr to page sending AJAX request
-function populateUsersData(req, res, userYelpArr, callback) {
+var populateUsersData = function(req, res, userYelpArr, callback) {
     var tempArr = []; //array for temprorarily storing populatedData
     var counter = 0; //counter for handling ASYNC
     //show all of user's favorites on the planner page by searching through yelpData

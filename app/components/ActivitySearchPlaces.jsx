@@ -11,15 +11,17 @@ export var ActivitySearchPlaces = React.createClass({
        url: "/favorites/save",
        data: results,
        dataType:"json",
-       success:function(userAccount){
-         dispatch(actions.userFavorites(userAccount.favorites));
+       success:function(userFavorites){
+         dispatch(actions.userFavorites(userFavorites));
        }
      });
   },
 
   heartIconToggle:function(userFavorites,id){
-
-      if(userFavorites.indexOf(id) == -1){
+    var placesId =  userFavorites.map(function(favoritesId){
+                      return favoritesId.id
+                    });
+      if(placesId.indexOf(id) == -1){
         return("glyphicon glyphicon-heart-empty");
       }else{
         return("glyphicon glyphicon-heart");

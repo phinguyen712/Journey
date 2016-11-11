@@ -1,0 +1,29 @@
+#favorite:hover{
+  background-color:$highLightGrey;
+  cursor:pointer;
+  display:table;
+  width:100%;
+}
+.deleteFavorites {
+  display:none;
+}
+#favorite:hover .deleteFavorites {
+    display:table-cell;
+    width:10%;
+    vertical-align: middle;
+    text-align:right;
+    color:red;
+    padding-right:5px
+}
+
+
+#addToDo{
+  display:inline-block;
+  width:90%;
+  font-size:100%;
+  padding:5px 5px 5px;
+}
+
+.panel-btn{
+  border-radius:0px;
+}

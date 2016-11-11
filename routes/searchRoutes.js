@@ -6,7 +6,6 @@ var express                 =   require("express"),
     middlewareObj           =   require("../middleware/middlewareObj.js"),
     User                    =   require("../models/users.js");
 
-
 var yelp = new Yelp({
   consumer_key: 'LDo2SW89ugeWVJQXDLIqkg',
   consumer_secret: "kgpjgGAUj5c5_GUwvlWt-g21WzM",
@@ -39,41 +38,8 @@ router.post("/favorites",function(req,res){
 });
 
 
-//save favorites when heart toggle is clicked
-router.post("/favorites/save",function(req,res){
-    User.findById(req.user.id,function(err,userAccount){
-        if(err){
-            console.log(err);
-        }else{
 
-          var index = userAccount.favorites.indexOf(req.body.id);
 
-          if(index == -1){
-            //add favorites
-            console.log("1")
-            userAccount.favorites.push(req.body.id);
-            userAccount.save();
-          }else{
-            userAccount.favorites.splice(index,1);
-            userAccount.save();
-          }
-
-          res.json(userAccount);
-            //store data into yelp schema for faster load when re-rendering in in planner
-            yelpData.findOne({'business.id': req.body.id},function(err,matchFavorites){
-               if(err){
-                   console.log(err);
-                }else if(!matchFavorites){
-                  yelpData.create({business:req.body},function(err,storedYelpData){
-                    if(err){
-                        console.log(err);
-                    };
-                  });
-                }
-            });
-        }
-    });
-});
 
 
 module.exports=router;
