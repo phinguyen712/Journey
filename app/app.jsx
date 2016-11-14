@@ -34,7 +34,7 @@ refreshUserData();
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
         <Route path="/" component={Main}>
           <IndexRoute component={HomePage}/>
           <Route path="ActivitySearch" component={ActivitySearch}/>

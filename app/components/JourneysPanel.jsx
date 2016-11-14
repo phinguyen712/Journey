@@ -12,7 +12,8 @@ var JourneysPanel = React.createClass({
           return(
             UserFavorites.map(function(favorite,index){
               return(
-                  <Favorites name={favorite.name} id={favorite.id} key={favorite.id} deleteRoute="/favorites/delete" addRoute=""/>
+                  <Favorites name={favorite.name} id={favorite.id} day="1" key={favorite.id}
+                    deleteRoute="/favorites/delete" addRoute="/planner/toDo/new"/>
               );
             })
           )
@@ -26,14 +27,13 @@ var JourneysPanel = React.createClass({
         return(
             journeys.map(function(journey){
               return(
-                  <Favorites name={journey.journeyName} id={journey._id} key={journey._id} deleteRoute="" addRoute=""/>
+                  <Favorites name={journey.journeyName} id={journey._id} key={journey._id} deleteRoute="Journey" addRoute="/planner/journey/show"/>
               );
           })
         )
     },
 //waits for prop to update to render saved journeys
     JourneyButton:function(User){
-      console.log(User);
       if(User.currentJourney){
         return(
           <div>

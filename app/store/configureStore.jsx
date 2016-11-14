@@ -2,7 +2,8 @@ var redux = require('redux');
 var {userLogInReducer,
     yelpSearchResultsReducer,
     userFavoritesReducer,
-    searchCoordinatesReducer} = require('reducers');
+    searchCoordinatesReducer,
+    journeyScheduleReducer } = require('reducers');
 
 
 
@@ -12,7 +13,8 @@ export var configure = (initialState = {}) => {
     User:userLogInReducer,
     YelpSearchResults:yelpSearchResultsReducer,
     UserFavorites:userFavoritesReducer,
-    SearchCoordinates:searchCoordinatesReducer
+    SearchCoordinates:searchCoordinatesReducer,
+    JourneySchedule:journeyScheduleReducer
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

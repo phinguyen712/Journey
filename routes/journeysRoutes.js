@@ -112,21 +112,17 @@ router.post("/journey/publishJourney/Create",function(req,res){
 
 
 router.post("/newJourney",function(req,res){
-  console.log(req.body.journeyName);
-  console.log(req.body.caption);
-     var newJourney = {
-                        userName:req.user.username,
-                        journeyName:req.body.journeyName,
-                        caption:req.body.caption,
-                        days:"",
-                        publish:false,
+ var newJourney = {
+        userName:req.user.username,
+        journeyName:req.body.journeyName,
+        caption:req.body.caption,
+        days:"",
+        publish:false,
     };
-
     journey.create(newJourney,function(err,newJourney){
         if(err){
             console.log(err);
-        }else{
-            console.log(req.user.id);
+        }else{;
             User.findById(req.user.id,function(err,foundUser){
                 if(err){
                     console.log(err);
@@ -148,9 +144,28 @@ router.post("/newJourney",function(req,res){
             });
         }
     });
-  ;
 });
 
+router.delete("/Journey",function(req,res){
+  User.findById(req.user.id,function(err,foundUser){
+    var index = foundUser.journeys.indexOf(req.body.id);
+    foundUser.journeys.splice(index,1);
+    foundUser.save();
+    journey.findByIdAndRemove(req.body.id,function(err,removedJourney){
+      if(err){
+        console.log(err)
+      }else{
+        foundUser.populate("journeys",function(err,userjourney){
+            if(err){
+                console.log(err);
+            }else{
+              res.json(userjourney);
+            }
+        });
+      }
+    });
+  });
+});
 
 function removeRepeats(Arr) {
     var seen = {};

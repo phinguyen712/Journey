@@ -46,6 +46,7 @@ module.exports = {
       SchedulePanel:'app/components/SchedulePanel.jsx',
       SavedJourneys:'app/components/SavedJourneys.jsx',
       MapsDirectionsPanel:'app/components/MapsDirectionsPanel.jsx',
+      ToDo:'app/components/ToDo.jsx',
     },
     extensions: ['', '.js', '.jsx']
   },

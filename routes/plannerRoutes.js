@@ -23,15 +23,6 @@ router.get("/user/favorites", function(req, res) {
   }
 });
 
-router.get("/planner", middlewareObj.isLoggedIn, function(req, res) {
-    res.render('planner/planner', {
-        page: "planner"
-    });
-});
-
-
-
-
 
 router.get("/planner/schedule/show", function(req, res) {
     User.findById(req.user.id).populate("journeys").exec(function(err, foundUser) {
@@ -45,7 +36,7 @@ router.get("/planner/schedule/show", function(req, res) {
                         function(tempArr) {
                             res.json({
                                 schedule: tempArr,
-                                journeys: foundUser
+                                User: foundUser
                             });
                         }
                     );
@@ -62,18 +53,18 @@ router.post("/planner/journey/show", function(req, res) {
             console.log(err);
         }
         else {
-            var journeyId = req.body.journeyId;
-            var journeyName = req.body.journeyName;
+            var journeyId = req.body.id;
+            var journeyName = req.body.name;
             foundUser.currentJourney.id = journeyId;
             foundUser.currentJourney.name = journeyName;
             foundUser.save();
             foundUser.journeys.forEach(function(journey) {
-                if (journey._id == req.body.journeyId) {
+                if (journey._id == journeyId) {
                     populateUsersData(req, res, journey.days[0].journeySchedule,
                         function(tempArr) {
                             res.json({
                                 schedule: tempArr,
-                                journeys: foundUser
+                                User: foundUser
                             });
                         }
                     );
@@ -113,7 +104,7 @@ router.post("/planner/toDo/new", function(req, res) {
             console.log(err);
         }
         else {
-            if (foundJourney.days[dayIndex] == "" || !foundJourney.days[dayIndex]) {
+            if (!foundJourney.days[0]) {
                 foundJourney.days[dayIndex] = {
                     journeySchedule: [req.body.id]
                 };
@@ -180,7 +171,6 @@ router.put("/planner/captions/edit", function(req, res) {
         else {
             foundJourney.caption = req.body.editedCaptions;
             foundJourney.save();
-            console.log(foundJourney);
         }
     });
 });
@@ -213,7 +203,6 @@ router.post("/favorites/save",function(req,res){
         if(err){
             console.log(err);
         }else{
-
           var index = userAccount.favorites.indexOf(req.body.id);
 
           if(index == -1){
@@ -227,17 +216,18 @@ router.post("/favorites/save",function(req,res){
           populateUsersData(req,res,userAccount.favorites,function(userFavorites){
               res.json(userFavorites);
           });
-
             //store data into yelp schema for faster load when re-rendering in planner
             yelpData.findOne({'business.id': req.body.id},function(err,matchFavorites){
                if(err){
                    console.log(err);
-                }else if(!matchFavorites){
-                  yelpData.create({business:req.body},function(err,storedYelpData){
-                    if(err){
-                        console.log(err);
-                    };
-                  });
+                }else{
+                  if(!matchFavorites){
+                    yelpData.create({business:req.body},function(err,storedYelpData){
+                      if(err){
+                          console.log(err);
+                      }else{};
+                    });
+                  }
                 }
             });
         }
@@ -252,18 +242,17 @@ var populateUsersData = function(req, res, userYelpArr, callback) {
     var counter = 0; //counter for handling ASYNC
     //show all of user's favorites on the planner page by searching through yelpData
     //and linking to user.favorites
-    if (!userYelpArr || userYelpArr == "" || userYelpArr == null) {
+    if (userYelpArr.length < 1) {
         callback(tempArr);
     }
     else {
         userYelpArr.forEach(function(userProperties) {
-            yelpData.findOne({
-                'business.id': userProperties
-            }, function(err, foundYelpData) {
+            yelpData.findOne({'business.id': userProperties}, function(err, foundYelpData) {
                 if (err) {
                     console.log(err);
                 }
                 else {
+                  if(foundYelpData)
                     tempArr.push(foundYelpData.business);
                     counter++;
                     if (counter == userYelpArr.length) {

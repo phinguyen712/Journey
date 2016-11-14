@@ -41,3 +41,13 @@ export var searchCoordinatesReducer =(state = '', action)=>{
       return state;
   };
 };
+
+
+export var journeyScheduleReducer =(state = '', action)=>{
+  switch(action.type){
+    case 'UPDATE_JOURNEY_SCHEDULE':
+      return action.schedule
+    default:
+      return state;
+  };
+};

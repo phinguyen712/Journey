@@ -18,7 +18,7 @@ var NewJourney = React.createClass({
          dataType:"json",
          success:function(userJourney){
             dispatch(actions.loggedInUser(userJourney));
-            browserHistory.push('/ActivitySearch');
+          alert("New Journey Created")
 
          }
        });

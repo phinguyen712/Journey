@@ -33,3 +33,10 @@ export var yelpSearchCoordinateCenter = (Coordinates)=>{
     Coordinates
   }
 }
+
+export var JourneySchedule = (schedule)=>{
+  return{
+    type:'UPDATE_JOURNEY_SCHEDULE',
+    schedule
+  }
+}

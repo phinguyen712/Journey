@@ -20,8 +20,6 @@ var express                 =   require("express"),
         });
     });
 
-
-
     router.get("/userdata",function(req,res){
       if(!req.user){
           res.json({'foundUser':{'username':false}})
@@ -37,31 +35,7 @@ var express                 =   require("express"),
     });
 
     router.post('/login', passport.authenticate("local",{failureRedirect:'/',failureFlash:true}),function(req,res){
-            User.findById(req.user.id,function(err,foundUser){
-                if(err){
-                    console.log(err);
-                }else{
-                    foundUser.favorites.forEach(function(favorites){
-                       yelpData.findOne({'business.id': favorites},function(err,foundFavorites){
-                            if(err){
-                                console.log(err);
-                            }else if(!foundFavorites){
-                                yelp.business(favorites).then(function(favorites){
-                                    yelpData.create({business:favorites},function(err,storedYelpData){
-                                        if(err){
-                                            console.log(err);
-                                        }else{
-                                            console.log(storedYelpData.business.id);
-                                        }
-                                    });
-                                });
-                            }
-                        });
-                    });
-
                 res.redirect("/");
-                }
-            });
     });
 
 
