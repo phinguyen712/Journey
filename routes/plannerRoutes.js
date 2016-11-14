@@ -58,17 +58,26 @@ router.post("/planner/journey/show", function(req, res) {
             foundUser.currentJourney.id = journeyId;
             foundUser.currentJourney.name = journeyName;
             foundUser.save();
-            foundUser.journeys.forEach(function(journey) {
+            foundUser.journeys.forEach(function(journey){
                 if (journey._id == journeyId) {
-                    populateUsersData(req, res, journey.days[0].journeySchedule,
-                        function(tempArr) {
-                            res.json({
-                                schedule: tempArr,
-                                User: foundUser
-                            });
-                        }
-                    );
-                }
+
+                    if(journey.days[0]){
+                      populateUsersData(req, res, journey.days[0].journeySchedule,
+                          function(tempArr) {
+                              res.json({
+                                  schedule: tempArr,
+                                  User: foundUser
+                              });
+                          }
+                      );
+                    }else{
+                      res.json({
+                          schedule: '',
+                          User: foundUser
+                      });
+                    }
+
+                }else{}
             });
 
         }

@@ -32,7 +32,7 @@ var Favorites = React.createClass({
         dataType:"json",
        success: function(SavedData){
          console.log(SavedData);
-        if(SavedData.length<1){
+        if(SavedData.User){
            dispatch(actions.loggedInUser(SavedData.User));
          }else{
           dispatch(actions.JourneySchedule(SavedData));

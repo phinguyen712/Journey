@@ -12,4 +12,10 @@ var ToDo = React.createClass({
   }
 });
 
-export default connect()(ToDo);
+export default connect(
+  (state)=>{
+    return{
+      journeySchedule:state.journeySchedule
+    }
+  }
+)(ToDo)

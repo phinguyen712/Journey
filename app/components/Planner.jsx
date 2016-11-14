@@ -8,16 +8,15 @@ import JourneysPanel from 'JourneysPanel'
 var Planner = React.createClass({
   componentWillMount:function(){
     var {dispatch, journeySchedule}=this.props
-
     $.ajax({
        type: "GET",
        url: "/planner/schedule/show",
        dataType:"json",
-       success:function(journeySchedule){
-        dispatch(actions.loggedInUser(journeySchedule.schedule.User));
+       success:function(ResponseData){
+        dispatch(actions.loggedInUser(ResponseData.User));
+        dispatch(actions.JourneySchedule(ResponseData.schedule));
        }
      });
-
   },
   render:function(){
     return (

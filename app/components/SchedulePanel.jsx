@@ -21,7 +21,7 @@ var SchedulePanel = React.createClass({
 export default connect(
   (state)=>{
     return{
-      User:state.JourneySchedule
+      journeySchedule:state.JourneySchedule
     }
   }
 )(SchedulePanel)
