@@ -46,8 +46,17 @@ export var searchCoordinatesReducer =(state = '', action)=>{
 export var journeyScheduleReducer =(state = '', action)=>{
   switch(action.type){
     case 'UPDATE_JOURNEY_SCHEDULE':
-      return action.schedule
+      return action.schedule;
     default:
       return state;
   };
 };
+
+export var journeyDayReducer =(state = 1, action)=>{
+  switch(action.type){
+    case 'VIEW_CURRENT_JOURNEY_DAY':
+      return action.day;
+    default:
+      return state;
+  }
+}

@@ -40,3 +40,10 @@ export var JourneySchedule = (schedule)=>{
     schedule
   }
 }
+
+export var CurrentJourneyDay = (day)=>{
+  return{
+    type:'VIEW_CURRENT_JOURNEY_DAY',
+    day
+  }
+}

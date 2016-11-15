@@ -3,7 +3,8 @@ var {userLogInReducer,
     yelpSearchResultsReducer,
     userFavoritesReducer,
     searchCoordinatesReducer,
-    journeyScheduleReducer } = require('reducers');
+    journeyScheduleReducer,
+    journeyDayReducer} = require('reducers');
 
 
 
@@ -14,7 +15,8 @@ export var configure = (initialState = {}) => {
     YelpSearchResults:yelpSearchResultsReducer,
     UserFavorites:userFavoritesReducer,
     SearchCoordinates:searchCoordinatesReducer,
-    JourneySchedule:journeyScheduleReducer
+    JourneySchedule:journeyScheduleReducer,
+    CurrentJourneyDay:journeyDayReducer,
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

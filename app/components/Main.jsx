@@ -9,7 +9,7 @@ var Main = (props) => {
       {props.children}
     </div>
   );
-}
+};
 
 
 module.exports = Main;

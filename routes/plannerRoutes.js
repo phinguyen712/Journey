@@ -84,41 +84,36 @@ router.post("/planner/journey/show", function(req, res) {
     });
 });
 
-
+//
 router.post("/planner/days", function(req, res) {
     journeys.findById(req.body.journeyId, function(err, foundJourney) {
         if (err) {
             console.log(err);
-        }
-        else {
+        }else {
             var day = foundJourney.days[req.body.day];
-            if (!foundJourney.days[req.body.day]) {
-                day = "";
-            }
-            populateUsersData(req, res, day.journeySchedule,
+            if (!day) {
+              res.json("");
+            }else{
+              populateUsersData(req, res, day.journeySchedule,
                 function(tempArr) {
                     res.json(tempArr);
-                }
-            );
-        }
+              });
+            };
+        };
     });
 });
-
+//
 router.post("/planner/toDo/new", function(req, res) {
     var dayIndex = parseInt(req.body.day) - 1; //current day of the sortpanel
-
     //add favorites to journey database in journeys.days[x].journeySchedule
     journeys.findById(req.body.journeyId, function(err, foundJourney) {
         if (err) {
             console.log(err);
         }
         else {
-            if (!foundJourney.days[0]) {
-                foundJourney.days[dayIndex] = {
-                    journeySchedule: [req.body.id]
-                };
-            }
-            else {
+            if (!foundJourney.days[dayIndex]) {
+                foundJourney.days[dayIndex] = {journeySchedule: [req.body.id]};
+            }else {
                 foundJourney.days[dayIndex].journeySchedule.push(req.body.id);
             }
             foundJourney.save();

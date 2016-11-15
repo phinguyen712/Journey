@@ -27,7 +27,7 @@ var Planner = React.createClass({
           <div className='col-xs-12 col-md-5 col-md-push-5'>
             <MapsDirectonsPanel/>
           </div>
-          <div className="col-xs-12 col-md-5 col-md-pull-5">
+          <div className="col-xs-12 col-md-5 col-md-pull-5 schedulePanel">
             <SchedulePanel/>
           </div>
       </div>

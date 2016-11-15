@@ -9,10 +9,11 @@ var JourneysPanel = React.createClass({
 
     UpdateUserFavorites:function(UserFavorites){
         if(UserFavorites !="false"){
+          var {currentDay} = this.props;
           return(
             UserFavorites.map(function(favorite,index){
               return(
-                  <Favorites name={favorite.name} id={favorite.id} day="1" key={favorite.id}
+                  <Favorites name={favorite.name} id={favorite.id} day={currentDay} key={index}
                     deleteRoute="/favorites/delete" addRoute="/planner/toDo/new"/>
               );
             })
@@ -75,7 +76,8 @@ export default connect(
   (state)=>{
     return{
       UserFavorites:state.UserFavorites,
-      User:state.User
+      User:state.User,
+      currentDay:state.CurrentJourneyDay
     }
   }
 )(JourneysPanel)

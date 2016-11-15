@@ -12,7 +12,6 @@ var Favorites = React.createClass({
           dataType:"json",
          success: function(matchFavorites){
             if(matchFavorites._id){
-              console.log(matchFavorites);
               dispatch(actions.loggedInUser(matchFavorites));
             }else{
               dispatch(actions.userFavorites(matchFavorites));
@@ -31,11 +30,11 @@ var Favorites = React.createClass({
         data: {id:id , name:name ,day:day, journeyId:user.currentJourney.id},
         dataType:"json",
        success: function(SavedData){
-         console.log(SavedData);
         if(SavedData.User){
            dispatch(actions.loggedInUser(SavedData.User));
+           dispatch(actions.JourneySchedule(SavedData.schedule));
          }else{
-          dispatch(actions.JourneySchedule(SavedData));
+           dispatch(actions.JourneySchedule(SavedData));
          }
        }
      });
