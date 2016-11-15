@@ -32,11 +32,11 @@ export var ActivitySearchPlaces = React.createClass({
     var {index, results, UserFavorites}=this.props
     return(
       <div className ='resultboxes'>
-        <img className='locationImage'src={results.image_url}></img>
-        <span className='list-group-item'>
-          <h5 className='list-group-item-heading' id='heading'>
+        <img className='resultLocationImage'src={results.image_url}></img>
+        <span className='resultItem'>
+          <h5 className='resultItemHeading' id='heading'>
             <span id='queryNumber'>{index}.</span><span><a href={results.url}>{results.name}</a> </span>
-            <img src={results.rating_img_url}></img><span id='reviews'>{results.review_count} reviews </span>
+            <img src={results.rating_img_url}></img><span id='resultReviews'>{results.review_count} reviews </span>
           </h5>
           <p className='list-group-item-text'>{results.snippet_text}</p>
           <div id='heartIcon' onClick={()=>this.handleClick(results)} className={this.heartIconToggle(UserFavorites,results.id)}></div>

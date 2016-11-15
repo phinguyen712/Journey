@@ -6,8 +6,9 @@
 
 .glyphicon-heart{
     color:red;
+    cursor:pointer;
 }
-.glyphicon:hover{
+.glyphicon-heart-empty:hover{
     color:red;
     cursor: pointer;
 }
@@ -19,7 +20,7 @@
 .resultboxes:hover{
   background-color:$highLightGrey;
 }
-.list-group-item{
+.ResultItem{
   background-color:transparent;
   border-color:transparent;
   display:inline-block;
@@ -27,7 +28,7 @@
   margin-right:0px;
 }
 
-.list-group-item-text{
+.resultItemHeading{
   display:inline-block;
   font-size:12px;
   width:310px;
@@ -37,12 +38,12 @@ h5{
   font-weight:bold;
   display:inline-block;
 }
-#reviews{
+#resultReviews{
   color:gray;
   font-size:10px;
   font-style:italic;
 }
-.locationImage{
+.resultLocationImage{
  float:right;
  margin-top:12px;
 }
