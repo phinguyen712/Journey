@@ -11,6 +11,9 @@ import HomePage from 'HomePage';
 import NewJourney from 'NewJourney'
 import Planner from 'Planner'
 require("bootstrap-webpack");
+require('jquery');
+require('jquery-ui-bundle');
+
 
 
 

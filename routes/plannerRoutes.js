@@ -46,7 +46,7 @@ router.get("/planner/schedule/show", function(req, res) {
         }
     });
 });
-
+//
 router.post("/planner/journey/show", function(req, res) {
     User.findById(req.user.id).populate("journeys").exec(function(err, foundUser) {
         if (err) {
@@ -133,6 +133,7 @@ router.put("/planner/schedule/edit", function(req, res) {
             console.log(err);
         }
         else {
+            console.log(foundJourney)
             var dayIndex = parseInt(req.body.day) - 1;
             foundJourney.days[dayIndex].journeySchedule = req.body.id;
             var scheduleList = foundJourney.days[dayIndex].journeySchedule;
