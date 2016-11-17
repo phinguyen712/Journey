@@ -39,7 +39,7 @@ module.exports = {
       ActivitySearchBar:'app/components/ActivitySearchBar.jsx',
       ActivitySearchResults:'app/components/ActivitySearchResults.jsx',
       ActivitySearchPlaces:'app/components/ActivitySearchPlaces.jsx',
-      GoogleMap:'app/components/GoogleMap.jsx',
+      GoogleMapSearch:'app/components/GoogleMapSearch.jsx',
       NewJourney:'app/components/NewJourney.jsx',
       Favorites:'app/components/Favorites.jsx',
       JourneysPanel:'app/components/JourneysPanel.jsx',
@@ -47,7 +47,8 @@ module.exports = {
       SavedJourneys:'app/components/SavedJourneys.jsx',
       MapsDirectionsPanel:'app/components/MapsDirectionsPanel.jsx',
       ToDo:'app/components/ToDo.jsx',
-      DaySelection:'app/components/DaySelection.jsx'
+      DaySelection:'app/components/DaySelection.jsx',
+      GoogleMapPlanner:'app/components/GoogleMapPlanner.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },

@@ -1,15 +1,15 @@
 var React = require('react');
 var {connect} = require('react-redux');
 var actions = require('actions');
+import GoogleMapPlanner from 'GoogleMapPlanner';
 
 var MapsDirectionsPanel = React.createClass({
   render:function(){
     return (
       <div>
-        Maps
+        <GoogleMapPlanner/>
         <div className="input-group">
-          <span className="input-group-addon" id="basic-addon1"></span>
-          <input type="text" className="form-control" placeholder="Username" aria-describedby="basic-addon1"/>
+          <h5>directions</h5>
         </div>
       </div>
     );

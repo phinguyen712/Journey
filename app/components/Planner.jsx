@@ -3,8 +3,9 @@ var {connect} = require('react-redux');
 var actions = require('actions');
 import SchedulePanel from 'SchedulePanel';
 import MapsDirectonsPanel from 'MapsDirectionsPanel';
-import JourneysPanel from 'JourneysPanel'
+import JourneysPanel from 'JourneysPanel';
 import {arrayMove} from 'react-sortable-hoc';
+
 
 
 var Planner = React.createClass({

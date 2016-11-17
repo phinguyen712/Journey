@@ -46,6 +46,11 @@ router.get("/planner/schedule/show", function(req, res) {
         }
     });
 });
+
+
+
+
+
 //
 router.post("/planner/journey/show", function(req, res) {
     User.findById(req.user.id).populate("journeys").exec(function(err, foundUser) {
@@ -152,7 +157,7 @@ router.delete("/planner/toDo/delete", function(req, res) {
             console.log(err);
         }
         else {
-            var deleteToDo = req.body.id;
+            var deleteToDo = req.body.index;
             var dayIndex = parseInt(req.body.day) - 1;
 
             delete foundJourney.days[dayIndex].journeySchedule.splice(deleteToDo, 1);
