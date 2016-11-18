@@ -3,7 +3,7 @@ var {connect} = require('react-redux');
 var actions = require('actions');
 
 
-export var GoogleMapComponent = React.createClass({
+export var GoogleMapSearch = React.createClass({
 //Only allow component to update once
   shouldComponentUpdate:function(){
     return false;
@@ -69,4 +69,4 @@ export default connect(
       YelpSearchResults:state.YelpSearchResults
     }
   }
-)(GoogleMapComponent);
+)(GoogleMapSearch);
