@@ -7,6 +7,7 @@ export var ActivitySearchResults = React.createClass({
 
     render:function(){
         var {YelpSearchResults} = this.props;
+
         var yelpResults = () => {
           if(YelpSearchResults.businesses){
             return(
@@ -22,7 +23,6 @@ export var ActivitySearchResults = React.createClass({
             )
           }
         };
-
         return(
           <div id="searchPanel">
                 <br></br>

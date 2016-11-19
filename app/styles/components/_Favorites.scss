@@ -4,24 +4,26 @@
   display:table;
   width:100%;
 }
+
 .deleteFavorites {
   display:none;
 }
+
 #favorite:hover .deleteFavorites {
     display:table-cell;
     width:10%;
     vertical-align: middle;
     text-align:right;
-    color:red;
+    color:$red;
     padding-right:5px
 }
 
-
 #addToDo{
   display:inline-block;
-  width:90%;
+  width:100%;
   font-size:100%;
   padding:5px 5px 5px;
+  min-height:40px;
 }
 
 .panel-btn{

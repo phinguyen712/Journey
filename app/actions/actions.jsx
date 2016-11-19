@@ -47,3 +47,10 @@ export var CurrentJourneyDay = (day)=>{
     day
   }
 }
+
+export var CurrentJourneyDistance = (distance)=>{
+  return{
+    type:'VIEW_CURRENT_JOURNEY_DISTANCES',
+    distance
+  }
+}

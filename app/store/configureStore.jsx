@@ -4,7 +4,8 @@ var {userLogInReducer,
     userFavoritesReducer,
     searchCoordinatesReducer,
     journeyScheduleReducer,
-    journeyDayReducer} = require('reducers');
+    journeyDayReducer,
+    journeyDistancesReducer} = require('reducers');
 
 
 
@@ -17,6 +18,7 @@ export var configure = (initialState = {}) => {
     SearchCoordinates:searchCoordinatesReducer,
     JourneySchedule:journeyScheduleReducer,
     CurrentJourneyDay:journeyDayReducer,
+    CurrentJourneyDistances:journeyDistancesReducer,
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

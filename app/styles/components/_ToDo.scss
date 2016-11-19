@@ -6,10 +6,14 @@
  div{
    font-family:Arial, Helvetica, sans-serif
  }
- .glyphicon glyphicon-remove{
-  float:right;
- }
 
+ .distances{
+   font-size:10px;
+ }
+ .duration{
+   color:$travelGreen;
+   font-weight:bold;
+ }
  #reviews{
    display:block;
    color:gray;
@@ -17,46 +21,34 @@
    font-style:italic;
  }
 
- .locationImage{
-    vertical-align:top;
-    margin-top:20px;
-    margin-left:20px;
-    margin-right:10px;
-    border-radius:5px;
-    width:110px;
- }
+.locationImage{
+  vertical-align:top;
+  margin-top:20px;
+  margin-left:15px;
+  border-radius:5px;
+  width:110px;
+}
 
- .ToDo{
-   height:150px;
-
- }
-
- .ToDoItems{
+.ToDoItems{
    border-color:#e2e2e2;
    border-style:solid;
    border-width:1px;
    border-radius:4px;
    background-color: white;
-   width:450px;
+   min-width:380px;
    height:155px;
    margin: 0 auto;
    margin-top:10px;
- }
+}
 
 .list-group-item{
   margin-top:15px;
-  width:250px;
+  min-width:150px;
+  padding-right:0px;
+  width:60%;
   height:100px;
   display:inline-block;
   border-width:0px;
-
-}
-.distance{
-    display:inline-block;
-    width:80px;
-   font-weight:bold;
-   font-size:12px;
-   color:#999;
 }
 
 .snippet_text{
@@ -66,14 +58,30 @@
   margin-bottom:0px;
 }
 
-glyphicon-remove{
-  margin-top:3px;
+.glyphicon-remove{
+  float:right;
+  margin-right:5px;
+  margin-top:5px;
+  color:$highLightGrey;
+}
+
+.glyphicon-remove:hover{
+  float:right;
+  margin-right:5px;
+  margin-top:5px;
+  color:$red;
+  cursor:pointer;
 }
 .daySelection{
-    margin-left:40px;
+  margin-left:40px;
+  color:$darkGrey;
 }
 
 .daySelection:hover{
-   background-color:#e6e6e6;
-   font-size:16px;
+   color:$grey;
+   cursor:pointer;
+}
+
+.schedulePanel{
+  padding-left:0px;
 }

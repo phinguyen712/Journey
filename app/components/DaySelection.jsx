@@ -3,6 +3,7 @@ var {connect} = require('react-redux');
 var actions = require('actions');
 
 var DaySelection = React.createClass({
+
   changeDate:function(day){
     var {user,dispatch} =this.props
     var journeyId= user.currentJourney.id
@@ -17,6 +18,7 @@ var DaySelection = React.createClass({
        }
     })
   },
+
   render:function(){
     var {currentDay}=this.props
     var nextDay = currentDay+1;
@@ -31,7 +33,6 @@ var DaySelection = React.createClass({
       )
     }
 });
-
 
 export default connect(
   (state)=>{

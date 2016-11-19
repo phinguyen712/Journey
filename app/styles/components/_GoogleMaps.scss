@@ -1,8 +1,11 @@
-#map {
-  width:100%;
-  min-width:450px;
-  position:relative;
+
+#mapPlanner {
   height:300px;
-  top:50px;
   margin-bottom:30px;
+}
+
+#directions{
+ margin-top:50px;
+ height:500px;
+ overflow-y: scroll;
 }

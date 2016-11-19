@@ -20,10 +20,8 @@ export var GoogleMapSearch = React.createClass({
        markMap(null,this.markers);
        this.markers.length = 0;
      }
-
     this.map.setCenter({lat:center.latitude,lng:center.longitude})
     //create array of markers with MarKer()
-
     this.markers = businesses.map(function(places,i){
               var coordinate = places.location.coordinate;
               return(
@@ -36,7 +34,6 @@ export var GoogleMapSearch = React.createClass({
                            })
                    );
                });
-
    //set markers to map
      markMap(this.map,this.markers);
 

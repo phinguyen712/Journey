@@ -9,7 +9,6 @@ var MapsDirectionsPanel = React.createClass({
       <div>
         <GoogleMapPlanner/>
         <div className="input-group">
-          <h5>directions</h5>
         </div>
       </div>
     );

@@ -3,6 +3,7 @@ var {connect} = require('react-redux');
 var actions = require('actions');
 
 var Favorites = React.createClass({
+  
   delete:function(id,deleteRoute,dispatch){
     if(deleteRoute.length>0){
       $.ajax({
@@ -20,6 +21,7 @@ var Favorites = React.createClass({
        });
      }
   },
+
   add:function(id,name,addRoute,day,dispatch){
     //add data based on database.
     //name is day # for adding Favorites

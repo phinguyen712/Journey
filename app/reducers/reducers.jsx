@@ -60,3 +60,12 @@ export var journeyDayReducer =(state = 1, action)=>{
       return state;
   }
 }
+
+export var journeyDistancesReducer =(state = "", action)=>{
+  switch(action.type){
+    case 'VIEW_CURRENT_JOURNEY_DISTANCES':
+      return action.distance;
+    default:
+      return state;
+  }
+}

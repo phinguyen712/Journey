@@ -8,11 +8,8 @@ var {Provider} = require('react-redux');
 var store = require('configureStore').configure();
 var actions = require('actions');
 import HomePage from 'HomePage';
-import NewJourney from 'NewJourney'
-import Planner from 'Planner'
-require("bootstrap-webpack");
-require('jquery');
-require('jquery-ui-bundle');
+import NewJourney from 'NewJourney';
+import Planner from 'Planner';
 
 
 

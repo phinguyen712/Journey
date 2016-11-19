@@ -7,26 +7,32 @@ import DaySelection from "DaySelection";
 
 
 var SchedulePanel = SortableContainer(React.createClass({
+  renderToDo:function(distances,journeySchedule){
+    var sortable = this.refs.sortable
 
-  todo:function(journeySchedule){
-      if(journeySchedule.length>0){
-        return(
-          journeySchedule.map(function(toDo, i){
-            return(
-              <ToDo index={i} toDoObject={toDo} key={i}/>
-            );
-          },this)
-        );
-      };
+     if(journeySchedule.length && distances.length){
+       return(
+         journeySchedule.map(function(toDo, i){
+         var currentDistances = (i== distances.length)?"":distances[i];
+
+          return( <ToDo index={i}
+                        distances={currentDistances}
+                        toDoObject={toDo}
+                        key={i} />
+                );
+        })
+       );
+     };
+
+
   },
-
   render:function(){
-    var {journeySchedule} = this.props;
+    var {distances,journeySchedule} = this.props;
     return(
         <div>
             <DaySelection/>
             <div className="sortPanel" ref="sortable">
-              {this.todo(journeySchedule)}
+              {this.renderToDo(distances,journeySchedule)}
             </div>
         </div>
       );
@@ -38,7 +44,8 @@ export default connect(
     return{
       journeySchedule:state.JourneySchedule,
       currentDay:state.CurrentJourneyDay,
-      user:state.User
+      user:state.User,
+      distances:state.CurrentJourneyDistances
     }
   }
 )(SchedulePanel);

@@ -43,13 +43,13 @@ var Planner = React.createClass({
   render:function(){
     return (
       <div className='container'>
-          <div className='col-xs-12 col-md-2'>
+          <div className='col-s-12 col-md-2'>
             <JourneysPanel/>
           </div>
-          <div className='col-xs-12 col-md-5 col-md-push-5'>
+          <div className='col-s-12 col-md-5 col-md-push-5'>
             <MapsDirectonsPanel/>
           </div>
-          <div className="col-xs-12 col-md-5 col-md-pull-5 schedulePanel">
+          <div className="col-s-12 col-md-5 col-md-pull-5 schedulePanel">
             <SchedulePanel lockAxis="y" distance={5} lockToContainerEdges={true} onSortEnd={this.handleSort} />
           </div>
       </div>
