@@ -2,7 +2,6 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var {Route, Router, IndexRoute, hashHistory, browserHistory} = require('react-router');
 var Main  = require("Main");
-var ActivitySearch = require("ActivitySearch");
 var SignUp = require("SignUp");
 var {Provider} = require('react-redux');
 var store = require('configureStore').configure();
@@ -10,7 +9,7 @@ var actions = require('actions');
 import HomePage from 'HomePage';
 import NewJourney from 'NewJourney';
 import Planner from 'Planner';
-
+import ActivitySearch from 'ActivitySearch';
 
 
 
@@ -43,7 +42,7 @@ ReactDOM.render(
           <Route path="Planner" component={Planner} onEnter={refreshUserData()}/>
         </Route>
     </Router>
-    </Provider>
+  </Provider>
 ,
   document.getElementById('app')
 );

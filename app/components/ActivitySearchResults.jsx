@@ -19,7 +19,7 @@ export var ActivitySearchResults = React.createClass({
             );
           }else{
             return(
-              <h1>pending</h1>
+              <h1></h1>
             )
           }
         };

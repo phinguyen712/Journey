@@ -72,7 +72,6 @@ export var GoogleMapPlanner = React.createClass({
     );
   },
 
-
   calculateDistance:function(schedule){
       var {dispatch} = this.props
       var origin=[];//store all the LatLng of locations in odd index
@@ -93,7 +92,7 @@ export var GoogleMapPlanner = React.createClass({
           travelMode: 'DRIVING',
           unitSystem: google.maps.UnitSystem.IMPERIAL,
         }, function(response,status){
-            //process recieved Data
+          //process recieved Data
           if(status=="OK"){
               var distancesArr = [];
               for(var i = 0; i<schedule.length-1; i++){
@@ -112,14 +111,21 @@ export var GoogleMapPlanner = React.createClass({
       );
   },
 
-
-
-
   render:function(){
+    console.log(parseInt($(window).width()));
     return(
       <div>
         <div id="mapPlanner" ref="mapPlanner"></div>
-        <div id="directions" ref="directions"></div>
+          <div>
+            <div>
+              <button className="btn panel-btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseDirections" aria-expanded="true" aria-controls="collapseExample">
+                Show Directions
+              </button>
+              <div className="collapse in"  id="collapseDirections">
+                  <div id="directions" ref="directions"></div>
+                </div>
+              </div>
+            </div>
       </div>
     )
   }

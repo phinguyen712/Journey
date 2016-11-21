@@ -35,7 +35,8 @@ export var ActivitySearchBar = React.createClass({
             <input type="text" ref="term" className="searchBox" placeholder="Name of Place,Trails....."/>
             <input type="text" ref="location" className="searchBox" placeholder="Location"/>
         </div>
-            <button type="submit" id="testbutton" className="btn btn-default">Search</button>
+            <button type="submit" id="testbutton"
+              className=" glyphicon glyphicon-search btn btn-default"></button>
         </form>
     )
   }

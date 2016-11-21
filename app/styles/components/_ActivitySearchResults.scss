@@ -17,9 +17,6 @@
   width:440px;
 }
 
-.resultboxes:hover{
-  background-color:$highLightGrey;
-}
 .ResultItem{
   background-color:transparent;
   border-color:transparent;
@@ -46,4 +43,14 @@ h5{
 .resultLocationImage{
  float:right;
  margin-top:12px;
+}
+.emptySearch{
+  margin-top:40px;
+  text-align:center;
+  color:$slateGrey;
+}
+.addFavoriteHint{
+  margin-top:20px;
+  color:$slateGrey;
+  text-align:center;
 }

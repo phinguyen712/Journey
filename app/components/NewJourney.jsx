@@ -30,11 +30,13 @@ var NewJourney = React.createClass({
             <form className="form-group" onSubmit={this.submitNewJourney} >
             <div>
               <label for="nameInput">Journey Name</label>
-              <input type="text" ref="journeyName" className="form-control" id="nameInput" name="journeyName"/>
+              <input type="text" ref="journeyName"
+                className="form-control" id="nameInput" name="journeyName"/>
             </div>
             <div className="form-group">
-              <label for="descriptionInput">Captions</label>
-              <input className="form-control" ref="caption" id="descriptionInput" name="caption"/>
+              <label for="descriptionInput">Things To Do</label>
+              <input className="form-control" ref="caption" placeholder="Not sure?... Dont worry, you can fill this out later"
+                id="descriptionInput" name="caption"/>
             </div>
             <button className="btn btn-default" type="submit">Submit</button>
             </form>
