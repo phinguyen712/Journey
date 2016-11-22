@@ -6,8 +6,10 @@ var actions = require('actions');
 var HomePage = React.createClass({
   render:function(){
     return (
+      <div className='homePage'>
       <div className="container">
-        <JumboTron/>
+          <JumboTron/>
+      </div>
       </div>
     );
   }

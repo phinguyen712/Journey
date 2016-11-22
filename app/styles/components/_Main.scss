@@ -1,8 +1,17 @@
 html,body{
-  background-color:$backgroundColor;
+  background-color:#F5F3EE;
 }
 
 .btn{
   background-color:$blue;
   color:white;
+  border-color:$blue;
+}
+
+.main{
+  background-image:url("https://static.pexels.com/photos/35107/pexels-photo.jpg");
+  height:1000px;
+  -moz-background-size: cover;
+  background-size: cover;
+  background-position: center;
 }

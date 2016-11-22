@@ -42,7 +42,6 @@ var express                 =   require("express"),
     router.get("/logout",function(req,res){
         req.logout();
         res.redirect("/");
-        console.log(req.user);
     });
 
     module.exports.router=router;

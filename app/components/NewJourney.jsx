@@ -1,7 +1,7 @@
 var React = require('react');
 var {connect} = require('react-redux');
 var actions = require('actions');
-var {Link, browserHistory} = require('react-router');
+var {Link, hashHistory} = require('react-router');
 
 
 var NewJourney = React.createClass({
@@ -18,7 +18,7 @@ var NewJourney = React.createClass({
          dataType:"json",
          success:function(userJourney){
             dispatch(actions.loggedInUser(userJourney));
-          alert("New Journey Created")
+            hashHistory.push("/ActivitySearch")
 
          }
        });
@@ -26,12 +26,12 @@ var NewJourney = React.createClass({
     },
     render:function(){
       return (
-        <div className="container">
-            <form className="form-group" onSubmit={this.submitNewJourney} >
+        <div className="container ">
+            <form className="form-group newJourneyPanel" onSubmit={this.submitNewJourney} >
             <div>
               <label for="nameInput">Journey Name</label>
               <input type="text" ref="journeyName"
-                className="form-control" id="nameInput" name="journeyName"/>
+                className="form-control" id="nameInput" name="journeyName" required/>
             </div>
             <div className="form-group">
               <label for="descriptionInput">Things To Do</label>

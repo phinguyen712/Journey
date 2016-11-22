@@ -1,14 +1,16 @@
 var React = require('react');
 var {Link, IndexLink} = require('react-router');
+import LogIn from 'LogIn';
 
 var JumboTron = React.createClass({
   render: function () {
     return (
       <div className="JumboTron" >
-        <h1>Adventures Are out there</h1>
-        <p>Plan and Share your adventures with Journey</p>
-        <Link to="/NewJourney" type="button" className="btn btn-default navbar-btn">New Journey</Link>
-       </div>
+        <h1 className="titleText">Plan your next Trip</h1>
+        <div>
+        <LogIn/>
+        </div>
+     </div>
     );
   }
 })

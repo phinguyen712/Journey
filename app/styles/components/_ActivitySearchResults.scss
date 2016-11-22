@@ -13,16 +13,22 @@
     cursor: pointer;
 }
 .resultboxes{
-  height:128px;
+  margin-bottom: 20px;
   width:440px;
+  padding: 10px;
+  border-color:#e2e2e2;
+  border-style:solid;
+  border-width:1px;
+  border-radius:4px;
+  background-color: white;
 }
 
 .ResultItem{
-  background-color:transparent;
   border-color:transparent;
   display:inline-block;
   width:310px;
   margin-right:0px;
+  margin-top:10px;
 }
 
 .resultItemHeading{
@@ -41,16 +47,19 @@ h5{
   font-style:italic;
 }
 .resultLocationImage{
+  border-radius:5px;
  float:right;
  margin-top:12px;
 }
 .emptySearch{
-  margin-top:40px;
+  margin-top:80px;
   text-align:center;
-  color:$slateGrey;
+  color:white;
+  font-weight:bold;
+  opacity:.8;
 }
 .addFavoriteHint{
   margin-top:20px;
-  color:$slateGrey;
+  color:white;
   text-align:center;
 }

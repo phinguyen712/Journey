@@ -48,7 +48,7 @@ module.exports = {
       MapsDirectionsPanel:'app/components/MapsDirectionsPanel.jsx',
       ToDo:'app/components/ToDo.jsx',
       DaySelection:'app/components/DaySelection.jsx',
-      GoogleMapPlanner:'app/components/GoogleMapPlanner.jsx'
+      GoogleMapPlanner:'app/components/GoogleMapPlanner.jsx',
     },
     extensions: ['', '.js', '.jsx']
   },
@@ -61,6 +61,9 @@ module.exports = {
         },
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/
+      },
+      {  test: /\.(png|jpg)$/,
+         loader: 'url?limit=25000'
       },
     ]
   },

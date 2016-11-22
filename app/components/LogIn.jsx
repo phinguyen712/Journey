@@ -10,7 +10,8 @@ var LogIn = React.createClass({
     var {User} = this.props;
     if(!User){
       return(
-        <form className="navbar-form navbar-right" role="search" action="/login" method="POST">
+      <div className="SignUpComponent">
+        <form className="SignUpForm" role="search" action="/login" method="POST">
           <div className="form-group">
             <label className="sr-only" form="exampleInputEmail3">Email address</label>
             <input type="text" className="form-control" id="exampleInputEmail3" name="username" placeholder="Username"/>
@@ -19,19 +20,20 @@ var LogIn = React.createClass({
             <label className="sr-only" form="exampleInputPassword3">Password</label>
             <input type="password" className="form-control" id="exampleInputPassword3" name="password" placeholder="Password"/>
           </div>
-          <button type="submit" className="btn btn-default">login</button>
+            <button type="submit" className="logIn btn btn-default">login</button>
+          <div>
           <Link to="/SignUp" activeClassName="active-link">
-            <button type="button" className="btn btn-default">
+            <button type="button" className="signUp btn btn-default">
               Sign Up
             </button>
           </Link>
+          </div>
         </form>
+      </div>
       )
     }else{
       return(
-        <h4 className="navbar-form navbar-right"><p className="navbar-text navbar-right">You are logged in as
-           <a id="username" href="/myprofile">  {User}  </a>
-           <a href="/logout" className="glyphicon glyphicon-log-out"></a></p></h4>
+        <Link to="/NewJourney" type="button" className="btn btn-default navbar-btn">New Journey</Link>
       )
     }
   }

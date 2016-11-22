@@ -26,7 +26,7 @@ var ActivitySearch = React.createClass({
     }else{
       return(
         <div className="emptySearch">
-          <h1><i className="fa fa-map" aria-hidden="true"></i>Search for things to do!</h1>
+          <h1><i className="fa fa-map" aria-hidden="true"></i>Where do you want to go?</h1>
         </div>
       )
     }

@@ -1,15 +1,32 @@
 var React = require('react');
+var {connect} = require('react-redux');
 import Navbar from 'Navbar';
 
-var Main = (props) => {
+var Main = React.createClass({
+  showNavBar:function(){
+    var {User} = this.props
+    if(User){
+      return(
+        <Navbar/>
+      )
+    };
+  },
+  render:function(){
+    return (
+        <div className="main">
+          {this.showNavBar()}
+          {this.props.children}
+        </div>
+      );
+    }
+});
 
-  return (
-    <div>
-      <Navbar/>
-      {props.children}
-    </div>
-  );
-};
 
 
-module.exports = Main;
+export default connect(
+  (state)=>{
+    return{
+      User:state.User,
+    }
+  }
+)(Main)
