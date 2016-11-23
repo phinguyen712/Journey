@@ -5,12 +5,13 @@ import SchedulePanel from 'SchedulePanel';
 import MapsDirectonsPanel from 'MapsDirectionsPanel';
 import JourneysPanel from 'JourneysPanel';
 import {arrayMove} from 'react-sortable-hoc';
-
+var {hashHistory} = require('react-router');
 
 
 var Planner = React.createClass({
   componentWillMount:function(){
-    var {dispatch, journeySchedule}=this.props
+    var {dispatch, user, journeySchedule}=this.props
+    this.verifyJourneyNull(user);
     $.ajax({
        type: "GET",
        url: "/planner/schedule/show",
@@ -20,6 +21,15 @@ var Planner = React.createClass({
         dispatch(actions.JourneySchedule(ResponseData.schedule));
        }
      });
+  },
+  componentWillReceiveProps:function(nextProp){
+    this.verifyJourneyNull(nextProp.user)
+  },
+
+  verifyJourneyNull:function(user){
+      if(!user.journeys.length){
+      hashHistory.push("/NewJourney");
+      }
   },
 
   handleSort:function({oldIndex,newIndex}){

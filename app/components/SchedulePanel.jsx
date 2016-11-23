@@ -9,12 +9,10 @@ import DaySelection from "DaySelection";
 var SchedulePanel = SortableContainer(React.createClass({
   renderToDo:function(distances,journeySchedule){
     var sortable = this.refs.sortable
-
      if(journeySchedule.length && distances.length){
        return(
          journeySchedule.map(function(toDo, i){
          var currentDistances = (i== distances.length)?"":distances[i];
-
           return( <ToDo index={i}
                         distances={currentDistances}
                         toDoObject={toDo}
@@ -23,9 +21,9 @@ var SchedulePanel = SortableContainer(React.createClass({
         })
        );
      };
-
-
   },
+
+
   render:function(){
     var {distances,journeySchedule} = this.props;
     return(

@@ -58,7 +58,8 @@ var JourneysPanel = React.createClass({
       <div>
         {this.JourneyButton(User)}
         <div>
-          <button className="btn panel-btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseFavorites" aria-expanded="true">
+          <button className="btn panel-btn btn-primary btn-block" type="button" data-toggle="collapse"
+            data-target="#collapseFavorites" aria-expanded="true">
             Favorites  <span className="caret"></span>
           </button>
           <div className="collapse in" id="collapseFavorites">
