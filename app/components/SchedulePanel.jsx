@@ -29,7 +29,7 @@ var SchedulePanel = SortableContainer(React.createClass({
   render:function(){
     var {distances,journeySchedule} = this.props;
     return(
-        <div>
+        <div className="schedulePanel">
             <DaySelection/>
             <div className="sortPanel" ref="sortable">
               {this.renderToDo(distances,journeySchedule)}

@@ -11,10 +11,13 @@ export var GoogleMapSearch = React.createClass({
   markers:function(){
     return []
   },
+  componentWillReceiveProps(nextProp){
+    this.addMarkerToMap(nextProp.YelpSearchResults);
+  },
 //only allow update when props recieved
-  componentWillReceiveProps:function(nextProp){
-    var businesses = nextProp.YelpSearchResults.businesses;
-    var center = nextProp.YelpSearchResults.region.center;
+  addMarkerToMap:function(YelpSearchResults){
+    var businesses = YelpSearchResults.businesses;
+    var center = YelpSearchResults.region.center;
     //empty list to refresh
     if(this.markers.length > 0){
        markMap(null,this.markers);
@@ -34,6 +37,7 @@ export var GoogleMapSearch = React.createClass({
                            })
                    );
                });
+               console.log(this.markers)
      //set markers to map
      markMap(this.map,this.markers);
 
@@ -46,11 +50,13 @@ export var GoogleMapSearch = React.createClass({
   },
 
   componentDidMount:function(){
+    var {YelpSearchResults} = this.props
     this.markers = [];
     this.map = new google.maps.Map(this.refs.map,{
       center:{lat: -34.39,lng:150.644},
       zoom:12
     });
+    this.addMarkerToMap(YelpSearchResults);
   },
 
   render:function(){
@@ -63,7 +69,7 @@ export var GoogleMapSearch = React.createClass({
 export default connect(
   (state)=>{
     return{
-      YelpSearchResults:state.YelpSearchResults
+
     }
   }
 )(GoogleMapSearch);

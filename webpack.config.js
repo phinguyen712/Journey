@@ -44,7 +44,6 @@ module.exports = {
       Favorites:'app/components/Favorites.jsx',
       JourneysPanel:'app/components/JourneysPanel.jsx',
       SchedulePanel:'app/components/SchedulePanel.jsx',
-      SavedJourneys:'app/components/SavedJourneys.jsx',
       MapsDirectionsPanel:'app/components/MapsDirectionsPanel.jsx',
       ToDo:'app/components/ToDo.jsx',
       DaySelection:'app/components/DaySelection.jsx',

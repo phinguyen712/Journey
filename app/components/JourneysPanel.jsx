@@ -39,10 +39,10 @@ var JourneysPanel = React.createClass({
         return(
           <div>
             <button className="btn panel-btn btn-primary btn-block" type="button" ref={User.currentJourney.id}
-               data-toggle="collapse" data-target="#collapseJourneys" aria-expanded="false" aria-controls="collapseExample">
+               data-toggle="collapse" data-target="#collapseJourneys" aria-expanded="true" >
             {User.currentJourney.name} <span className="caret"></span>
           </button>
-            <div className="collapse" id="collapseJourneys">
+            <div className="collapse in" id="collapseJourneys">
               <div className="list-group">
                 {this.UpdateUserJourneys(User)}
               </div>
@@ -58,10 +58,10 @@ var JourneysPanel = React.createClass({
       <div>
         {this.JourneyButton(User)}
         <div>
-          <button className="btn panel-btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseFavorites" aria-expanded="false" aria-controls="collapseExample">
+          <button className="btn panel-btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseFavorites" aria-expanded="true">
             Favorites  <span className="caret"></span>
           </button>
-          <div className="collapse" id="collapseFavorites">
+          <div className="collapse in" id="collapseFavorites">
             <div className="list-group">
               {this.UpdateUserFavorites(UserFavorites)}
             </div>

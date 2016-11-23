@@ -1,8 +1,8 @@
 #favorite:hover{
-  background-color:$highLightGrey;
   cursor:pointer;
   display:table;
   width:100%;
+  background-color:$highLightGrey;
 }
 
 .deleteFavorites {
@@ -28,4 +28,7 @@
 
 .panel-btn{
   border-radius:0px;
+}
+#favorite{
+  background-color:white;
 }

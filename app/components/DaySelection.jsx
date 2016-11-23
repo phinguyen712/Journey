@@ -25,10 +25,13 @@ var DaySelection = React.createClass({
     var previousDay = (currentDay == 1) ? currentDay:currentDay-1;
     return(
         <div className="daySelection">
-            <span id="previousDay" onClick={()=>{this.changeDate(previousDay)}} className="glyphicon glyphicon-triangle-left">
-            </span>day<span id="currentDay">{currentDay}</span>
-          <span id="nextDay" onClick={()=>{this.changeDate(nextDay)}} className="glyphicon glyphicon-triangle-right">
+            <h5><span id="previousDay" onClick={()=>{this.changeDate(previousDay)}}
+              className="triangle glyphicon glyphicon-triangle-left">
+            </span>  day<span id="currentDay">{currentDay}  </span>
+          <span id="nextDay" onClick={()=>{this.changeDate(nextDay)}}
+            className="triangle glyphicon glyphicon-triangle-right">
             </span>
+          </h5>
          </div>
       )
     }

@@ -16,7 +16,7 @@ var ActivitySearch = React.createClass({
             Click on the <i className='glyphicon glyphicon-heart-empty'></i> to add to favorites
           </div>
         <div className='col-xs-12 col-md-6 col-md-push-6'>
-          <GoogleMapSearch/>
+          <GoogleMapSearch YelpSearchResults={yelpSearchResults}/>
         </div>
         <div className="col-xs-12 col-md-6 col-md-pull-6 ">
           <ActivitySearchResults/>
