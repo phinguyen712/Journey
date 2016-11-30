@@ -1,4 +1,4 @@
 # Journey
 
 
-https://journeyshareapp.herokuapp.com/
+https://journeycreator.herokuapp.com/

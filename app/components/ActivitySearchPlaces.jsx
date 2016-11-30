@@ -4,28 +4,51 @@ var actions = require('actions');
 
 export var ActivitySearchPlaces = React.createClass({
 //add places to userFavorites when heart button is clicked
-  handleClick:function(results){
-    var {dispatch} = this.props
-    $.ajax({
-       type: "POST",
-       url: "/favorites/save",
-       data: results,
-       dataType:"json",
-       success:function(userFavorites){
-         dispatch(actions.userFavorites(userFavorites));
-       }
-     });
-  },
+  handleClick:function(results,userFavorites){
+    var {dispatch, User} = this.props
 
+    this.updateFavoriteState(dispatch,results,userFavorites)
+    if(User){
+      $.ajax({
+         type: "POST",
+         url: "/favorites/save",
+         data: results,
+         dataType:"json",
+         success:function(response){
+             dispatch(actions.userFavorites(response));
+         }
+       });
+    }
+  },
+  updateFavoriteState:function(dispatch,results,userFavorites){
+    if(userFavorites){
+      var deleteIndex=userFavorites.indexOf(results);
+      //use slice to prevent state mutation
+      var updateUserFavorites= userFavorites.slice();
+
+      if(deleteIndex !== -1){
+
+        updateUserFavorites.splice(deleteIndex,1);
+        dispatch(actions.removeTempFavorites(updateUserFavorites));
+      }else{
+        dispatch(actions.addTempFavorites(results))
+      };
+    }else{
+        dispatch(actions.addTempFavorites(results))
+    }
+  },
   heartIconToggle:function(userFavorites,id){
-    var placesId =  userFavorites.map(function(favoritesId){
+    //create empty array if user is not logged in
+    //else pull id into array from userFavorites to return a liked status
+    var placesId = (!userFavorites)? [] :
+                    userFavorites.map(function(favoritesId){
                       return favoritesId.id
                     });
-      if(placesId.indexOf(id) == -1){
-        return("glyphicon glyphicon-heart-empty");
-      }else{
-        return("glyphicon glyphicon-heart");
-      }
+    if(placesId.indexOf(id) == -1){
+      return("glyphicon glyphicon-heart-empty");
+    }else{
+      return("glyphicon glyphicon-heart");
+    }
   },
 
   render:function(){
@@ -39,7 +62,7 @@ export var ActivitySearchPlaces = React.createClass({
             <img src={results.rating_img_url}></img><span id='resultReviews'>{results.review_count} reviews </span>
           </h5>
           <p className='list-group-item-text'>{results.snippet_text}</p>
-          <div id='heartIcon' onClick={()=>this.handleClick(results)} className={this.heartIconToggle(UserFavorites,results.id)}></div>
+          <div id='heartIcon' onClick={()=>this.handleClick(results,UserFavorites)} className={this.heartIconToggle(UserFavorites,results.id)}></div>
         </span>
       </div>
     )
@@ -50,7 +73,8 @@ export var ActivitySearchPlaces = React.createClass({
 export default connect(
   (state)=>{
     return{
-      UserFavorites:state.UserFavorites
+      UserFavorites:state.UserFavorites,
+      User:state.User
     }
   }
 )(ActivitySearchPlaces)

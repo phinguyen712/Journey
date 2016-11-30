@@ -22,10 +22,14 @@ export var userLogInReducer = (state = false, action) => {
   };
 };
 
-export var userFavoritesReducer = (state = "false", action) => {
+export var userFavoritesReducer = (state = false, action) => {
   switch (action.type) {
     case 'USER_FAVORITES':
       return action.UserFavorites;
+    case 'TEMP_REMOVE_FAVORITE':
+      return action.deleteIndex;
+    case 'TEMP_ADD_FAVORITE':
+      return [...state,action.tempFavorites];
     default:
       return state;
   };

@@ -37,7 +37,6 @@ export var GoogleMapSearch = React.createClass({
                            })
                    );
                });
-               console.log(this.markers)
      //set markers to map
      markMap(this.map,this.markers);
 

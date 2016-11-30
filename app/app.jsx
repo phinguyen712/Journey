@@ -54,10 +54,10 @@ export const getRoutes=(store)=>{
   return(
       <Route path="/" component={Main}>
         <IndexRoute component={HomePage}/>
-        <Route path="ActivitySearch" component={ActivitySearch} onEnter={authorizeUser}/>
-        <Route path="SignUp" component={SignUp} />
-        <Route path="NewJourney" component={NewJourney} onEnter={authorizeUser} />
-        <Route path="Planner" component={Planner} onEnter={authorizeUser} />
+        <Route path="ActivitySearch" component={ActivitySearch} />
+        <Route path="SignUp" component={SignUp}/>
+        <Route path="NewJourney" component={NewJourney}/>
+        <Route path="Planner" component={Planner}/>
       </Route>
   )
 };

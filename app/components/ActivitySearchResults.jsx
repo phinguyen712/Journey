@@ -38,7 +38,7 @@ export var ActivitySearchResults = React.createClass({
 export default connect(
   (state)=>{
     return{
-      YelpSearchResults:state.YelpSearchResults
+      YelpSearchResults:state.YelpSearchResults,
     }
   }
 )(ActivitySearchResults)

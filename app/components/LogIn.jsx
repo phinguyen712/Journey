@@ -1,3 +1,4 @@
+
 var React = require('react');
 var JumboTron = require('JumboTron');
 var {connect} = require('react-redux');
@@ -10,30 +11,24 @@ var LogIn = React.createClass({
     var {User} = this.props;
     if(!User){
       return(
-      <div className="SignUpComponent">
-        <form className="SignUpForm" role="search" action="/login" method="POST">
-          <div className="form-group">
-            <label className="sr-only" form="exampleInputEmail3">Email address</label>
-            <input type="text" className="form-control" id="exampleInputEmail3" name="username" placeholder="Username"/>
+        <form className="navbar-form navbar-right" role="search" action="/login" method="POST">
+          <div className="login-form form-group">
+            <input type="text" className="loginInput" name="username" placeholder="Username"/>
           </div>
-          <div className="form-group">
-            <label className="sr-only" form="exampleInputPassword3">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword3" name="password" placeholder="Password"/>
+          <div className="login-form form-group">
+            <input type="password" className="loginInput" name="password" placeholder="Password"/>
           </div>
-            <button type="submit" className="logIn btn btn-default">login</button>
-          <div>
+          <button type="submit" className="btn btn-nav">Login</button>
           <Link to="/SignUp" activeClassName="active-link">
-            <button type="button" className="signUp btn btn-default">
-              Sign Up
-            </button>
+           Sign Up
           </Link>
-          </div>
         </form>
-      </div>
       )
     }else{
       return(
-        <Link to="/NewJourney" type="button" className="btn btn-default navbar-btn">New Journey</Link>
+        <h4 className="navbar-form navbar-right"><p className="navbar-text navbar-right">You are logged in as
+           <a id="username" href="/myprofile">  {User}  </a>
+           <a href="/logout" className="glyphicon glyphicon-log-out"></a></p></h4>
       )
     }
   }

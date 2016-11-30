@@ -17,9 +17,7 @@ var Navbar = React.createClass({
               <li><Link to="/ActivitySearch" className="active-link">Search</Link></li>
               <li><Link to="/Planner" className="active-link">Planner</Link></li>
             </ul>
-            <h4><p className="navbar-text navbar-right">You are logged in as
-            <a id="username" href="/myprofile">  {User.username}  </a>
-            <a href="/logout" className="glyphicon glyphicon-log-out"></a></p></h4>
+            <LogIn/>
         </div>
       </nav>
     );

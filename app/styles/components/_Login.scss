@@ -1,0 +1,37 @@
+.navbar-form{
+  width:360px;
+}
+.loginInput{
+  width:100px;
+  height:30px;
+  border-width:thin;
+  padding-left:3px;
+  border-radius:4px;
+
+}
+
+.btn-nav{
+  height:30px;
+  font-size:15px;
+  margin-right:5px;
+  margin-left:3px;
+}
+
+@media (max-width: 750px) {
+  .navbar-form{
+    width:100%;
+  }
+  .loginInput{
+    width:50%;
+  }
+  .btn-nav{
+    width:50%;
+    margin-top:5px;
+  }
+
+}
+
+.navbar-right{
+    vertical-align:center;
+    padding-top:5px;
+}

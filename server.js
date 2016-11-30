@@ -56,7 +56,7 @@ const port = process.env.PORT || "3000";
 var url = process.env.DATABASEURL || "mongodb://localhost:27017/Journey"
 
 mongoose.connect(url);
-//mongoose.connect('phi:welcome123@ds163417.mlab.com:63417/journey');
+
 
 app.use(usersRoutes.router);
 app.use(journeysRoutes);

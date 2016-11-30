@@ -19,6 +19,20 @@ export var userFavorites = (UserFavorites) => {
   };
 };
 
+export var addTempFavorites = (tempFavorites)=>{
+  return{
+    type:'TEMP_ADD_FAVORITE',
+    tempFavorites
+  }
+}
+
+export var removeTempFavorites = (deleteIndex)=>{
+  return{
+    type:'TEMP_REMOVE_FAVORITE',
+    deleteIndex
+  }
+}
+
 export var yelpSearchCoordinate = (Coordinates,CenterCoordinates)=>{
   return{
     type:'UPDATE_SEARCH_COORDINATES',

@@ -106,8 +106,7 @@ router.post("/journey/publishJourney/Create",function(req,res){
             foundJourney.save();
             res.redirect("/planner");
         }
-    });
-
+    }); 
 });
 
 

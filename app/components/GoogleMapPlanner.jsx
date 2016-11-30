@@ -112,13 +112,14 @@ export var GoogleMapPlanner = React.createClass({
   },
 
   render:function(){
-    console.log(parseInt($(window).width()));
     return(
       <div>
         <div id="mapPlanner" ref="mapPlanner"></div>
           <div>
             <div>
-              <button className="btn panel-btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseDirections" aria-expanded="true" >
+              <button className="btn panel-btn btn-primary btn-block"
+                type="button" data-toggle="collapse" data-target="#collapseDirections"
+                aria-expanded="true" >
                 Show Directions
               </button>
               <div className="collapse in"  id="collapseDirections">
