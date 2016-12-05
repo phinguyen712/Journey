@@ -10,26 +10,15 @@ var {hashHistory} = require('react-router');
 
 var Planner = React.createClass({
   componentWillMount:function(){
-    var {dispatch, user, journeySchedule}=this.props
-    this.verifyJourneyNull(user);
+    var {dispatch}=this.props
     $.ajax({
        type: "GET",
        url: "/planner/schedule/show",
        dataType:"json",
        success:function(ResponseData){
-        dispatch(actions.loggedInUser(ResponseData.User));
         dispatch(actions.JourneySchedule(ResponseData.schedule));
        }
      });
-  },
-  componentWillReceiveProps:function(nextProp){
-    this.verifyJourneyNull(nextProp.user)
-  },
-
-  verifyJourneyNull:function(user){
-      if(!user.journeys.length){
-      hashHistory.push("/NewJourney");
-      }
   },
 
   handleSort:function({oldIndex,newIndex}){
@@ -72,7 +61,8 @@ export default connect(
     return{
       journeySchedule:state.JourneySchedule,
       currentDay:state.CurrentJourneyDay,
-      user:state.User
+      user:state.User,
+      userFavorites:state.UserFavorites,
     }
   }
 )(Planner)

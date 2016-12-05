@@ -7,76 +7,6 @@ var express                 = require("express"),
     journey                 = require("../models/journeys.js");
 
 
-router.get("/test",function(req, res){
-    journey.find({publish:true}, function(err,journey){
-        if (err){
-        }else{
-        //obtain images for all published journeys
-            var all_Images = {};
-            var journeyCounter = 0;
-           //allow loading of landing page even if no data is present
-           //for developers
-            if(journey.length == 0){
-                res.render("frontPage/landingPage",{
-                    user:"",journey:[""],images:[""],page:"home",flashMesssage:req.flash("error")
-                });
-            }else{
-                for( var x = 0 ; x < journey.length ; x++){
-                    var daycounter = 0;
-                    var journeyId = [];
-
-                    journey[x].days.forEach(function(eachDay){
-
-                    var queryCounter = 0;//counter for waiting until ajax is complete
-
-                      populateUsersData(req,res,daycounter,journey,x,eachDay.journeySchedule,function(yelpData,x){
-                         var journeyName = journey[x].journeyName;
-                         var journeyObj={} ;
-                        yelpData.forEach(function(yelpId){
-                            journeyId.push(yelpId.image_url);
-                            queryCounter++;
-
-                            if(queryCounter == yelpData.length ){
-                                daycounter++;
-
-                                if(daycounter == journey[x].days.length ){
-
-                                    var uniqueId = removeRepeats(journeyId);
-
-                                     journeyObj = ({[journeyName]:uniqueId});
-                                     all_Images[journeyName] = uniqueId;
-                                     journeyCounter++;
-
-                                     if(journeyCounter == journey.length){
-                                     var user = req.user;
-
-                                     if(!req.user){
-                                         user = {id:"",username:""};
-                                     }
-                                     var data = {user:user,
-                                                journey:journey,
-                                                images:all_Images,
-                                                page:"home",
-                                                flashMesssage:req.flash("error")
-                                                };
-
-                                      res.render("frontPage/landingPage",data);
-
-                                    }
-                                     journeyId = [];
-                                     daycounter = 0;
-                                }
-
-                            }
-                        });
-                      });
-                    });
-
-                }
-            }
-        }
-    });
-});
 
 
 router.get("/newJourney",middlewareObj.isLoggedIn,function(req,res){
@@ -106,43 +36,43 @@ router.post("/journey/publishJourney/Create",function(req,res){
             foundJourney.save();
             res.redirect("/planner");
         }
-    }); 
+    });
 });
 
 
 router.post("/newJourney",function(req,res){
- var newJourney = {
-        userName:req.user.username,
-        journeyName:req.body.journeyName,
-        caption:req.body.caption,
-        days:"",
-        publish:false,
-    };
-    journey.create(newJourney,function(err,newJourney){
-        if(err){
-            console.log(err);
-        }else{;
-            User.findById(req.user.id,function(err,foundUser){
-                if(err){
-                    console.log(err);
-                }else{
-                foundUser.journeys.push(newJourney.id);
-                var currentId = newJourney.id;
-                var currentName = req.body.journeyName;
-                foundUser.currentJourney.id = currentId;
-                foundUser.currentJourney.name = currentName;
-                foundUser.save();
-                    foundUser.populate("journeys",function(err,userjourney){
-                        if(err){
-                            console.log(err);
-                        }else{
-                          res.json(userjourney);
-                        }
-                    });
-                }
-            });
-        }
-    });
+   if(req.user){
+     var newJourney = {
+            userName:req.user.username,
+            journeyName:req.body.journeyName,
+            caption:req.body.caption,
+            days:"",
+            publish:false,
+      };
+      journey.create(newJourney,function(err,newJourney){
+          if(err){
+              console.log(err);
+          }else{
+              User.findById(req.user.id,function(err,foundUser){
+                  if(err){
+                      console.log(err);
+                  }else{
+                  foundUser.journeys.push(newJourney.id);
+                  foundUser.currentJourney.id = newJourney.id;
+                  foundUser.currentJourney.name = req.body.journeyName;
+                  foundUser.save();
+                      foundUser.populate("journeys",function(err,userjourney){
+                          if(err){
+                              console.log(err);
+                          }else{
+                            res.json(userjourney);
+                          }
+                      });
+                  }
+              });
+          };
+      });
+    }else{res.json("")}
 });
 
 router.delete("/Journey",function(req,res){
@@ -165,23 +95,6 @@ router.delete("/Journey",function(req,res){
     });
   });
 });
-
-function removeRepeats(Arr) {
-    var seen = {};
-    var out = [];
-    var length = Arr.length;
-    var j = 0;
-    for(var i = 0; i < length; i++) {
-         var item = Arr[i];
-         if(seen[item] !== 1) {
-               seen[item] = 1;
-               out[j++] = item;
-         }
-    }
-    return out;
-}
-
-
 
 
 //loop through an array with Yelp Id within the req.user object and check

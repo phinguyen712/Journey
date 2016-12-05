@@ -8,7 +8,7 @@ var JumboTron = React.createClass({
       <div className="JumboTron" >
         <h1 className="titleText">Plan your next Trip</h1>
         <div>
-          <Link to="ActivitySearch">
+          <Link to="NewJourney">
             <button className="btn">Plan Journey</button>
 
             </Link>

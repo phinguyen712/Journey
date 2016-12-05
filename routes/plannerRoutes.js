@@ -8,48 +8,45 @@ var express = require("express"),
 
 
 //
-router.get("/user/favorites", function(req, res) {
+router.post("/user/data", function(req, res) {
   if(!req.user){
-      res.json({favorites:false,username:false})
-  }else{
-    User.findById(req.user.id).populate("journeys").exec(function(err, foundUser) {
-      if(err){}
-      else{
-        populateUsersData(req, res, req.user.favorites, function(tempArr) {
-            res.json({favorites:tempArr, user:foundUser});
-        });
-      }
+    res.json({
+      favorites:req.body.favorites,
+      user:req.body.user,
+      schedule:req.body.schedule
     });
-  }
-});
-
-
-router.get("/planner/schedule/show", function(req, res) {
-    User.findById(req.user.id).populate("journeys").exec(function(err, foundUser) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            foundUser.journeys.forEach(function(journey) {
+  }else{
+    User.findById(req.user.id).populate("journeys").exec(function(err,foundUser) {
+      if(err){
+        console.log(err);
+      }else{
+       populateUsersData(req, res, req.user.favorites,function(userfavorites){
+           if(foundUser.journeys.length === 0){
+             res.json({
+               favorites:userfavorites,
+               user:foundUser,
+               schedule:false
+             });
+           }else{
+             foundUser.journeys.forEach(function(journey) {
                 if (journey._id == foundUser.currentJourney.id) {
-                    populateUsersData(req, res, journey.days[0].journeySchedule,
-                        function(tempArr) {
-                            res.json({
-                                schedule: tempArr,
-                                User: foundUser
-                            });
+                    populateUsersData(req,res, journey.days[0].journeySchedule,
+                        function(userSchedule) {
+                             res.json({
+                               favorites:userFavorites,
+                               user:foundUser,
+                               schedule:userSchedule
+                             });
                         }
                     );
                 }
             });
-
-        }
+           }
+          });
+      }
     });
+  }
 });
-
-
-
-
 
 //
 router.post("/planner/journey/show", function(req, res) {

@@ -13,7 +13,7 @@ export var yelpSearchResultsReducer = (state = '', action) => {
   };
 };
 
-export var userLogInReducer = (state = false, action) => {
+export var userLogInReducer = (state = '', action) => {
   switch (action.type) {
     case 'LOGGED_IN_USER':
       return action.User;
@@ -22,7 +22,7 @@ export var userLogInReducer = (state = false, action) => {
   };
 };
 
-export var userFavoritesReducer = (state = false, action) => {
+export var userFavoritesReducer = (state = '', action) => {
   switch (action.type) {
     case 'USER_FAVORITES':
       return action.UserFavorites;

@@ -6,35 +6,43 @@ var {Link, hashHistory} = require('react-router');
 
 var NewJourney = React.createClass({
     submitNewJourney:function(e){
-      var{dispatch}=this.props
       e.preventDefault();
+      var{dispatch}=this.props
       var caption = this.refs.caption.value;
       var journeyName = this.refs.journeyName.value;
-
       $.ajax({
          type: "POST",
          url: "/newJourney",
          data: {caption:caption,journeyName:journeyName},
          dataType:"json",
          success:function(userJourney){
+          if(userJourney){
             dispatch(actions.loggedInUser(userJourney));
-            hashHistory.push("/ActivitySearch")
-
+          }else{
+            var tempUser={
+                    currentJourney:{
+                                  id:Date.now(),
+                                  name:journeyName,
+                                  caption:caption
+                                  }
+                          };
+            dispatch(actions.loggedInUser(tempUser));
+          };
+          hashHistory.push("/ActivitySearch");
          }
        });
-
     },
     render:function(){
       return (
         <div className="container ">
             <form className="form-group newJourneyPanel" onSubmit={this.submitNewJourney} >
             <div>
-              <label for="nameInput">Journey Name</label>
+              <label >Journey Name</label>
               <input type="text" ref="journeyName"
                 className="form-control" id="nameInput" name="journeyName" required/>
             </div>
             <div className="form-group">
-              <label for="descriptionInput">Things To Do</label>
+              <label >Things To Do</label>
               <input className="form-control" ref="caption" placeholder="Not sure?... Dont worry, you can fill this out later"
                 id="descriptionInput" name="caption"/>
             </div>

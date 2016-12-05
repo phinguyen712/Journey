@@ -16,15 +16,22 @@ import SignUp from 'SignUp'
 // App css
 require('style!css!sass!applicationStyles');
 //
-
-var refreshUserData =()=>{
+var refreshUserData =(callback)=>{
+    var tempUserState ={
+      favorites:store.getState().UserFavorites,
+      user:store.getState().User,
+      schedule:store.getState().JourneySchedule
+    }
     $.ajax({
-     type: "GET",
-     url: "/user/favorites",
+     type: "POST",
+     url: "/user/data",
+     data: tempUserState,
      dataType:"json",
      success:function(userData){
        store.dispatch(actions.loggedInUser(userData.user));
        store.dispatch(actions.userFavorites(userData.favorites));
+       store.dispatch(actions.JourneySchedule(userData.schedule));
+       callback();
      }
    });
 };
@@ -32,23 +39,33 @@ var refreshUserData =()=>{
 refreshUserData();
 
 export const getRoutes=(store)=>{
+  var userFavoritesCheck = (nextState,replace,callback)=>{
 
-  var authorizeUser = (nextState,replace)=>{
-    var User = !store.getState().User
-      if(!User){
+    var userFavorites = store.getState().UserFavorites,
+        user          = store.getState().User
+
       //wait for ASYNC to complete
       //keeps users on the same page when refresh
-        setTimeout(function(){
-          if(!User){
-            console.log(User);
-              replace({
-                   pathname: '/',
-                   state: { nextPathname: nextState.location.pathname }
-              });
-          }
-        },1000);
-          }
+    var replaceRoutes =(alertMessage,newRoute)=> {
+      alert(alertMessage,newRoute);
+        replace({
+             pathname: newRoute,
+             state: { nextPathname: nextState.location.pathname }
+        });
+    }
 
+    if(!userFavorites || !user){
+      refreshUserData(function(){
+        if(!userFavorites){
+          replaceRoutes("Please add favorites!","ActivitySearch");
+        }
+        if(!user){
+            replaceRoutes("Please create a new Journey","NewJourney")
+          }
+        callback();
+      });
+
+    }
   };
 
   return(
@@ -57,7 +74,8 @@ export const getRoutes=(store)=>{
         <Route path="ActivitySearch" component={ActivitySearch} />
         <Route path="SignUp" component={SignUp}/>
         <Route path="NewJourney" component={NewJourney}/>
-        <Route path="Planner" component={Planner}/>
+        <Route path="Planner" component={Planner}
+            onEnter={userFavoritesCheck}/>
       </Route>
   )
 };
