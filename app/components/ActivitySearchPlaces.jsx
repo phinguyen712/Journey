@@ -8,7 +8,7 @@ export var ActivitySearchPlaces = React.createClass({
     var {dispatch, User} = this.props
 
     this.updateFavoriteState(dispatch,results,userFavorites)
-    if(User){
+    if(User.username){
       $.ajax({
          type: "POST",
          url: "/favorites/save",

@@ -31,7 +31,7 @@ var refreshUserData =(callback)=>{
        store.dispatch(actions.loggedInUser(userData.user));
        store.dispatch(actions.userFavorites(userData.favorites));
        store.dispatch(actions.JourneySchedule(userData.schedule));
-       callback();
+       callback(userData);
      }
    });
 };
@@ -55,17 +55,19 @@ export const getRoutes=(store)=>{
     }
 
     if(!userFavorites || !user){
-      refreshUserData(function(){
-        if(!userFavorites){
+      refreshUserData(function(userData){
+        if(!userData.favorites){
           replaceRoutes("Please add favorites!","ActivitySearch");
         }
-        if(!user){
+        if(!userData.user){
             replaceRoutes("Please create a new Journey","NewJourney")
           }
         callback();
       });
-
+    }else{
+      callback();
     }
+
   };
 
   return(

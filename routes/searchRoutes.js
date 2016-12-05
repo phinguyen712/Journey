@@ -24,8 +24,4 @@ router.post("/favorites",function(req,res){
 });
 
 
-
-
-
-
 module.exports=router;

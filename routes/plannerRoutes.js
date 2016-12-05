@@ -33,7 +33,7 @@ router.post("/user/data", function(req, res) {
                     populateUsersData(req,res, journey.days[0].journeySchedule,
                         function(userSchedule) {
                              res.json({
-                               favorites:userFavorites,
+                               favorites:userfavorites,
                                user:foundUser,
                                schedule:userSchedule
                              });

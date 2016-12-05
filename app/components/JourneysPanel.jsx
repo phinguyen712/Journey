@@ -7,7 +7,7 @@ import Favorites from 'Favorites';
 
 var JourneysPanel = React.createClass({
     UpdateUserFavorites:function(UserFavorites){
-        if(UserFavorites !="false"){
+        if(UserFavorites !=""){
           var {currentDay} = this.props;
           return(
             UserFavorites.map(function(favorite,index){
@@ -23,13 +23,17 @@ var JourneysPanel = React.createClass({
     },
     UpdateUserJourneys:function(User){
       var journeys = User.journeys;
+      if(journeys){
         return(
             journeys.map(function(journey){
               return(
                   <Favorites name={journey.journeyName} id={journey._id} key={journey._id} deleteRoute="Journey" addRoute="/planner/journey/show"/>
               );
           })
-        )
+        );
+      }else{
+        return( <d>Please Log In to save Journeys</d>)
+      }
     },
     //waits for prop to update to render saved journeys
     JourneyButton:function(User){

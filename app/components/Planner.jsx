@@ -10,15 +10,6 @@ var {hashHistory} = require('react-router');
 
 var Planner = React.createClass({
   componentWillMount:function(){
-    var {dispatch}=this.props
-    $.ajax({
-       type: "GET",
-       url: "/planner/schedule/show",
-       dataType:"json",
-       success:function(ResponseData){
-        dispatch(actions.JourneySchedule(ResponseData.schedule));
-       }
-     });
   },
 
   handleSort:function({oldIndex,newIndex}){
