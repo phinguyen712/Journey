@@ -7,42 +7,47 @@ import DaySelection from "DaySelection";
 
 
 var SchedulePanel = SortableContainer(React.createClass({
-  renderToDo:function(distances,journeySchedule){
+  renderToDo:function(distances,journeySchedule,tempJourneySchedule,user){
+    var sortable = this.refs.sortable;
+    var tempSched=[];
 
-    var sortable = this.refs.sortable
-    if(journeySchedule){
-       if(journeySchedule.length > 1){
-           return(
-               journeySchedule.map(function(toDo,i){
-                 var currentDistances = (i== distances.length)?"":distances[i];
-                 return (
-                   <ToDo index={i}
-                         distances={currentDistances}
-                         toDoObject={toDo}
-                         key={i} />
-                     );
-              })
-           );
-       }else{
-           return (
-             <ToDo index={1}
-                   distances={""}
-                   toDoObject={journeySchedule[0]}
-                   key={1}
-             />
-           );
-       }
-   }
+    if(tempJourneySchedule.length){
+      tempSched = tempJourneySchedule[0].schedule;
+
+    }
+    var newSchedule = user.id ? journeySchedule:tempSched;
+     if(newSchedule.length){
+         return(
+             newSchedule.map(function(toDo,i){
+               var currentDistances = (i== distances.length)?"":distances[i];
+               return (
+                 <ToDo index={i}
+                       distances={currentDistances}
+                       toDoObject={toDo}
+                       key={i} />
+                   );
+            })
+         );
+     }else{
+         return (
+           <ToDo index={1}
+                 distances={""}
+                 toDoObject={newSchedule}
+                 key={1}
+           />
+         );
+     }
+
   },
 
 
   render:function(){
-    var {distances,journeySchedule} = this.props;
+    var {distances,journeySchedule,tempJourneySchedule,user} = this.props;
     return(
         <div className="schedulePanel">
             <DaySelection/>
             <div className="sortPanel" ref="sortable">
-              {this.renderToDo(distances,journeySchedule)}
+              {this.renderToDo(distances,journeySchedule,tempJourneySchedule,user)}
             </div>
         </div>
       );
@@ -55,7 +60,8 @@ export default connect(
       journeySchedule:state.JourneySchedule,
       currentDay:state.CurrentJourneyDay,
       user:state.User,
-      distances:state.CurrentJourneyDistances
+      distances:state.CurrentJourneyDistances,
+      tempJourneySchedule:state.TempJourney
     }
   }
 )(SchedulePanel);

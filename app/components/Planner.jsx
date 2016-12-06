@@ -13,21 +13,31 @@ var Planner = React.createClass({
   },
 
   handleSort:function({oldIndex,newIndex}){
-    var {journeySchedule,currentDay,user,dispatch} =this.props;
-    var  scheduleId = journeySchedule.map(function(schedule){
-                        return(schedule.id);
-                      });
-    var reorderedSchedule = arrayMove(scheduleId, oldIndex, newIndex);
-    var journeyId = user.currentJourney.id
+    var {journeySchedule,currentDay,user,dispatch,tempJourneySchedule} = this.props,
+        journeyId = user.currentJourney.id;
+
     //updated db with sorted
-    $.ajax({
-        type:"PUT",
-        url:"/planner/schedule/edit",
-        data:{id:reorderedSchedule, day:currentDay , journeyId:journeyId},
-        success:function(sortedSchedule){
-            dispatch(actions.JourneySchedule(sortedSchedule));
-        }
-    })
+    if(user.id){
+      var reOrderedSchedule = arrayMove(scheduleId, oldIndex, newIndex),
+          scheduleId = journeySchedule.map(function(schedule){
+                          return(schedule.id);
+                        })
+      $.ajax({
+          type:"PUT",
+          url:"/planner/schedule/edit",
+          data:{id:reorderedSchedule, day:currentDay , journeyId:journeyId},
+          success:function(sortedSchedule){
+              dispatch(actions.JourneySchedule(sortedSchedule));
+          }
+      });
+    }else{
+        var newTempSched = arrayMove(
+          tempJourneySchedule[currentDay-1].schedule,
+          oldIndex,
+          newIndex
+        );
+        dispatch(actions.TempJourneySchedule(newTempSched,currentDay));
+    }
   },
 
   render:function(){
@@ -54,6 +64,7 @@ export default connect(
       currentDay:state.CurrentJourneyDay,
       user:state.User,
       userFavorites:state.UserFavorites,
+      tempJourneySchedule:state.TempJourney
     }
   }
 )(Planner)

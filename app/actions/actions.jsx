@@ -55,10 +55,19 @@ export var JourneySchedule = (schedule)=>{
   }
 }
 
-export var addJourneySchedule = (schedule)=>{
+export var addTempJourneySchedule = (schedule,day)=>{
   return{
-    type:'ADD_JOURNEY_SCHEDULE',
-    schedule
+    type:'ADD_TEMP_JOURNEY_SCHEDULE',
+    schedule,
+    day
+  }
+}
+
+export var TempJourneySchedule = (schedule,day)=>{
+  return{
+    type:'TEMP_JOURNEY_SCHEDULE',
+    schedule,
+    day
   }
 }
 

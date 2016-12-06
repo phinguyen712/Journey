@@ -5,29 +5,32 @@ var actions = require('actions');
 var Favorites = React.createClass({
 
   delete:function(id,deleteRoute,dispatch){
-    if(deleteRoute.length>0){
-      $.ajax({
-          type: "DELETE",
-          url: deleteRoute,
-          data: {id : id},
-          dataType:"json",
-         success: function(matchFavorites){
-            if(matchFavorites._id){
-              dispatch(actions.loggedInUser(matchFavorites));
-            }else{
-              dispatch(actions.userFavorites(matchFavorites));
-            }
-         }
-       });
-     }
+    var {user} = this.props;
+    if(user.id){
+      if(deleteRoute.length>0){
+        $.ajax({
+            type: "DELETE",
+            url: deleteRoute,
+            data: {id : id},
+            dataType:"json",
+           success: function(matchFavorites){
+              if(matchFavorites._id){
+                dispatch(actions.loggedInUser(matchFavorites));
+              }else{
+                dispatch(actions.userFavorites(matchFavorites));
+              }
+           }
+         });
+       }
+     };
   },
 
   add:function(id,name,addRoute,day,dispatch,index){
     //add data based on database.
     //name is day # for adding Favorites
-    var {user , favorites} =this.props;
+    var {user, favorites,tempJourneySchedule } = this.props;
     if(!user.id){
-      dispatch(actions.addJourneySchedule(favorites[index]));
+      dispatch(actions.addTempJourneySchedule(favorites[index],day));
     }else{
       $.ajax({
           type: "POST",
@@ -66,7 +69,8 @@ export default connect(
   (state)=>{
     return{
       user:state.User,
-      favorites:state.UserFavorites
+      favorites:state.UserFavorites,
+      tempJourneySchedule:state.TempJourney
     }
   }
 )(Favorites)
