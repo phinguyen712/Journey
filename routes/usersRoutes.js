@@ -9,12 +9,10 @@ var express                 =   require("express"),
     router.post("/signup", function(req,res){
         User.register(new User({username: req.body.username}), req.body.password, function(err,users){
             if(err){
-                console.log(err);
-                req.flash("error",err.message);
-                return res.redirect("/");
+                res.json({err:err.message})
             }else{
                 passport.authenticate("local")(req,res, function(){
-                   res.redirect("/");
+                res.json({err:"authorized"});
                 });
             }
         });

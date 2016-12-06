@@ -36,43 +36,54 @@ var refreshUserData =(callback)=>{
    });
 };
 
-refreshUserData();
 
 export const getRoutes=(store)=>{
+
+
+  var preLoadStateHandler = (nextState,replace,callback)=>{
+          refreshUserData(function(userData){
+            callback();
+          });
+  };
+
+
   var userFavoritesCheck = (nextState,replace,callback)=>{
 
-    var userFavorites = store.getState().UserFavorites,
-        user          = store.getState().User
+        var userFavorites = store.getState().UserFavorites,
+            user          = store.getState().User
 
-      //wait for ASYNC to complete
-      //keeps users on the same page when refresh
-    var replaceRoutes =(alertMessage,newRoute)=> {
-      alert(alertMessage,newRoute);
-        replace({
-             pathname: newRoute,
-             state: { nextPathname: nextState.location.pathname }
-        });
-    }
+          //wait for ASYNC to complete
+          //keeps users on the same page when refresh
+        var replaceRoutes =(alertMessage,newRoute)=> {
+              alert(alertMessage,newRoute);
+                    replace({
+                         pathname: newRoute,
+                         state: { nextPathname: nextState.location.pathname }
+                    });
+        };
 
-    if(!userFavorites || !user){
-      refreshUserData(function(userData){
-        if(!userData.favorites){
-          replaceRoutes("Please add favorites!","ActivitySearch");
+        if(!userFavorites || !user){
+              refreshUserData(function(userData){
+
+                if(!userData.favorites){
+                    replaceRoutes("Please add favorites!","ActivitySearch");
+                }
+
+                if(!userData.user){
+                    replaceRoutes("Please create a new Journey","NewJourney")
+                  }
+
+                callback();
+              });
+        }else{
+          callback();
         }
-        if(!userData.user){
-            replaceRoutes("Please create a new Journey","NewJourney")
-          }
-        callback();
-      });
-    }else{
-      callback();
-    }
 
   };
 
   return(
-      <Route path="/" component={Main}>
-        <IndexRoute component={HomePage}/>
+      <Route path="/" component={Main} >
+        <IndexRoute component={HomePage} onEnter={preLoadStateHandler}/>
         <Route path="ActivitySearch" component={ActivitySearch} />
         <Route path="SignUp" component={SignUp}/>
         <Route path="NewJourney" component={NewJourney}/>

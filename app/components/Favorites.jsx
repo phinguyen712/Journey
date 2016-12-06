@@ -3,7 +3,7 @@ var {connect} = require('react-redux');
 var actions = require('actions');
 
 var Favorites = React.createClass({
-  
+
   delete:function(id,deleteRoute,dispatch){
     if(deleteRoute.length>0){
       $.ajax({
@@ -22,32 +22,41 @@ var Favorites = React.createClass({
      }
   },
 
-  add:function(id,name,addRoute,day,dispatch){
+  add:function(id,name,addRoute,day,dispatch,index){
     //add data based on database.
     //name is day # for adding Favorites
-    var {user} =this.props;
-    $.ajax({
-        type: "POST",
-        url: addRoute,
-        data: {id:id , name:name ,day:day, journeyId:user.currentJourney.id},
-        dataType:"json",
-       success: function(SavedData){
-        if(SavedData.User){
-           dispatch(actions.loggedInUser(SavedData.User));
-           dispatch(actions.JourneySchedule(SavedData.schedule));
-         }else{
-           dispatch(actions.JourneySchedule(SavedData));
+    var {user , favorites} =this.props;
+    if(!user.id){
+      dispatch(actions.addJourneySchedule(favorites[index]));
+    }else{
+      $.ajax({
+          type: "POST",
+          url: addRoute,
+          data: {id:id, name:name.name, day:day, journeyId:user.currentJourney.id},
+          dataType:"json",
+         success: function(SavedData){
+          if(SavedData.User){
+             dispatch(actions.loggedInUser(SavedData.User));
+             dispatch(actions.JourneySchedule(SavedData.schedule));
+           }else{
+             dispatch(actions.JourneySchedule(SavedData));
+           }
          }
-       }
-     });
+       });
+     }
  },
 
   render:function(){
-    var {id, name, deleteRoute, addRoute, dispatch, day} = this.props;
+    var {id, name, deleteRoute, addRoute, dispatch, day, index} = this.props;
     return (
       <div id="favorite" className={id}>
-        <div id="addToDo" onClick={() => {this.add(id,name,addRoute,day,dispatch)}}>{name}</div>
-        <h5 className="glyphicon deleteFavorites glyphicon-trash" onClick={() => {this.delete(id,deleteRoute,dispatch) }}></h5>
+        <div id="addToDo" onClick={() => {
+            this.add(id,name,addRoute,day,dispatch,index)
+          }}>{name}</div>
+        <h5 className="glyphicon deleteFavorites glyphicon-trash"
+          onClick={() => {
+            this.delete(id,deleteRoute,dispatch)
+          }}></h5>
       </div>
     );
   }

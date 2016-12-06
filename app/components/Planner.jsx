@@ -18,7 +18,7 @@ var Planner = React.createClass({
                         return(schedule.id);
                       });
     var reorderedSchedule = arrayMove(scheduleId, oldIndex, newIndex);
-    var journeyId=user.currentJourney.id
+    var journeyId = user.currentJourney.id
     //updated db with sorted
     $.ajax({
         type:"PUT",

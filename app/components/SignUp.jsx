@@ -1,21 +1,55 @@
 var React = require('react');
-var SignUp= () => {
-  return (
-    <div className="SignUpComponent">
-      <h2>Sign Up Page</h2>
-      <form className="SignUpForm form-group" action="/signup" method="POST">
-      <div>
-        <label for="nameInput">New Username</label>
-        <input type="text" className="form-control" id="nameInput" type="text" name="username" required/>
+var {hashHistory} = require('react-router');
+
+var SignUp = React.createClass({
+
+  createNewUser(e){
+      e.preventDefault();
+
+      var thisref = this;
+
+      var newUserData={
+                      username:thisref.refs.username.value,
+                      password:thisref.refs.password.value
+      };
+      thisref.setState({errorHandle:"Please Wait..."});
+      $.ajax({
+          type:"POST",
+          url:"signup",
+          data:newUserData,
+          success:function(errMessage){
+            if(errMessage.err === "authorized"){
+              hashHistory.push("/");
+            }else{
+              thisref.setState({errorHandle:errMessage.err});
+            }
+          }
+      })
+  },
+
+  getInitialState(){
+     return {errorHandle:""}
+  },
+
+  render:function(){
+    return (
+      <div className="SignUpComponent">
+        <h2>Sign Up Page</h2>
+        <form className="SignUpForm form-group" onSubmit={this.createNewUser}>
+        <div>
+          <label for="nameInput">New Username</label>
+          <input type="text" className="form-control" id="nameInput" type="text" ref="username" required/>
+        </div>
+        <div className="form-group">
+          <label for="descriptionInput">New Password</label>
+          <input className="form-control" id="descriptionInput" type="password" ref="password" required/>
+        </div>
+        <button className="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <p>{this.state.errorHandle}</p>
       </div>
-      <div className="form-group">
-        <label for="descriptionInput">New Password</label>
-        <input className="form-control" id="descriptionInput" type="password" name="password" required/>
-      </div>
-      <button className="btn btn-primary" type="submit">Submit</button>
-      </form>
-    </div>
-  );
-}
+    );
+  }
+});
 
 module.exports = SignUp;

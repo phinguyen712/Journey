@@ -55,6 +55,13 @@ export var JourneySchedule = (schedule)=>{
   }
 }
 
+export var addJourneySchedule = (schedule)=>{
+  return{
+    type:'ADD_JOURNEY_SCHEDULE',
+    schedule
+  }
+}
+
 export var CurrentJourneyDay = (day)=>{
   return{
     type:'VIEW_CURRENT_JOURNEY_DAY',

@@ -9,7 +9,7 @@ export var GoogleMapSearch = React.createClass({
     return false;
   },
   markers:function(){
-    return []
+    return [];
   },
   componentWillReceiveProps(nextProp){
     this.addMarkerToMap(nextProp.YelpSearchResults);

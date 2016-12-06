@@ -51,6 +51,8 @@ export var journeyScheduleReducer =(state = '', action)=>{
   switch(action.type){
     case 'UPDATE_JOURNEY_SCHEDULE':
       return action.schedule;
+    case 'ADD_JOURNEY_SCHEDULE':
+      return([...state,action.schedule]);
     default:
       return state;
   };
