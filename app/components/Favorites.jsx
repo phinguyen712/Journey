@@ -6,7 +6,7 @@ var Favorites = React.createClass({
 
   delete:function(id,deleteRoute,dispatch){
     var {user} = this.props;
-    if(user.id){
+    if(user._id){
       if(deleteRoute.length>0){
         $.ajax({
             type: "DELETE",
@@ -29,7 +29,7 @@ var Favorites = React.createClass({
     //add data based on database.
     //name is day # for adding Favorites
     var {user, favorites,tempJourneySchedule } = this.props;
-    if(!user.id){
+    if(!user._id){
       dispatch(actions.addTempJourneySchedule(favorites[index],day));
     }else{
       $.ajax({
@@ -38,12 +38,7 @@ var Favorites = React.createClass({
           data: {id:id, name:name.name, day:day, journeyId:user.currentJourney.id},
           dataType:"json",
          success: function(SavedData){
-          if(SavedData.User){
-             dispatch(actions.loggedInUser(SavedData.User));
-             dispatch(actions.JourneySchedule(SavedData.schedule));
-           }else{
              dispatch(actions.JourneySchedule(SavedData));
-           }
          }
        });
      }

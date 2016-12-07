@@ -18,7 +18,8 @@ var JourneysPanel = React.createClass({
                     day={currentDay}
                     key={index}
                     index={index}
-                    deleteRoute="/favorites/delete" addRoute="/planner/toDo/new"/>
+                    deleteRoute="/favorites/delete"
+                    addRoute="/planner/toDo/new"/>
               );
             })
           )

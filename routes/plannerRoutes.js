@@ -248,7 +248,8 @@ var populateUsersData = function(req, res, userYelpArr, callback) {
     var counter = 0; //counter for handling ASYNC
     //show all of user's favorites on the planner page by searching through yelpData
     //and linking to user.favorites
-    if (userYelpArr.length < 1) {
+    var ArrayExist = userYelpArr ? userYelpArr: tempArr
+    if (ArrayExist.length < 1) {
         callback(tempArr);
     }
     else {

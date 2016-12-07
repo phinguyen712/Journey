@@ -17,15 +17,17 @@ var Planner = React.createClass({
         journeyId = user.currentJourney.id;
 
     //updated db with sorted
-    if(user.id){
-      var reOrderedSchedule = arrayMove(scheduleId, oldIndex, newIndex),
-          scheduleId = journeySchedule.map(function(schedule){
-                          return(schedule.id);
-                        })
+    if(user._id){
+      var scheduleId = journeySchedule.map(function(schedule){
+                      return(schedule.id);
+                    }),
+          reOrderedSchedule = arrayMove(scheduleId, oldIndex, newIndex)
+
+            console.log(reOrderedSchedule);
       $.ajax({
           type:"PUT",
           url:"/planner/schedule/edit",
-          data:{id:reorderedSchedule, day:currentDay , journeyId:journeyId},
+          data:{id:reOrderedSchedule, day:currentDay , journeyId:journeyId},
           success:function(sortedSchedule){
               dispatch(actions.JourneySchedule(sortedSchedule));
           }

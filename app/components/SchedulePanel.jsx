@@ -15,8 +15,11 @@ var SchedulePanel = SortableContainer(React.createClass({
       tempSched = tempJourneySchedule[0].schedule;
 
     }
-    var newSchedule = user.id ? journeySchedule:tempSched;
-     if(newSchedule.length){
+    console.log("dfd")
+    var newSchedule = user._id ? journeySchedule:tempSched;
+    console.log(newSchedule);
+     if(newSchedule.length > 1){
+       console.log("33")
          return(
              newSchedule.map(function(toDo,i){
                var currentDistances = (i== distances.length)?"":distances[i];
@@ -28,12 +31,11 @@ var SchedulePanel = SortableContainer(React.createClass({
                    );
             })
          );
-     }else{
+     }else if(newSchedule.length === 1){
+       console.log("efe")
          return (
-           <ToDo index={1}
-                 distances={""}
-                 toDoObject={newSchedule}
-                 key={1}
+           <ToDo index={0}
+                 toDoObject={newSchedule[0]}
            />
          );
      }
@@ -43,6 +45,7 @@ var SchedulePanel = SortableContainer(React.createClass({
 
   render:function(){
     var {distances,journeySchedule,tempJourneySchedule,user} = this.props;
+    console.log("test");
     return(
         <div className="schedulePanel">
             <DaySelection/>

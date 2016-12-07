@@ -71,6 +71,14 @@ export var TempJourneySchedule = (schedule,day)=>{
   }
 }
 
+export var DeleteTempJourneySchedule = (index,day)=>{
+  return{
+    type:'DELETE_TEMP_JOURNEY_SCHEDULE',
+    index,
+    day
+  }
+}
+
 export var CurrentJourneyDay = (day)=>{
   return{
     type:'VIEW_CURRENT_JOURNEY_DAY',

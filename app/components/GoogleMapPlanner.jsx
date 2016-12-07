@@ -10,16 +10,25 @@ export var GoogleMapPlanner = React.createClass({
   },
 
   componentDidMount:function(){
+    var{journeySchedule} = this.props;
     this.map = new google.maps.Map(this.refs.mapPlanner,{
       center:{lat: -34.39,lng:150.644},
       zoom:12
     });
+
+    this.calculateRoutes(journeySchedule);
+    this.calculateDistance(journeySchedule);
   },
 
   //only allow update when props recieved
   componentWillReceiveProps:function(nextProp){
+    if(nextProp.user._id){
         this.calculateRoutes(nextProp.journeySchedule);
         this.calculateDistance(nextProp.journeySchedule);
+    }else{
+        this.calculateRoutes(nextProp.tempJourney[nextProp.currentDay-1].schedule);
+        this.calculateDistance(nextProp.tempJourney[nextProp.currentDay-1].schedule);
+    }
   },
 
 
@@ -136,7 +145,10 @@ export default connect(
   (state)=>{
     return{
       journeySchedule:state.JourneySchedule,
-      journeyDistances:state.CurrentJourneyDistance
+      journeyDistances:state.CurrentJourneyDistance,
+      currentDay:state.CurrentJourneyDay,
+      tempJourney:state.TempJourney,
+      user:state.User
     }
   }
 )(GoogleMapPlanner);

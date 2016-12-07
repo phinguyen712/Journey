@@ -8,15 +8,18 @@ var ToDo = SortableElement(React.createClass({
     removeToDo:function(toDoObject,user,currentDay,index,dispatch){
       var currentJourney = user.currentJourney.id;
       var deleteToDo = toDoObject.id;
-
-      $.ajax({
-          type: "DELETE",
-          url:"/planner/toDo/delete",
-          data:{id:deleteToDo , day:currentDay , journeyId: currentJourney, index:index},
-          success:function(deletedYelpData){
-              dispatch(actions.JourneySchedule(deletedYelpData));
-          }
-     });
+      if(user._id){
+        $.ajax({
+            type: "DELETE",
+            url:"/planner/toDo/delete",
+            data:{id:deleteToDo , day:currentDay , journeyId: currentJourney, index:index},
+            success:function(deletedYelpData){
+                dispatch(actions.JourneySchedule(deletedYelpData));
+            }
+       });
+     }else{
+       dispatch(actions.DeleteTempJourneySchedule(index,currentDay))
+     }
    },
 
 

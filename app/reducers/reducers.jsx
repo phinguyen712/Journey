@@ -57,30 +57,28 @@ export var journeyScheduleReducer =(state = '', action)=>{
 };
 
 export var tempJourneyScheduleReducer =(state = [], action)=>{
+  var stateCopy = state.slice();
   switch(action.type){
     case 'ADD_TEMP_JOURNEY_SCHEDULE':
     if(state.length){
     //Add schedule to a specific day in the tempJourneySchedule. each array index
     //represents a schedule
-      var stateCopy = state.slice();
-
       stateCopy.map(function(day,index){
             if(index===(action.day -1)){
               day.schedule.push(action.schedule);
             }
       });
-
       return stateCopy;
     }else{
       return [{"schedule":[action.schedule]}];
     }
     case 'TEMP_JOURNEY_SCHEDULE':
-    
-      var stateCopy2 = state.slice();
-
-      stateCopy2[action.day-1].schedule = action.schedule;
-
-      return stateCopy2;
+      stateCopy[action.day-1].schedule = action.schedule;
+      return stateCopy;
+    case 'DELETE_TEMP_JOURNEY_SCHEDULE':
+      stateCopy[action.day-1].schedule.splice(action.index,1);
+      return stateCopy;
+      ;
     default:
       return state;
   };
