@@ -61,15 +61,13 @@ export const getRoutes=(store)=>{
                          state: { nextPathname: nextState.location.pathname }
                     });
         };
-
-        if(!userFavorites || !user){
+        if(userFavorites.length == 0 || !user.currentJourney){
               refreshUserData(function(userData){
-
-                if(!userData.favorites){
+                if(!userData.favorites || userData.favorites.length == 0 ){
                     replaceRoutes("Please add favorites!","ActivitySearch");
                 }
 
-                if(!userData.user){
+                if(!userData.user || !userData.user.currentJourney  ){
                     replaceRoutes("Please create a new Journey","NewJourney")
                   }
 
@@ -82,8 +80,8 @@ export const getRoutes=(store)=>{
   };
 
   return(
-      <Route path="/" component={Main} >
-        <IndexRoute component={HomePage} onEnter={preLoadStateHandler}/>
+      <Route path="/" component={Main} onEnter={preLoadStateHandler} >
+        <IndexRoute component={HomePage} />
         <Route path="ActivitySearch" component={ActivitySearch} />
         <Route path="SignUp" component={SignUp}/>
         <Route path="NewJourney" component={NewJourney}/>

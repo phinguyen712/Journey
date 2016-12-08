@@ -7,19 +7,16 @@ import DaySelection from "DaySelection";
 
 
 var SchedulePanel = SortableContainer(React.createClass({
-  renderToDo:function(distances,journeySchedule,tempJourneySchedule,user){
+  renderToDo:function(distances,journeySchedule,tempJourneySchedule,user,currentDay){
     var sortable = this.refs.sortable;
     var tempSched=[];
 
     if(tempJourneySchedule.length){
-      tempSched = tempJourneySchedule[0].schedule;
 
+      tempSched = tempJourneySchedule[currentDay-1].schedule;
     }
-    console.log("dfd")
     var newSchedule = user._id ? journeySchedule:tempSched;
-    console.log(newSchedule);
      if(newSchedule.length > 1){
-       console.log("33")
          return(
              newSchedule.map(function(toDo,i){
                var currentDistances = (i== distances.length)?"":distances[i];
@@ -32,7 +29,6 @@ var SchedulePanel = SortableContainer(React.createClass({
             })
          );
      }else if(newSchedule.length === 1){
-       console.log("efe")
          return (
            <ToDo index={0}
                  toDoObject={newSchedule[0]}
@@ -44,13 +40,16 @@ var SchedulePanel = SortableContainer(React.createClass({
 
 
   render:function(){
-    var {distances,journeySchedule,tempJourneySchedule,user} = this.props;
-    console.log("test");
+    var {distances,journeySchedule,tempJourneySchedule,user,currentDay} = this.props;
     return(
         <div className="schedulePanel">
             <DaySelection/>
             <div className="sortPanel" ref="sortable">
-              {this.renderToDo(distances,journeySchedule,tempJourneySchedule,user)}
+              {this.renderToDo(distances,
+                              journeySchedule,
+                              tempJourneySchedule,
+                              user,
+                              currentDay)}
             </div>
         </div>
       );

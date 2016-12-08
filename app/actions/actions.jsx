@@ -71,6 +71,13 @@ export var TempJourneySchedule = (schedule,day)=>{
   }
 }
 
+export var addTempDay = (tempDay)=>{
+  return{
+    type:'ADD_TEMP_DAY',
+    tempDay
+  }
+}
+
 export var DeleteTempJourneySchedule = (index,day)=>{
   return{
     type:'DELETE_TEMP_JOURNEY_SCHEDULE',

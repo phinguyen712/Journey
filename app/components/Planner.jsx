@@ -23,7 +23,6 @@ var Planner = React.createClass({
                     }),
           reOrderedSchedule = arrayMove(scheduleId, oldIndex, newIndex)
 
-            console.log(reOrderedSchedule);
       $.ajax({
           type:"PUT",
           url:"/planner/schedule/edit",

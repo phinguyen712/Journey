@@ -38,7 +38,7 @@ var JourneysPanel = React.createClass({
                     id={journey._id}
                     key={journey._id}
                     index={index}
-                    deleteRoute="Journey"
+                    deleteRoute="/Journey"
                     addRoute="/planner/journey/show"/>
               );
           })

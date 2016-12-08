@@ -38,7 +38,11 @@ var Favorites = React.createClass({
           data: {id:id, name:name.name, day:day, journeyId:user.currentJourney.id},
           dataType:"json",
          success: function(SavedData){
-             dispatch(actions.JourneySchedule(SavedData));
+              if(SavedData.schedule){
+                dispatch(actions.JourneySchedule(SavedData.schedule));
+              }else{
+                dispatch(actions.JourneySchedule(SavedData));
+              }
          }
        });
      }

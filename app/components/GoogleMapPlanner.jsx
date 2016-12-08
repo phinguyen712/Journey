@@ -15,9 +15,10 @@ export var GoogleMapPlanner = React.createClass({
       center:{lat: -34.39,lng:150.644},
       zoom:12
     });
-
-    this.calculateRoutes(journeySchedule);
-    this.calculateDistance(journeySchedule);
+    if(journeySchedule.length > 0){
+      this.calculateRoutes(journeySchedule);
+      this.calculateDistance(journeySchedule);
+    };
   },
 
   //only allow update when props recieved
@@ -82,42 +83,43 @@ export var GoogleMapPlanner = React.createClass({
   },
 
   calculateDistance:function(schedule){
-      var {dispatch} = this.props
-      var origin=[];//store all the LatLng of locations in odd index
-      var destination=[];//store all the LatLng of locations in even index
-      var service = new google.maps.DistanceMatrixService();//google maps distance API
+    var {dispatch} = this.props
+    var origin=[];//store all the LatLng of locations in odd index
+    var destination=[];//store all the LatLng of locations in even index
+    var service = new google.maps.DistanceMatrixService();//google maps distance API
+    if(schedule.length > 0){
+        schedule.map(function(schedule){
+          var coord = schedule.location.coordinate;
+          var longlat= ""+coord.latitude+","+coord.longitude+""
+            origin.push(longlat);
+            destination.push(longlat);
+        });
 
-      schedule.map(function(schedule){
-        var coord = schedule.location.coordinate;
-        var longlat= ""+coord.latitude+","+coord.longitude+""
-          origin.push(longlat);
-          destination.push(longlat);
-      });
-
-      service.getDistanceMatrix(
-        {
-          origins: origin,
-          destinations: destination,
-          travelMode: 'DRIVING',
-          unitSystem: google.maps.UnitSystem.IMPERIAL,
-        }, function(response,status){
-          //process recieved Data
-          if(status=="OK"){
-              var distancesArr = [];
-              for(var i = 0; i<schedule.length-1; i++){
-                var distanceTravel = response.rows[i].elements[i+ 1].distance.text;
-                var durationTravel = response.rows[i].elements[i+ 1].duration.text;
-                distancesArr.push({
-                                    distance: distanceTravel,
-                                    duration: durationTravel
-                                  });
-               };
-              dispatch(actions.CurrentJourneyDistance(distancesArr));
-          }else{
-             console.log(status);
+        service.getDistanceMatrix(
+          {
+            origins: origin,
+            destinations: destination,
+            travelMode: 'DRIVING',
+            unitSystem: google.maps.UnitSystem.IMPERIAL,
+          }, function(response,status){
+            //process recieved Data
+            if(status=="OK"){
+                var distancesArr = [];
+                for(var i = 0; i<schedule.length-1; i++){
+                  var distanceTravel = response.rows[i].elements[i+ 1].distance.text;
+                  var durationTravel = response.rows[i].elements[i+ 1].duration.text;
+                  distancesArr.push({
+                                      distance: distanceTravel,
+                                      duration: durationTravel
+                                    });
+                 };
+                dispatch(actions.CurrentJourneyDistance(distancesArr));
+            }else{
+               console.log(status);
+            }
           }
-        }
-      );
+        );
+      }
   },
 
   render:function(){

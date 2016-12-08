@@ -5,18 +5,25 @@ var actions = require('actions');
 var DaySelection = React.createClass({
 
   changeDate:function(day){
-    var {user,dispatch} =this.props
+    var {user,dispatch,tempJourney} =this.props
     var journeyId= user.currentJourney.id
-    $.ajax({
-       type: "POST",
-       url: "/planner/days",
-       data: {day:day-1 , journeyId: journeyId},
-       dataType:"json",
-       success:function(newSchedule){
-         dispatch(actions.JourneySchedule(newSchedule));
-         dispatch(actions.CurrentJourneyDay(day));
+    if(!user._id){
+      if(!tempJourney[day-1]){
+         dispatch(actions.addTempDay(day));
        }
-    })
+       dispatch(actions.CurrentJourneyDay(day));
+    }else{
+      $.ajax({
+         type: "POST",
+         url: "/planner/days",
+         data: {day:day-1 , journeyId: journeyId},
+         dataType:"json",
+         success:function(newSchedule){
+           dispatch(actions.JourneySchedule(newSchedule));
+           dispatch(actions.CurrentJourneyDay(day));
+         }
+      })
+    }
   },
 
   render:function(){
@@ -41,7 +48,8 @@ export default connect(
   (state)=>{
     return{
       currentDay:state.CurrentJourneyDay,
-      user:state.User
+      user:state.User,
+      tempJourney:state.TempJourney
     }
   }
 )(DaySelection)

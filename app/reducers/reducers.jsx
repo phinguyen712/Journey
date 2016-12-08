@@ -78,7 +78,8 @@ export var tempJourneyScheduleReducer =(state = [], action)=>{
     case 'DELETE_TEMP_JOURNEY_SCHEDULE':
       stateCopy[action.day-1].schedule.splice(action.index,1);
       return stateCopy;
-      ;
+    case 'ADD_TEMP_DAY':
+      return [...stateCopy,{schedule:[]}];
     default:
       return state;
   };
