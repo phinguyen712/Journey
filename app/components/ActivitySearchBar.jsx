@@ -33,7 +33,7 @@ export var ActivitySearchBar = React.createClass({
         <form className="Navbar-form" onSubmit={this.onSubmit}>
         <div id="search">
             <input type="text" ref="term" className="searchBox" placeholder="Name of Place,Trails....."/>
-            <input type="text" ref="location" className="searchBox" placeholder="Location"/>
+            <input type="text" ref="location" className="searchBox" placeholder="Location" required/>
         </div>
             <button type="submit" id="testbutton"
               className=" glyphicon glyphicon-search btn btn-default"></button>
