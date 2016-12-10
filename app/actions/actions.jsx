@@ -99,3 +99,10 @@ export var CurrentJourneyDistance = (distance)=>{
     distance
   }
 }
+
+export var UpdateGeolocation =(geolocation)=>{
+  return{
+    type:'UPDATE_GEOLOCATION',
+    geolocation
+  }
+}

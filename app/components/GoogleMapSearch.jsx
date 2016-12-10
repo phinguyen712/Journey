@@ -55,6 +55,7 @@ export var GoogleMapSearch = React.createClass({
       center:{lat: -34.39,lng:150.644},
       zoom:12
     });
+
     this.addMarkerToMap(YelpSearchResults);
   },
 

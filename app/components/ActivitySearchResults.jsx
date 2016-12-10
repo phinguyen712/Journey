@@ -9,7 +9,7 @@ export var ActivitySearchResults = React.createClass({
         var {YelpSearchResults} = this.props;
 
         var yelpResults = () => {
-          if(YelpSearchResults.businesses){
+          if(YelpSearchResults.businesses.length !== 0){
             return(
               YelpSearchResults.businesses.map(function(results,index){
                 return(
@@ -19,7 +19,11 @@ export var ActivitySearchResults = React.createClass({
             );
           }else{
             return(
-              <h1></h1>
+              <h3 className="searchErr">
+              <div><i className="fa fa-exclamation-circle" aria-hidden="true"></i>
+              </div>
+               Sorry!could not find what you are looking for... try a different search
+             </h3>
             )
           }
         };

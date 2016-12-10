@@ -6,7 +6,8 @@ var {userLogInReducer,
     journeyScheduleReducer,
     journeyDayReducer,
     journeyDistancesReducer,
-    tempJourneyScheduleReducer} = require('reducers');
+    tempJourneyScheduleReducer,
+    mapCenterLocation} = require('reducers');
 
 
 
@@ -20,7 +21,8 @@ export var configure = (initialState = {}) => {
     JourneySchedule:journeyScheduleReducer,
     CurrentJourneyDay:journeyDayReducer,
     CurrentJourneyDistances:journeyDistancesReducer,
-    TempJourney:tempJourneyScheduleReducer
+    TempJourney:tempJourneyScheduleReducer,
+    GeoLocation:mapCenterLocation
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

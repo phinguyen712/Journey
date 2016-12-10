@@ -17,7 +17,8 @@ var yelp = new Yelp({
 //send Yelp API data to search page
 router.post("/favorites",function(req,res){
     //search businesses with yelp API
-    yelp.search({ term: req.body.term, location: req.body.location, limit:10 }).then(function(yelpData){
+    //search JSOn comes from ActivitySearchBar Component
+    yelp.search(req.body.search).then(function(yelpData){
            res.json(yelpData)}).catch(function(reason){
              res.json(reason);
            });

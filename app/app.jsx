@@ -21,7 +21,8 @@ var refreshUserData =(callback)=>{
       favorites:store.getState().UserFavorites,
       user:store.getState().User,
       schedule:store.getState().JourneySchedule
-    }
+    };
+
     $.ajax({
      type: "POST",
      url: "/user/data",
@@ -34,6 +35,16 @@ var refreshUserData =(callback)=>{
        callback(userData);
      }
    });
+
+   if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+        var  centerCoords  = {lat: position.coords.latitude,
+                              lng: position.coords.longitude};
+                              console.log(centerCoords);
+         store.dispatch(actions.UpdateGeolocation(centerCoords));
+       });
+   }
+
 };
 
 

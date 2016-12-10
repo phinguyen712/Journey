@@ -102,3 +102,12 @@ export var journeyDistancesReducer =(state = "", action)=>{
       return state;
   }
 }
+
+export var mapCenterLocation = (state ={lat: -34.397, lng: 150.644} , action)=>{
+  switch(action.type){
+    case 'UPDATE_GEOLOCATION':
+      return action.geolocation;
+    default:
+      return state;
+  }
+}
