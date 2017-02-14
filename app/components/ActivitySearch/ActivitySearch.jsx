@@ -1,14 +1,13 @@
-var React = require('react');
-var {connect} = require('react-redux');
-import ActivitySearchBar from 'ActivitySearchBar';
-import ActivitySearchResults from 'ActivitySearchResults';
-import GoogleMapSearch from 'GoogleMapSearch';
-
+var React = require("react");
+var {connect} = require("react-redux");
+import ActivitySearchBar from "ActivitySearchBar";
+import GoogleMapSearch from "GoogleMapSearch";
+import ActivitySearchResults from "ActivitySearchResults";
 var ActivitySearch = React.createClass({
-
   showSearchResults:function(nextProp){
     var {yelpSearchResults} = this.props;
-    if(yelpSearchResults){
+
+      if(yelpSearchResults){
       return(
         <div>
           <div className="addFavoriteHint">

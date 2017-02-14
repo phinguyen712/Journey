@@ -53,7 +53,7 @@ app.use(function(req, res, next){
 
 
 const port = process.env.PORT || "3000";
-var url = process.env.DATABASEURL || "mongodb://localhost:27017/Journey"
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/Journey";
 
 mongoose.connect(url);
 

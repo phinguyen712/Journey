@@ -1,12 +1,11 @@
 var React = require('react');
 var {connect} = require('react-redux');
 var actions = require('actions');
-
 export var ActivitySearchBar = React.createClass({
 //sesarch Yelp based on query and return results/coordinates
   onSubmit: function(e){
     e.preventDefault();
-      var {dispatch, geolocation} = this.props;
+    var {dispatch, geolocation} = this.props;
     var term = this.refs.term.value;
     var location = this.refs.location.value;
     var searchQuery ={term:term , limit:10}
@@ -59,5 +58,5 @@ export default connect(
       User:state.User.username,
       geolocation:state.GeoLocation
     }
-  }
+}
 )(ActivitySearchBar)

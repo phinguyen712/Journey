@@ -10,12 +10,10 @@ var JumboTron = React.createClass({
         <div>
           <Link to="NewJourney">
             <button className="btn">Plan Journey</button>
-
-            </Link>
+          </Link>
         </div>
      </div>
     );
   }
 })
-
 module.exports = JumboTron;
