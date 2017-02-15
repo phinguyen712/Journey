@@ -1,11 +1,12 @@
 var React = require('react');
 var {hashHistory} = require('react-router');
+var actions = require('actions');
+var {connect} = require('react-redux');
 
 var SignUp = React.createClass({
-
   createNewUser(e){
       e.preventDefault();
-
+      var {dispatch} = this.props;
       var thisref = this;
 
       var newUserData={
@@ -19,6 +20,7 @@ var SignUp = React.createClass({
           data:newUserData,
           success:function(errMessage){
             if(errMessage.err === "authorized"){
+              dispatch(actions.loggedInUser(errMessage.user));
               hashHistory.push("/");
             }else{
               thisref.setState({errorHandle:errMessage.err});
@@ -52,4 +54,9 @@ var SignUp = React.createClass({
   }
 });
 
-module.exports = SignUp;
+export default connect(
+  (state)=>{
+    return{
+    }
+  }
+)(SignUp)

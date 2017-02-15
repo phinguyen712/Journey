@@ -7,12 +7,13 @@
 
 
     router.post("/signup", function(req,res){
-        User.register(new User({username: req.body.username}), req.body.password, function(err,users){
+        User.register(new User({username: req.body.username}), req.body.password, function(err,user){
             if(err){
                 res.json({err:err.message})
             }else{
                 passport.authenticate("local")(req,res, function(){
-                res.json({err:"authorized"});
+                res.json({err:"authorized",
+                          user:user});
                 });
             }
         });
