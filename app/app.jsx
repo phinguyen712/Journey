@@ -96,7 +96,7 @@ export const getRoutes=(store)=>{
 				<Route path="Planner" component={Planner}
 						onEnter={userFavoritesCheck}/>
 			</Route>
-	)
+	);
 };
 
 ReactDOM.render(

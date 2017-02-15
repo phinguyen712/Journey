@@ -3,11 +3,6 @@
  border-radius:0px;
 
  }
- div{
-   font-family:Arial, Helvetica, sans-serif
- }
-
-
  .distances{
    font-size:10px;
  }
@@ -21,7 +16,6 @@
    font-size:10px;
    font-style:italic;
  }
-
 .locationImage{
   vertical-align:top;
   margin-top:20px;
@@ -29,7 +23,6 @@
   border-radius:5px;
   width:110px;
 }
-
 .ToDoItems{
    border-color:#e2e2e2;
    border-style:solid;
@@ -44,7 +37,6 @@
 .ToDoItems:hover{
   cursor:move;
 }
-
 .list-group-item{
   margin-top:15px;
   min-width:150px;
@@ -54,21 +46,17 @@
   display:inline-block;
   border-width:0px;
 }
-
 .snippet_text{
   display:block;
   font-size:10px;
-  font-family: Arial, Helvetica, sans-serif;
   margin-bottom:0px;
 }
-
 .glyphicon-remove{
   float:right;
   margin-right:5px;
   margin-top:5px;
   color:$highLightGrey;
 }
-
 .glyphicon-remove:hover{
   float:right;
   margin-right:5px;
@@ -76,7 +64,6 @@
   color:$red;
   cursor:pointer;
 }
-
 .schedulePanel{
   padding-left:0px;
 }

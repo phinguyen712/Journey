@@ -54,16 +54,18 @@ export var ActivitySearchPlaces = React.createClass({
   render:function(){
     var {index, results, UserFavorites}=this.props
     return(
-      <div className ='resultboxes'>
-        <img className='resultLocationImage'src={results.image_url}></img>
-        <span className='resultItem'>
-          <h5 className='resultItemHeading' id='heading'>
-            <span id='queryNumber'>{index}.</span><span><a href={results.url}>{results.name}</a> </span>
-            <img src={results.rating_img_url}></img><span id='resultReviews'>{results.review_count} reviews </span>
-          </h5>
-          <p className='list-group-item-text'>{results.snippet_text}</p>
-          <div id='heartIcon' onClick={()=>this.handleClick(results,UserFavorites)} className={this.heartIconToggle(UserFavorites,results.id)}></div>
-        </span>
+      <div className = 'resultBoxesContainer col-xs-12 col-md-6 col-lg-12'>
+        <div className ='resultboxes col-xs-12'>
+          <img className='resultLocationImage'src={results.image_url}></img>
+          <span className='resultItem'>
+            <h5 className='resultItemHeading' id='heading'>
+              <span id='queryNumber'>{index}.</span><span><a href={results.url}>{results.name}</a> </span>
+              <img src={results.rating_img_url}></img><span id='resultReviews'>{results.review_count} reviews </span>
+            </h5>
+            <p className='list-group-item-text'>{results.snippet_text}</p>
+            <div id='heartIcon' onClick={()=>this.handleClick(results,UserFavorites)} className={this.heartIconToggle(UserFavorites,results.id)}></div>
+          </span>
+        </div>
       </div>
     )
   }

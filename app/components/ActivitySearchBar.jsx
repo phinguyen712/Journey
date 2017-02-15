@@ -1,7 +1,6 @@
-var React = require('react');
+ar React = require('react');
 var {connect} = require('react-redux');
 var actions = require('actions');
-
 export var ActivitySearchBar = React.createClass({
 //sesarch Yelp based on query and return results/coordinates
   onSubmit: function(e){
