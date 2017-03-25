@@ -8,10 +8,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      userName: {
         type: Sequelize.STRING
       },
-      createdAt: {
+      password: {
+        type:Sequelize.STRING,
+        allowNull:false
+      },
+      liked:{
+        type:Sequelize.ARRAY(Sequelize.STRING)
+      },
+      favorites: {
+        type:Sequelize.ARRAY(Sequelize.STRING)
+      },
+      createdAt:{
         allowNull: false,
         type: Sequelize.DATE
       },

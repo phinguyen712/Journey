@@ -11,6 +11,25 @@ module.exports = {
       journeyName: {
         type: Sequelize.STRING
       },
+      caption: {
+        type:Sequelize.STRING
+      },
+      published: {
+        type:Sequelize.BOOLEAN,
+        defaultValue:false
+      },
+      days:Sequelize.ARRAY(Sequelize.JSON({
+        'journeySchedule':Sequelize.ARRAY(Sequelize.STRING)
+      })),
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'userId',
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -21,7 +40,7 @@ module.exports = {
       }
     });
   },
-  down: function(queryInterface, Sequelize) {
+  down: function(queryInterface , Sequelize ) {
     return queryInterface.dropTable('Journeys');
   }
 };

@@ -1,59 +1,47 @@
-var express                 =   require('express'),
-	app                     =   express(),
-	mongoose                =   require('mongoose'),
-	bodyParser              =   require('body-parser'),
-	flash                   =   require('connect-flash'),
-	passport                =   require('passport'),
-	LocalStrategy           =   require('passport-local'),
-	methodOverride          =   require('method-override');
+const express             =   require('express'),
+  app											=		express(),
+  bodyParser              =   require('body-parser'),
+  auth                    =   require('./server/auth'),
+  methodOverride          =   require('method-override'),
+  http 										= 	require('http'),
+  routes								  =   require('./server/routes');
 
 
 
 app.use(require('express-session')({
-	secret: 'Journey code',
-	resave: false,
-	saveUninitialized: false
+  secret: 'Journey code',
+  resave: false,
+  saveUninitialized: false
 }));
 
-app.use(express.static('public'));
-
-app.use(flash());
 
 app.use(methodOverride('_method'));
 
 
-
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine','ejs' );
 
-//initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
 
-//decode and endcode sessions for Authorization
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
 
 
 //set req.user as currentUser to be used in views/headers
 app.use(function(req, res, next){
-	res.locals.currentUser = req.user;
-	res.locals.error = req.flash('error');
-	res.locals.success = req.flash('success');
-	next();
+  res.locals.currentUser = req.user;
+  next();
 });
 
-const port = process.env.PORT || '3000';
-//var url = process.env.DATABASEURL || 'mongodb://localhost:27017/Journey';
+//Settings for passport authorizations, sessions, and hash
+auth(app);
 
-//mongoose.connect(url);
+//routes
+routes(app);
 
+//runs server
+const port = parseInt(process.env.PORT, 10) || 8000;
+app.set('port', port);
 
-
-
-
-
-app.listen(port,function(){
-	console.log('Journey has started port'+ port);
+const server = http.createServer(app);
+server.listen(port, () => {
+  console.log(`The server is running at localhost:${port}`);
 });

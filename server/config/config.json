@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "Phi",
+    "username": "phi",
     "password": null,
-    "database": "journey",
+    "database": "phi",
     "host": "127.0.0.1",
-	 	"port": 5432,
+     "port": 1116,
     "dialect": "postgres"
   },
   "test": {

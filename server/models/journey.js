@@ -8,26 +8,18 @@ module.exports = function(sequelize, DataTypes) {
     caption: {
       type:DataTypes.STRING
     },
-    publishDate: {
-      type:DataTypes.STRING
-    },
     published: {
-      type:DataTypes.STRING
+      type:DataTypes.BOOLEAN,
+      defaultValue:false
     },
-    images: {
-      type:DataTypes.STRING
-    },
-    likes: {
-      type:DataTypes.ARRAY
-    },
-    days:{
-      type:DataTypes.ARRAY
-    }
+    days:DataTypes.ARRAY(DataTypes.JSON({
+      journeySchedule:DataTypes.ARRAY(DataTypes.STRING)
+    })),
   }, {
     classMethods: {
       associate: (models) => {
         Journey.belongsTo(models.Users, {
-          foreignKey: 'todoId',
+          foreignKey: 'userId',
           onDelete: 'CASCADE',
         });
       },
