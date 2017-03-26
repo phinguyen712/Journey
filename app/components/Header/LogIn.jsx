@@ -1,6 +1,6 @@
 
-var React = require('react');
-var JumboTron = require('JumboTron');
+const React = require('react');
+
 var {connect} = require('react-redux');
 var actions = require('actions');
 var {Link, IndexLink} = require('react-router');
@@ -9,9 +9,10 @@ var {Link, IndexLink} = require('react-router');
 var LogIn = React.createClass({
   render: function () {
     var {User} = this.props;
+    console.log(User);
     if(!User){
       return(
-        <form className="navbar-form navbar-right" role="search" action="/login" method="POST">
+        <form className="navbar-form navbar-right" role="search" action="/auth/login" method="POST">
           <div className="login-form form-group">
             <input type="text" className="loginInput" name="username" placeholder="Username"/>
           </div>
@@ -28,7 +29,7 @@ var LogIn = React.createClass({
       return(
         <h4 className="navbar-form navbar-right"><p className="navbar-text navbar-right">You are logged in as
            <a id="username" href="/myprofile">  {User}  </a>
-           <a href="/logout" className="glyphicon glyphicon-log-out"></a></p></h4>
+           <a href="/auth/logout" className="glyphicon glyphicon-log-out"></a></p></h4>
       )
     }
   }
@@ -37,7 +38,7 @@ var LogIn = React.createClass({
 export default connect(
   (state)=>{
     return{
-      User:state.User.username
+      User:state.User
     }
   }
 )(LogIn)

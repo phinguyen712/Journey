@@ -1,5 +1,3 @@
-var uuid = require('node-uuid');
-
 //Reducers manipulate state based on action called.(this is how actions are executed)
 //Reducers can cal objections based on actions
 //Reducers have to be pure functions
@@ -38,7 +36,8 @@ export var userFavoritesReducer = (state = '', action) => {
 export var searchCoordinatesReducer =(state = '', action)=>{
   switch(action.type){
     case 'UPDATE_SEARCH_COORDINATES':
-      return {coordinates:action.Coordinates,
+      return {
+              coordinates:action.Coordinates,
               centerCoordinates:action.CenterCoordinates
             };
     default:

@@ -19,13 +19,14 @@ function createUser(req,res){
 }
 
 function loginRequired(req, res, next) {
-  if (!req.user) return res.status(401).json({status: 'Please log in'});
+  if (!req.user) return res.json({
+    favorites:req.body.favorites,
+    user:req.body.user,
+    schedule:req.body.schedule});
   return next();
 }
 
 function loginRedirect(req, res, next) {
-  console.log(req.user);
-  console.log("wfawfee")
   if (req.user) {
     return res.status(401).json(
     {status: 'You are already logged in'});

@@ -1,5 +1,5 @@
-const db = require('../models'),
-  authHelpers = require('../auth/_helpers'),
+const db = require('../../models'),
+  authHelpers = require('../../auth/_helpers'),
   passport = require('passport');
 
 const handleResponse = (res, code, statusMsg)=>{
@@ -9,10 +9,9 @@ const handleResponse = (res, code, statusMsg)=>{
 module.exports = {
   register(req,res){
     return db.Users
-    .find({where: {userName: req.body.	username}})
+    .find({where: {userName: req.body.username}})
     .then(user =>{
       if(!user) {
-
         return authHelpers.createUser(req, res)
         .then(()=>{
           passport.authenticate('local', (err, user) => {
@@ -44,7 +43,7 @@ module.exports = {
           if (err) {
             handleResponse(res, 500, 'error');
           }
-          handleResponse(res, 200, 'success');
+          res.status(200).redirect('/');
         });
       }
     })(req, res, next);

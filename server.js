@@ -4,7 +4,7 @@ const express             =   require('express'),
   auth                    =   require('./server/auth'),
   methodOverride          =   require('method-override'),
   http 										= 	require('http'),
-  routes								  =   require('./server/routes');
+  api								  		=   require('./server/api');
 
 
 
@@ -13,7 +13,6 @@ app.use(require('express-session')({
   resave: false,
   saveUninitialized: false
 }));
-
 
 app.use(methodOverride('_method'));
 
@@ -31,11 +30,14 @@ app.use(function(req, res, next){
   next();
 });
 
-//Settings for passport authorizations, sessions, and hash
+//this renders all of the client side(React) pages
+app.use(express.static('public'));
+
+//settings for passport authorizations, sessions, and hash
 auth(app);
 
-//routes
-routes(app);
+//all of the routes aka API
+api(app);
 
 //runs server
 const port = parseInt(process.env.PORT, 10) || 8000;
