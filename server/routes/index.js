@@ -1,5 +1,4 @@
-const Controller			=	 require('../controllers'),
-  authHelpers = require('../auth/_helpers');
+const  authRoutes = require('./auth');
 
 module.exports = (app) => {
   app.get('/', function(req, res){
@@ -7,7 +6,7 @@ module.exports = (app) => {
       message: 'Welcome to the Todos API!',
     });
   });
+  //routes for  users signup/login/logout
+  authRoutes(app);
 
-  app.post('/users/signup', authHelpers.loginRedirect, Controller.users.register);
-  app.post('/users/login', authHelpers.loginRedirect, Controller.users.login);
 };

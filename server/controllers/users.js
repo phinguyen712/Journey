@@ -49,4 +49,10 @@ module.exports = {
       }
     })(req, res, next);
   },
+
+  logout(req, res){
+    req.logout();
+    handleResponse(res, 200, 'success');
+  }
+
 };
