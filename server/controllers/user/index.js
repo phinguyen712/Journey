@@ -1,3 +1,4 @@
+const userBrowserParse = require('../../lib/').userBrowserParse;
 const handleResponse = (res, code, statusMsg)=>{
   res.status(code).json(statusMsg);
 };
@@ -5,14 +6,7 @@ const handleResponse = (res, code, statusMsg)=>{
 module.exports = {
   getData(req, res){
     //filter out password and change userName prop to user
-    const u = req.user;
-    const userData = {
-      'user':u.userName,
-      'liked':u.liked,
-      'favorites':u.favorites,
-      'schedule':[]
-    };
-    handleResponse(res, 200, userData);
+    handleResponse(res, 200, userBrowserParse(req.user));
   }
 
 };

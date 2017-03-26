@@ -16,14 +16,14 @@ var SignUp = React.createClass({
       thisref.setState({errorHandle:"Please Wait..."});
       $.ajax({
           type:"POST",
-          url:"signup",
+          url:"/auth/signup",
           data:newUserData,
-          success:function(errMessage){
-            if(errMessage.err === "authorized"){
-              dispatch(actions.loggedInUser(errMessage.user));
+          success:function(response){
+            if(response.user ){
+              dispatch(actions.loggedInUser(response.user));
               hashHistory.push("/");
             }else{
-              thisref.setState({errorHandle:errMessage.err});
+              thisref.setState({errorHandle:response.err});
             }
           }
       })

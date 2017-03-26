@@ -1,9 +1,10 @@
 const db = require('../../models'),
   authHelpers = require('../../auth/_helpers'),
+  userBrowserParse = require('../../lib/').userBrowserParse;
   passport = require('passport');
 
 const handleResponse = (res, code, statusMsg)=>{
-  res.status(code).json({status: statusMsg});
+  res.status(code).json(statusMsg);
 };
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
         .then(()=>{
           passport.authenticate('local', (err, user) => {
             if (user) {
-              handleResponse(res, 200, 'success');
+              handleResponse(res, 200,userBrowserParse(user));
             }
           })(req, res);
         })
@@ -24,7 +25,7 @@ module.exports = {
           handleResponse(res,500,err);
         });
       } else {
-        res.status(201).send('username already taken');
+        res.status(201).send({err:"username taken"});
       }
 
     });
@@ -33,15 +34,15 @@ module.exports = {
   login(req, res, next){
     passport.authenticate('local', (err, user) => {
       if (err) {
-        handleResponse(res, 500, 'error');
+        handleResponse(res, 500, {err:'error'});
       }
       if (!user) {
-        handleResponse(res, 404, 'User not found');
+        handleResponse(res, 404, 'user not found');
       }
       if (user) {
         req.logIn(user, function (err) {
           if (err) {
-            handleResponse(res, 500, 'error');
+            handleResponse(res, 500, {err: error});
           }
           res.status(200).redirect('/');
         });
@@ -51,7 +52,7 @@ module.exports = {
 
   logout(req, res){
     req.logout();
-    handleResponse(res, 200, 'success');
+    res.redirect('/');
   }
 
 };
