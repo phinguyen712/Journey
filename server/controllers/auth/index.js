@@ -52,7 +52,7 @@ module.exports = {
 
   logout(req, res){
     req.logout();
-    res.redirect('/');
+    handleResponse(res,200,'logged out')
   }
 
 };
