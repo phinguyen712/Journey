@@ -27,16 +27,22 @@ module.exports = (app)  =>{
   ));
 
   // Serialize sessions
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser((user, done)=>{
     done(null, user.id);
   });
 
-  passport.deserializeUser(function(id, done) {
-    db.Users.find({where: {id: id}}).success(function(user){
+  passport.deserializeUser((id, done)=>{
+    db.Users.find({where: {id: id}})
+    .then((user)=>{
       done(null, user);
-    }).error(function(err){
+    })
+    .error(function(err){
       done(err, null);
     });
   });
 
 };
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});

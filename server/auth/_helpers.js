@@ -18,7 +18,24 @@ function createUser(req,res){
   .catch(error => res.status(400).send(error));
 }
 
+function loginRequired(req, res, next) {
+  if (!req.user) return res.status(401).json({status: 'Please log in'});
+  return next();
+}
+
+function loginRedirect(req, res, next) {
+  console.log(req.user);
+  console.log("wfawfee")
+  if (req.user) {
+    return res.status(401).json(
+    {status: 'You are already logged in'});
+  }
+  return next();
+}
+
 module.exports = {
   comparePass,
-  createUser
+  createUser,
+  loginRequired,
+  loginRedirect,
 };

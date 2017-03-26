@@ -1,4 +1,5 @@
-const Controller			=	 require('../controllers');
+const Controller			=	 require('../controllers'),
+  authHelpers = require('../auth/_helpers');
 
 module.exports = (app) => {
   app.get('/', function(req, res){
@@ -7,6 +8,6 @@ module.exports = (app) => {
     });
   });
 
-  app.post('/users/signup', Controller.users.register);
-  app.post('/users/login', Controller.users.login);
+  app.post('/users/signup', authHelpers.loginRedirect, Controller.users.register);
+  app.post('/users/login', authHelpers.loginRedirect, Controller.users.login);
 };
