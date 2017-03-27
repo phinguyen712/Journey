@@ -1,7 +1,4 @@
 const userBrowserParse = require('../../lib/').userBrowserParse;
-const handleResponse = (res, code, statusMsg)=>{
-  res.status(code).json(statusMsg);
-};
 
 module.exports = {
   read(req, res){

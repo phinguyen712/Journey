@@ -9,33 +9,30 @@ export var ActivitySearchBar = React.createClass({
     var {dispatch, geolocation} = this.props;
     var term = this.refs.term.value;
     var location = this.refs.location.value;
-    var searchQuery ={term:term , limit:10}
-    if(this.refs.location.value){
-        searchQuery.location = location;
-    }else{
-        searchQuery.ll =  geolocation.lat+','+geolocation.lng
+    var searchQuery;
+
+    if(!this.refs.location.value){
+      location =  geolocation.lat+','+geolocation.lng;
     }
 
-    var yelpSearchQuery ={
-            term:term,
-            location:location
-    }
+    searchQuery={term:term , limit:10 ,location:location};
     $.ajax({
-        type: "POST",
-        url: "/favorites",
-        data: {search:searchQuery},
-        dataType:"json",
-        success: function(yelpSearchResults){
-          //Store yelp data into reducer to display search results
-          dispatch(actions.yelpSearch(yelpSearchResults));
-          //put coordinate in reducer for GoogleMap
-          var coordinates = yelpSearchResults.businesses.map(function(yelpPlaces){
-            return yelpPlaces.location.coordinate;
-          })
-          var centerCoordinates= yelpSearchResults.region.center;
+      type: "POST",
+      url: "/favorites/search",
+      data: searchQuery,
+      dataType:"json",
+      success: function(yelpSearchResults){
+        console.log(yelpSearchResults);
+        //Store yelp data into reducer to display search results
+        dispatch(actions.yelpSearch(yelpSearchResults));
+        //put coordinate in reducer for GoogleMap
+        var coordinates = yelpSearchResults.businesses.map(function(yelpPlaces){
+          return yelpPlaces.location.coordinate;
+        })
+        var centerCoordinates= yelpSearchResults.region.center;
 
-          dispatch(actions.yelpSearchCoordinate(coordinates,centerCoordinates));
-        }
+        dispatch(actions.yelpSearchCoordinate(coordinates,centerCoordinates));
+      }
    })
  },
 
