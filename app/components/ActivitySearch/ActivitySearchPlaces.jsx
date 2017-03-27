@@ -7,34 +7,33 @@ export var ActivitySearchPlaces = React.createClass({
   handleClick:function(results,userFavorites){
     var {dispatch, User} = this.props
 
-    this.updateFavoriteState(dispatch,results,userFavorites)
+    this.updateFavoriteState(dispatch,results,userFavorites,User);
     if(User.username){
       $.ajax({
-         type: "POST",
-         url: "/favorites/save",
-         data: results,
-         dataType:"json",
-         success:function(response){
-             dispatch(actions.userFavorites(response));
-         }
-       });
+        type: "POST",
+        url: "/favorites/save",
+        data: results,
+        dataType:"json",
+        success:function(response){
+          console.log(response);
+          dispatch(actions.userFavorites(response));
+        }
+      });
     }
   },
-  updateFavoriteState:function(dispatch,results,userFavorites){
-    if(userFavorites){
+  updateFavoriteState:function(dispatch,results,userFavorites,user){
+    if(user.username){
       var deleteIndex=userFavorites.indexOf(results);
       //use slice to prevent state mutation
       var updateUserFavorites= userFavorites.slice();
-
       if(deleteIndex !== -1){
-
         updateUserFavorites.splice(deleteIndex,1);
         dispatch(actions.removeTempFavorites(updateUserFavorites));
       }else{
-        dispatch(actions.addTempFavorites(results))
-      };
+        dispatch(actions.addTempFavorites(results));
+      }
     }else{
-        dispatch(actions.addTempFavorites(results))
+      dispatch(actions.addTempFavorites(results))
     }
   },
   heartIconToggle:function(userFavorites,id){

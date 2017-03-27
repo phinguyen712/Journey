@@ -22,7 +22,6 @@ export var ActivitySearchBar = React.createClass({
       data: searchQuery,
       dataType:"json",
       success: function(yelpSearchResults){
-        console.log(yelpSearchResults);
         //Store yelp data into reducer to display search results
         dispatch(actions.yelpSearch(yelpSearchResults));
         //put coordinate in reducer for GoogleMap

@@ -17,7 +17,12 @@ module.exports = {
         .then(()=>{
           passport.authenticate('local', (err, user) => {
             if (user) {
-              userBrowserParse(req,res,user);
+              req.logIn(user, function (err) {
+                if (err) {
+                  handleResponse(res, 500, {err: err});
+                }
+                userBrowserParse(req,res,user);
+              });
             }
           })(req, res);
         })

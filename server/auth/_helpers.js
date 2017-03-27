@@ -19,11 +19,14 @@ function createUser(req,res){
 }
 
 function loginRequired(req, res, next) {
-  if (!req.user) return res.json({
-    favorites:req.body.favorites,
-    username:req.body.user,
-    schedule:req.body.schedule
-  });
+  if (!req.user){
+    console.log("asfasfsd");
+    return res.json({
+      favorites:req.body.favorites,
+      username:req.body.user,
+      schedule:req.body.schedule
+    });
+  }
   return next();
 }
 

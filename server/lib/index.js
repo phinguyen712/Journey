@@ -4,7 +4,8 @@ module.exports = {
 //parse user's data so that our code can read it
 //also takes out password before rendering
   userBrowserParse(req, res, user){
-    db.Users.findById(req.user.id,{
+    let ID = user.id || req.user.id;
+    db.Users.findById(ID,{
       include: [{
         model: db.Journey,
         as: 'journeyId',
@@ -18,7 +19,6 @@ module.exports = {
         'journeys':user.journeyId,
         'schedule':[]
       };
-
       res.json(userData);
     })
      .catch((error) => {

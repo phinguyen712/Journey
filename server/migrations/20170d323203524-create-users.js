@@ -19,7 +19,8 @@ module.exports = {
         type:Sequelize.ARRAY(Sequelize.STRING)
       },
       favorites: {
-        type:Sequelize.ARRAY(Sequelize.STRING)
+        type:Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue:[]
       },
       createdAt:{
         allowNull: false,

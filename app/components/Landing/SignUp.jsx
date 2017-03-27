@@ -19,8 +19,8 @@ var SignUp = React.createClass({
           url:"/auth/signup",
           data:newUserData,
           success:function(response){
-            if(response.user ){
-              dispatch(actions.loggedInUser(response.user));
+            if(response.username){
+              dispatch(actions.loggedInUser(response));
               hashHistory.push("/");
             }else{
               thisref.setState({errorHandle:response.err});

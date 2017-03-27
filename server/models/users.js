@@ -13,7 +13,8 @@ module.exports = function(sequelize, DataTypes) {
       type:DataTypes.ARRAY(DataTypes.STRING)
     },
     favorites: {
-      type:DataTypes.ARRAY(DataTypes.STRING)
+      type:DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue:[]
     },
   }, {
     classMethods: {
