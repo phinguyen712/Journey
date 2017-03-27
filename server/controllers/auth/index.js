@@ -1,6 +1,6 @@
 const db = require('../../models'),
   authHelpers = require('../../auth/_helpers'),
-  userBrowserParse = require('../../lib/').userBrowserParse;
+  userBrowserParse = require('../../lib/').userBrowserParse,
   passport = require('passport');
 
 const handleResponse = (res, code, statusMsg)=>{
@@ -17,7 +17,7 @@ module.exports = {
         .then(()=>{
           passport.authenticate('local', (err, user) => {
             if (user) {
-              handleResponse(res, 200,userBrowserParse(user));
+              userBrowserParse(req,res,user);
             }
           })(req, res);
         })

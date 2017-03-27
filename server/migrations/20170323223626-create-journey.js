@@ -22,7 +22,7 @@ module.exports = {
         'journeySchedule':Sequelize.ARRAY(Sequelize.STRING)
       })),
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.ARRAY,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',

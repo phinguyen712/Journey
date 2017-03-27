@@ -17,6 +17,7 @@ var NewJourney = React.createClass({
          dataType:"json",
          success:function(userJourney){
           if(userJourney){
+            console.log(userJourney);
             dispatch(actions.loggedInUser(userJourney));
           }else{
             var tempUser={

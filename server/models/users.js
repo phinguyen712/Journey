@@ -19,8 +19,8 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: (models) => {
         Users.hasMany(models.Journey, {
-          foreignKey: 'journeyId',
-          as:'journeyIds',
+          foreignKey: 'userId',
+          as:'journeyId',
         });
       },
     }
