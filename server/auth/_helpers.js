@@ -21,8 +21,9 @@ function createUser(req,res){
 function loginRequired(req, res, next) {
   if (!req.user) return res.json({
     favorites:req.body.favorites,
-    user:req.body.user,
-    schedule:req.body.schedule});
+    username:req.body.user,
+    schedule:req.body.schedule
+  });
   return next();
 }
 

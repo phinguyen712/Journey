@@ -12,7 +12,7 @@ var NewJourney = React.createClass({
       var journeyName = this.refs.journeyName.value;
       $.ajax({
          type: "POST",
-         url: "/newJourney",
+         url: "/journey/create",
          data: {caption:caption,journeyName:journeyName},
          dataType:"json",
          success:function(userJourney){

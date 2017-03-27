@@ -3,7 +3,7 @@ module.exports = {
 //also takes out password before rendering
   userBrowserParse(user){
     return  {
-      'user':user.userName,
+      'username':user.userName,
       'liked':user.liked,
       'favorites':user.favorites,
       'schedule':[]

@@ -72,7 +72,9 @@ router.post("/newJourney",function(req,res){
               });
           };
       });
-    }else{res.json("")}
+    }else{
+      res.json("")
+    }
 });
 
 router.delete("/Journey",function(req,res){

@@ -4,7 +4,7 @@ const handleResponse = (res, code, statusMsg)=>{
 };
 
 module.exports = {
-  getData(req, res){
+  read(req, res){
     //filter out password and change userName prop to user
     handleResponse(res, 200, userBrowserParse(req.user));
   }

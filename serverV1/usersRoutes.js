@@ -18,7 +18,6 @@
             }
         });
     });
-
     router.get("/user/data",function(req,res){
       if(!req.user){
           res.json({'foundUser':{'username':false}})

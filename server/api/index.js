@@ -1,7 +1,9 @@
 const  authAPI = require('./auth'),
-  userAPI	= require('./user');
+  userAPI	= require('./user'),
+  journeyAPI	= require('./journey');
 
 module.exports = (app) => {
-  authAPI(app),
+  authAPI(app);
   userAPI(app);
+  journeyAPI(app);
 };

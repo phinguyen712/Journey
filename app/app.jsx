@@ -29,7 +29,7 @@ var refreshUserData =(callback)=>{
     data: tempUserState,
     dataType:"json",
     success:(userData)=>{
-      store.dispatch(actions.loggedInUser(userData.user));
+      store.dispatch(actions.loggedInUser(userData));
       store.dispatch(actions.userFavorites(userData.favorites));
       store.dispatch(actions.JourneySchedule(userData.schedule));
       callback(userData);
