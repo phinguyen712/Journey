@@ -1,7 +1,6 @@
-const Controller =	 require('../../controllers'),
-  authHelpers = require('../../auth/_helpers');
+const Controller =	 require('../../controllers');
 
 module.exports = (app) => {
   app.post('/favorites/search', Controller.favorites.search);
-  app.post('/favorites/save',  Controller.favorites.save);
+  app.put('/favorites/toggle',  Controller.favorites.toggle);
 };

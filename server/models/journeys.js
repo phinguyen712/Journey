@@ -12,9 +12,9 @@ module.exports = function(sequelize, DataTypes) {
       type:DataTypes.BOOLEAN,
       defaultValue:false
     },
-    days:DataTypes.ARRAY(DataTypes.JSON({
-      journeySchedule:DataTypes.ARRAY(DataTypes.STRING)
-    })),
+    days:{
+      type:DataTypes.ARRAY(DataTypes.STRING)
+    },
   }, {
     classMethods: {
       associate: (models) => {
@@ -22,6 +22,13 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'userId',
           onDelete: 'CASCADE',
         });
+
+        Journey.hasMany(models.Days, {
+          foreignKey: 'daysId',
+          onDelete: 'CASCADE',
+        });
+
+
       },
     }
   });

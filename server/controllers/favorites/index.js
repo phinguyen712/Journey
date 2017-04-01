@@ -1,5 +1,6 @@
 
 const  db = require('../../models'),
+  saveYelp = require('../yelp').save,
   Yelp = require('yelp'),
   yelpKey = require('../../../keys/yelpKey');
 
@@ -16,26 +17,45 @@ module.exports = {
       res.json(error);
     });
   },
-
-  save(req,res){
+  //delete/add favorites based on wether we have already have them in our db
+  toggle(req,res){
     db.Users.findById(req.user.id)
     .then((user) => {
-      const yelpId = req.body.id;
-      const favoritesId = user.favorites;
-      if(favoritesId.indexOf(yelpId) === -1){
+      const yelpId = req.body.id,
+        favoritesId = user.favorites,
+        foundId = favoritesId.indexOf(yelpId);
+      if(foundId === -1){
+        //save yelp businesses to db
+        saveYelp(req,res,req.body)
+        //update our User's favorites
+        .then(()=>{
+          user.update({
+            favorites: [...favoritesId,yelpId]
+          })
+          .then(user =>{
+            res.json(user.favorites);
+          })
+          .catch((error) =>{
+            res.status(400).send(error);
+          });
+        });
+      }else{
+        let fav  = user.favorites.slice();
+        fav.splice(foundId,1);
         user.update({
-          favorites: [...favoritesId,yelpId]
+          favorites: fav
         })
-        .then((user)=>{
+        .then(user =>{
+          res.json(user.favorites);
         })
         .catch((error) =>{
-        res.status(400).send(error)
-      });
+          res.status(400).send(error);
+        });
       }
-      console.log(error)
     })
     .catch((error) => {
-      res.status(400).send(error)});
-  }
+      res.status(400).send(error);
+    });
+  },
 
 };

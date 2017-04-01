@@ -20,7 +20,6 @@ function createUser(req,res){
 
 function loginRequired(req, res, next) {
   if (!req.user){
-    console.log("asfasfsd");
     return res.json({
       favorites:req.body.favorites,
       username:req.body.user,

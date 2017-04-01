@@ -14,10 +14,9 @@ module.exports = {
       })
       .then((journey) =>{
       //send user with all of their journeys to client
-        userBrowserParse(req,res,journey);
+        userBrowserParse(req,res);
       })
       .catch((error) =>{
-        console.log(error);
         res.status(400).send(error);
       });
     }else{

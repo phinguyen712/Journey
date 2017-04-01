@@ -4,7 +4,7 @@
     "password": null,
     "database": "phi",
     "host": "127.0.0.1",
-     "port": 1116,
+     "port": 5431,
     "dialect": "postgres"
   },
   "test": {

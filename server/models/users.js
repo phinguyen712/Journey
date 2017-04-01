@@ -23,6 +23,10 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'userId',
           as:'journeyId',
         });
+        Users.hasMany(models.Yelps, {
+          foreignKey: 'favoritesId',
+          as:'yelpId',
+        });
       },
     }
   });

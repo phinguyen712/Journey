@@ -18,17 +18,23 @@ module.exports = {
         type:Sequelize.BOOLEAN,
         defaultValue:false
       },
-      days:Sequelize.ARRAY(Sequelize.JSON({
-        'journeySchedule':Sequelize.ARRAY(Sequelize.STRING)
-      })),
-      userId: {
-        type: Sequelize.ARRAY,
+      daysId: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
         onDelete: 'CASCADE',
         references: {
           model: 'Users',
           key: 'id',
           as: 'userId',
-        },
+        }
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'userId',
+        }
       },
       createdAt: {
         allowNull: false,

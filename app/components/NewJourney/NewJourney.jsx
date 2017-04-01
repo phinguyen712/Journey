@@ -10,6 +10,7 @@ var NewJourney = React.createClass({
       var{dispatch}=this.props
       var caption = this.refs.caption.value;
       var journeyName = this.refs.journeyName.value;
+
       $.ajax({
          type: "POST",
          url: "/journey/create",
@@ -17,7 +18,6 @@ var NewJourney = React.createClass({
          dataType:"json",
          success:function(userJourney){
           if(userJourney){
-            console.log(userJourney);
             dispatch(actions.loggedInUser(userJourney));
           }else{
             var tempUser={

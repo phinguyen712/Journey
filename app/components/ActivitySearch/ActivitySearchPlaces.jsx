@@ -10,8 +10,8 @@ export var ActivitySearchPlaces = React.createClass({
     this.updateFavoriteState(dispatch,results,userFavorites,User);
     if(User.username){
       $.ajax({
-        type: "POST",
-        url: "/favorites/save",
+        type: "PUT",
+        url: "/favorites/toggle",
         data: results,
         dataType:"json",
         success:function(response){
@@ -43,6 +43,7 @@ export var ActivitySearchPlaces = React.createClass({
                     userFavorites.map(function(favoritesId){
                       return favoritesId.id
                     });
+
     if(placesId.indexOf(id) == -1){
       return("glyphicon glyphicon-heart-empty");
     }else{
