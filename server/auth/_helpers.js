@@ -8,7 +8,7 @@ function comparePass(userPassword, databasePassword) {
 function createUser(req,res){
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.password, salt);
-  return db.Users.create({
+  return db.User.create({
     userName: req.body.username,
     password: hash
   })

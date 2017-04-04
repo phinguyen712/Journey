@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  const Users = sequelize.define('Users', {
+  const User = sequelize.define('User', {
     userName: {
       type:DataTypes.STRING,
       allowNull:false
@@ -12,23 +12,25 @@ module.exports = function(sequelize, DataTypes) {
     liked:{
       type:DataTypes.ARRAY(DataTypes.STRING)
     },
-    favorites: {
-      type:DataTypes.ARRAY(DataTypes.STRING),
-      defaultValue:[]
-    },
   }, {
     classMethods: {
       associate: (models) => {
-        Users.hasMany(models.Journey, {
-          foreignKey: 'userId',
-          as:'journeyId',
+        User.hasMany(models.Journey, {
+          foreignKey: 'journeysId',
+          as:'journeys',
         });
-        Users.hasMany(models.Yelps, {
+        User.hasOne(models.Journey, {
+          foreignKey: 'currentJourneyId',
+          as:'currentJourney',
+        });
+        User.belongsToMany(models.Yelp, {
+          defaultValue: [],
           foreignKey: 'favoritesId',
-          as:'yelpId',
+          through:'user_favorite',
+          as:'favorites',
         });
       },
     }
   });
-  return Users;
+  return User;
 };

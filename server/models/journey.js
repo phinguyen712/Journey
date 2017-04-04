@@ -7,24 +7,18 @@ module.exports = function(sequelize, DataTypes) {
     },
     caption: {
       type:DataTypes.STRING
-    },
-    published: {
-      type:DataTypes.BOOLEAN,
-      defaultValue:false
-    },
-    days:{
-      type:DataTypes.ARRAY(DataTypes.STRING)
-    },
+    }
   }, {
     classMethods: {
       associate: (models) => {
-        Journey.belongsTo(models.Users, {
+        Journey.belongsTo(models.User, {
           foreignKey: 'userId',
           onDelete: 'CASCADE',
         });
 
-        Journey.hasMany(models.Days, {
+        Journey.hasMany(models.Day, {
           foreignKey: 'daysId',
+          as:'days',
           onDelete: 'CASCADE',
         });
 

@@ -11,7 +11,7 @@ module.exports = (app)  =>{
   // Use local strategy to create user account
   passport.use(new LocalStrategy(
     function(username, password, next) {
-      return db.Users.findOne({ where: { userName: username }})
+      return db.User.findOne({ where: { userName: username }})
       .then((user)=>{
         if (!user) {
           return next(null,false);
@@ -32,7 +32,7 @@ module.exports = (app)  =>{
   });
 
   passport.deserializeUser((id, done)=>{
-    db.Users.find({where: {id: id}})
+    db.User.find({where: {id: id}})
     .then((user)=>{
       done(null, user);
     })

@@ -9,6 +9,7 @@ const yelp = new Yelp(yelpKey);
 
 
 module.exports = {
+
   search(req, res){
     //search API pased on query
     yelp.search(req.body).then(function(yelpData){
@@ -17,17 +18,20 @@ module.exports = {
       res.json(error);
     });
   },
+
   //delete/add favorites based on wether we have already have them in our db
   toggle(req,res){
-    db.Users.findById(req.user.id)
+    db.User.findById(req.user.id)
     .then((user) => {
+      //check if places already exist in user's favorites. If it doesn't,add
+      //If it does, remove
       const yelpId = req.body.id,
         favoritesId = user.favorites,
         foundId = favoritesId.indexOf(yelpId);
       if(foundId === -1){
         //save yelp businesses to db
-        saveYelp(req,res,req.body)
         //update our User's favorites
+        saveYelp(req,res,req.body)
         .then(()=>{
           user.update({
             favorites: [...favoritesId,yelpId]

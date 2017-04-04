@@ -1,8 +1,8 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  const Yelps = sequelize.define('Yelps', {
+  const Yelp = sequelize.define('Yelp', {
     business: {
-      type:DataTypes.STRING,
+      type:DataTypes.JSON,
       allowNull:false
     },
     placeId:{
@@ -11,14 +11,15 @@ module.exports = function(sequelize, DataTypes) {
   },{
     classMethods: {
       associate: (models) => {
-        Yelps.belongsToMany(models.Days, {
-          foreignKey: 'yelpId',
-          through:'day_yelp',
+        Yelp.belongsToMany(models.User, {
+          foreignKey: 'usersId',
+          through:'user_favorite',
+          as:'users',
           onDelete: 'CASCADE',
         });
       },
     }
   });
 //define class methods
-  return Yelps;
+  return Yelp;
 };

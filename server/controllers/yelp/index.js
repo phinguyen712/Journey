@@ -6,22 +6,17 @@ module.exports = {
     //filter out password and change userName prop to user
     return db.Yelp.find({where: {yelpId: yelpBusiness.id}})
     .then((yelpData)=>{
-      console.log('foundID')
       return yelpData.business;
     })
     .catch(()=>{
-      const test = JSON.stringify({hello:"its me"});
       db.Yelp.create({
-        business: 'asfdsdafdsfsd',
-        yelpId: 'sdfsdf'
+        business:  JSON.stringify(yelpBusines),
+        yelpId: yelpBusiness.id
       })
       .then((yelp) =>{
-        console.log(yelp);
         return yelp.business;
       })
       .catch((error) => {
-        console.log('failes');
-        console.log(error);
         return error;
       });
     });

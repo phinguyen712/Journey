@@ -1,27 +1,33 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('Days', {
+    return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      places: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        defaultValue:[]
+      userName: {
+        type: Sequelize.STRING
       },
-      journeysId: {
-        type: Sequelize.INTEGER,
+      password: {
+        type:Sequelize.STRING,
+        allowNull:false
+      },
+      liked:{
+        type:Sequelize.ARRAY(Sequelize.STRING)
+      },
+      currentJourneyId: {
+        type:Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
           model: 'Journeys',
-          key: 'id',
-          as: 'journeysId',
+          key:'id',
+          as: 'currentJourneyId',
         }
       },
-      createdAt: {
+      createdAt:{
         allowNull: false,
         type: Sequelize.DATE
       },
@@ -32,6 +38,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Days');
+    return queryInterface.dropTable('Users');
   }
 };

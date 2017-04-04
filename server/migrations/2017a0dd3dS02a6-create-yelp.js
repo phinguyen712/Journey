@@ -1,4 +1,6 @@
 'use strict';
+
+
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('Yelps', {
@@ -9,19 +11,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       business: {
-        type:Sequelize.STRING,
+        type:Sequelize.JSON,
         allowNull:false
       },
-      yelpID:{
+      placeId:{
         type:Sequelize.STRING
       },
-      favoritesId: {
+      usersId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',
-          key: 'id',
-          as: 'favoritesId',
+          through:'user_favorite',
+          foreignKey: 'usersId',
         },
       },
       createdAt:{

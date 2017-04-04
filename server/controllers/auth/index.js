@@ -9,7 +9,7 @@ const handleResponse = (res, code, statusMsg)=>{
 
 module.exports = {
   register(req,res){
-    return db.Users
+    return db.User
     .find({where: {userName: req.body.username}})
     .then(user =>{
       if(!user) {

@@ -9,32 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       journeyName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       caption: {
         type:Sequelize.STRING
       },
-      published: {
-        type:Sequelize.BOOLEAN,
-        defaultValue:false
-      },
-      daysId: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Users',
-          key: 'id',
-          as: 'userId',
-        }
-      },
-      userId: {
+      userId:{
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',
-          key: 'id',
-          as: 'userId',
-        }
+          foreignKey: 'userId',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -46,7 +33,7 @@ module.exports = {
       }
     });
   },
-  down: function(queryInterface , Sequelize ) {
+  down: function(queryInterface, Sequelize) {
     return queryInterface.dropTable('Journeys');
   }
 };
