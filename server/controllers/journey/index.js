@@ -1,5 +1,5 @@
 const  db = require('../../models'),
-  userBrowserParse = require('../../lib/').userBrowserParse;
+  lib = require('../../lib/')
 
 
 module.exports = {
@@ -12,9 +12,11 @@ module.exports = {
         publish:false,
         userId:req.user.id
       })
-      .then((journey) =>{
+      .then(() =>{
       //send user with all of their journeys to client
-        userBrowserParse(req,res);
+        lib.findCurrentUser(req,res).then((foundUser)=>{
+          lib.sendUserToClient(req,res,foundUser);
+        });
       })
       .catch((error) =>{
         res.status(400).send(error);

@@ -1,6 +1,6 @@
 const db = require('../../models'),
   authHelpers = require('../../auth/_helpers'),
-  userBrowserParse = require('../../lib/').userBrowserParse,
+  lib = require('../../lib/'),
   passport = require('passport');
 
 const handleResponse = (res, code, statusMsg)=>{
@@ -20,8 +20,14 @@ module.exports = {
               req.logIn(user, function (err) {
                 if (err) {
                   handleResponse(res, 500, {err: err});
+                }else{
+                  lib.findCurrentUser(req,res).then((foundUser)=>{
+                    lib.sendUserToClient(req,res,foundUser);
+                  }).
+                 catch((error)=>{
+                   res.status(400).send(error);
+                 });
                 }
-                userBrowserParse(req,res,user);
               });
             }
           })(req, res);
@@ -30,7 +36,7 @@ module.exports = {
           handleResponse(res,500,err);
         });
       } else {
-        res.status(201).send({err:"username taken"});
+        res.status(201).send({err:'username taken'});
       }
 
     });

@@ -2,6 +2,7 @@
 const  db = require('../../models'),
   saveYelp = require('../yelp').save,
   Yelp = require('yelp'),
+  lib = require('../../lib/'),
   yelpKey = require('../../../keys/yelpKey');
 
 
@@ -21,7 +22,13 @@ module.exports = {
 
   //delete/add favorites based on wether we have already have them in our db
   toggle(req,res){
-    db.User.findById(req.user.id)
+    db.User.findById(req.user.id,{
+      include: [{
+        model: db.Yelp,
+        through:'user_favorite',
+        as:'favorites'
+      }],
+    })
     .then((user) => {
       //check if places already exist in user's favorites. If it doesn't,add
       //If it does, remove
@@ -31,17 +38,20 @@ module.exports = {
       if(foundId === -1){
         //save yelp businesses to db
         //update our User's favorites
-        saveYelp(req,res,req.body)
+        saveYelp(req,res,req.body,user)
         .then(()=>{
-          user.update({
-            favorites: [...favoritesId,yelpId]
-          })
-          .then(user =>{
-            res.json(user.favorites);
-          })
-          .catch((error) =>{
-            res.status(400).send(error);
+          lib.findCurrentUser(req,res).then((foundUser)=>{
+            let favorites = foundUser.favorites;
+            if(favorites != ''){
+              favorites = favorites.map((favorites)=>{
+                return favorites.business;
+              });
+            }
+            res.json(favorites);
           });
+        })
+        .catch((error)=>{
+          res.status(400).send(error);
         });
       }else{
         let fav  = user.favorites.slice();

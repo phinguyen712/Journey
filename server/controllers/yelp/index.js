@@ -1,24 +1,25 @@
-const userBrowserParse = require('../../lib/').userBrowserParse,
-  db = require('../../models');
+const   db = require('../../models');
 
-module.exports = {
-  save(req,res,yelpBusiness){
+const self  =  module.exports = {
+  save(req,res,yelpBusiness,user){
     //filter out password and change userName prop to user
-    return db.Yelp.find({where: {yelpId: yelpBusiness.id}})
-    .then((yelpData)=>{
-      return yelpData.business;
+    return db.Yelp.find({where: {yelpId: yelpBusiness.id}}).
+    then((yelp)=>{
+      self.setUserFavorite(user,yelp);
     })
     .catch(()=>{
-      db.Yelp.create({
-        business:  JSON.stringify(yelpBusines),
-        yelpId: yelpBusiness.id
-      })
-      .then((yelp) =>{
-        return yelp.business;
-      })
-      .catch((error) => {
-        return error;
+      return db.Yelp.create({
+        business:  JSON.stringify(yelpBusiness),
+        placeId: yelpBusiness.id,
+      }).then((yelp)=>{
+        return self.setUserFavorite(user,yelp);
       });
+    });
+  },
+
+  setUserFavorite(user,yelp){
+    return user.setFavorites([yelp]).then((userFavorite)=>{
+      return userFavorite;
     });
   }
 
