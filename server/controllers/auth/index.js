@@ -53,7 +53,7 @@ module.exports = {
       if (user) {
         req.logIn(user, function (err) {
           if (err) {
-            handleResponse(res, 500, {err: error});
+            handleResponse(res, 500, {err: err});
           }
           res.status(200).redirect('/');
         });
@@ -63,7 +63,7 @@ module.exports = {
 
   logout(req, res){
     req.logout();
-    handleResponse(res,200,'logged out')
+    handleResponse(res,200,'logged out');
   }
 
 };

@@ -18,7 +18,7 @@ export var ActivitySearchBar = React.createClass({
     searchQuery={term:term , limit:10 ,location:location};
     $.ajax({
       type: "POST",
-      url: "/favorites/search",
+      url: "/yelp/search",
       data: searchQuery,
       dataType:"json",
       success: function(yelpSearchResults){

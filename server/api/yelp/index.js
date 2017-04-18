@@ -1,5 +1,5 @@
 const Controller =	require('../../controllers');
 
 module.exports = (app) => {
-  app.put('/favorites/toggle', Controller.favorites.toggle);
+  app.post('/yelp/search', Controller.yelp.search);
 };
