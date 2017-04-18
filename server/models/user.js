@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
         });
         User.belongsToMany(models.Yelp, {
           defaultValue: [],
-          foreignKey: 'favoritesId',
+          foreignKey: 'userId',
           through:'user_favorite',
           as:'favorites',
         });

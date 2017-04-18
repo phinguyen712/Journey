@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: (models) => {
         Yelp.belongsToMany(models.User, {
-          foreignKey: 'usersId',
+          foreignKey: 'favoritesId',
           through:'user_favorite',
           as:'users',
           onDelete: 'CASCADE',

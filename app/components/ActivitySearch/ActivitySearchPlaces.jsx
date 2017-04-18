@@ -10,12 +10,11 @@ export var ActivitySearchPlaces = React.createClass({
     this.updateFavoriteState(dispatch,results,userFavorites,User);
     if(User.username){
       $.ajax({
-        type: "PUT",
-        url: "/favorites/toggle",
+        type: 'PUT',
+        url: '/favorites/toggle',
         data: results,
-        dataType:"json",
+        dataType:'json',
         success:function(response){
-          console.log(response);
           dispatch(actions.userFavorites(response));
         }
       });
@@ -36,23 +35,24 @@ export var ActivitySearchPlaces = React.createClass({
       dispatch(actions.addTempFavorites(results))
     }
   },
+
   heartIconToggle:function(userFavorites,id){
     //create empty array if user is not logged in
     //else pull id into array from userFavorites to return a liked status
     var placesId = (!userFavorites)? [] :
-                    userFavorites.map(function(favoritesId){
-                      return favoritesId.id
+                    userFavorites.map(function(favorite){
+                      return favorite.id;
                     });
 
     if(placesId.indexOf(id) == -1){
-      return("glyphicon glyphicon-heart-empty");
+      return('glyphicon glyphicon-heart-empty');
     }else{
-      return("glyphicon glyphicon-heart");
+      return('glyphicon glyphicon-heart');
     }
   },
 
   render:function(){
-    var {index, results, UserFavorites}=this.props
+    var {index, results, UserFavorites} = this.props;
     return(
       <div className = 'resultBoxesContainer col-xs-12 col-md-6 col-lg-12'>
         <div className ='resultboxes col-xs-12'>
@@ -63,7 +63,9 @@ export var ActivitySearchPlaces = React.createClass({
               <img src={results.rating_img_url}></img><span id='resultReviews'>{results.review_count} reviews </span>
             </h5>
             <p className='list-group-item-text'>{results.snippet_text}</p>
-            <div id='heartIcon' onClick={()=>this.handleClick(results,UserFavorites)} className={this.heartIconToggle(UserFavorites,results.id)}></div>
+            <div id='heartIcon' onClick={()=>this.handleClick(results,UserFavorites)}
+            className={this.heartIconToggle(UserFavorites,results.id)}>
+            </div>
           </span>
         </div>
       </div>

@@ -1,6 +1,6 @@
 const db = require('../models');
 
-let self = module.exports = {
+module.exports = {
 //parse user's data so that our code can read it
 //also takes out password before rendering
 
@@ -15,7 +15,10 @@ let self = module.exports = {
         as:'favorites'
       }],
     })
-    .then((user) =>{
+    .then((user)=>{
+      user.favorites = user.favorites.map((favorite)=>{
+        return JSON.parse(favorite.business);
+      });
       return user;
     });
   },
