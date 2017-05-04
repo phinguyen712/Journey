@@ -42,6 +42,6 @@ Everything should be available on localhost:3000
 
 3.**New Journey** - Name  your journey and fill out (optional)things to do.
 
-4.**Search** - Using two search bars, look up for places you want to go.Once you see results, click on the **heart** icons to add them to your favorite.Click on the **Planner** tab when done.
+4.**Search** - Using the two search bars, look up for places you want to go.Once you see results, click on the **heart** icons to add them to your favorite.Click on the **Planner** tab when done.
 
 5.**Planner** - Select the places under the favorites menu to create routes. You can switch the order of your routes by dragging.
