@@ -11,7 +11,7 @@ npm install webpack -g
 ```
 
 3.Install [mongoDb](https://docs.mongodb.com/getting-started/shell/tutorial/install-mongodb-on-os-x/) to your machine.
-Make sure you run Db before **Running** project.To run, use the following command in the mongoDB.
+Make sure you run Db before **Running** project.To run, use the following command in the mongoDB directory.
 ```bash
 mongod --dbpath <path to data directory>
 or by default
