@@ -37,4 +37,16 @@ npm start
 ```
 Everything should be available on localhost:3000
 
-## Using the Application
+## Using Journey
+
+1.(optional)create account or login to save your work.
+
+2.Click on **Plan Journey** to start.
+
+3.**New Journey** - Name  your journey and fill out (optional)"things to do".
+
+4.**Search** - Search for places you want to go and the click on the **heart** icon
+to add places to your favorite.Click on the **Planner** tab when done.
+
+5.**Planner** - Select the places under the favorites menu and click/drag to create
+your routes.
