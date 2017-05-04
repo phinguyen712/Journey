@@ -36,7 +36,7 @@ Everything should be available on localhost:3000
 
 ## Using Journey
 
-1.(Optional)create account or login to save your work.
+1.(Optional)Sign up or login to save your work.
 
 2.Click on **Plan Journey** to start.
 
