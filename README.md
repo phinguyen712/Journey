@@ -11,7 +11,7 @@ npm install webpack -g
 ```
 
 3.Install [mongoDb](https://docs.mongodb.com/getting-started/shell/tutorial/install-mongodb-on-os-x/) to your machine.
-Make sure you run Db before **Running** project.To run, use the following command in the mongoDB.
+Make sure you run Db before **Running** project.To run, use the following command in the mongoDB directory.
 ```bash
 mongod --dbpath <path to data directory>
 or by default
@@ -36,12 +36,12 @@ Everything should be available on localhost:3000
 
 ## Using Journey
 
-1.(Optional)create account or login to save your work.
+1.(Optional)Sign up or login to save your work.
 
 2.Click on **Plan Journey** to start.
 
 3.**New Journey** - Name  your journey and fill out (optional)things to do.
 
-4.**Search** - Using two search bars, look up for places you want to go.Once you see results, click on the **heart** icons to add them to your favorite.Click on the **Planner** tab when done.
+4.**Search** - Using the two search bars, look up for places you want to go.Once you see results, click on the **heart** icons to add them to your favorite.Click on the **Planner** tab when done.
 
 5.**Planner** - Select the places under the favorites menu to create routes. You can switch the order of your routes by dragging.
