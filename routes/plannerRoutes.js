@@ -211,15 +211,18 @@ router.post("/favorites/save",function(req,res){
         }else{
           var index = userAccount.favorites.indexOf(req.body.id);
 
-          if(index == -1){
+          if(index === -1){
+            console.log('true');
             userAccount.favorites.push(req.body.id);
             userAccount.save();
           }else{
+            console.log('false');
             userAccount.favorites.splice(index,1);
             userAccount.save();
           }
 
           populateUsersData(req,res,userAccount.favorites,function(userFavorites){
+              console.log(userFavorites);
               res.json(userFavorites);
           });
             //store data into yelp schema for faster load when re-rendering in planner

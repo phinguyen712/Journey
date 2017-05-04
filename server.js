@@ -1,25 +1,25 @@
 var express                 =   require("express"),
-	app                     =   express(),
-	mongoose                =   require("mongoose"),
-	bodyParser              =   require("body-parser"),
-	User                    =   require("./models/users.js"),
-	flash                   =   require("connect-flash"),
-	journeys                =   require("./models/journeys.js"),
-	passport                =   require("passport"),
-	LocalStrategy           =   require("passport-local"),
-	journeysRoutes          =   require("./routes/journeysRoutes.js"),
-	commentsLikesRoutes     =   require("./routes/commentsLikesRoutes.js"),
-	usersRoutes             =   require("./routes/usersRoutes.js"),
-	searchRoutes            =   require("./routes/searchRoutes.js"),
-	plannerRoutes           =   require("./routes/plannerRoutes.js"),
-	methodOverride          =   require("method-override");
+  app                     =   express(),
+  mongoose                =   require("mongoose"),
+  bodyParser              =   require("body-parser"),
+  User                    =   require("./models/users.js"),
+  flash                   =   require("connect-flash"),
+  journeys                =   require("./models/journeys.js"),
+  passport                =   require("passport"),
+  LocalStrategy           =   require("passport-local"),
+  journeysRoutes          =   require("./routes/journeysRoutes.js"),
+  commentsLikesRoutes     =   require("./routes/commentsLikesRoutes.js"),
+  usersRoutes             =   require("./routes/usersRoutes.js"),
+  searchRoutes            =   require("./routes/searchRoutes.js"),
+  plannerRoutes           =   require("./routes/plannerRoutes.js"),
+  methodOverride          =   require("method-override");
 
 
 
 app.use(require("express-session")({
-	secret: "Journey code",
-	resave: false,
-	saveUninitialized: false
+  secret: "Journey code",
+  resave: false,
+  saveUninitialized: false
 }));
 
 app.use(express.static("public"));
@@ -45,10 +45,10 @@ passport.deserializeUser(User.deserializeUser());
 
 //set req.user as currentUser to be used in views/headesr
 app.use(function(req, res, next){
-	res.locals.currentUser = req.user;
-	res.locals.error = req.flash("error");
-	res.locals.success = req.flash("success");
-	next();
+  res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  next();
 });
 
 const port = process.env.PORT || "3000";
@@ -65,5 +65,5 @@ app.use(plannerRoutes);
 
 
 app.listen(port,function(){
-	console.log("Journey has started port"+ port);
+  console.log("Journey has started port"+ port);
 });

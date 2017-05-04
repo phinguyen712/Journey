@@ -1,5 +1,3 @@
-var uuid = require('node-uuid');
-
 //Reducers manipulate state based on action called.(this is how actions are executed)
 //Reducers can cal objections based on actions
 //Reducers have to be pure functions
