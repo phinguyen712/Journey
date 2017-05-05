@@ -6,7 +6,7 @@ export var ActivitySearchPlaces = React.createClass({
 //add places to userFavorites when heart button is clicked
   handleClick:function(results,userFavorites){
     var {dispatch, User} = this.props
-
+    console.log(User);
     this.updateFavoriteState(dispatch,results,userFavorites);
     if(User.username){
       $.ajax({
