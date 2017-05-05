@@ -62,7 +62,6 @@ router.post("/planner/journey/show", function(req, res) {
             foundUser.save();
             foundUser.journeys.forEach(function(journey){
                 if (journey._id == journeyId) {
-
                     if(journey.days[0]){
                       populateUsersData(req, res, journey.days[0].journeySchedule,
                           function(tempArr) {
@@ -74,7 +73,7 @@ router.post("/planner/journey/show", function(req, res) {
                       );
                     }else{
                       res.json({
-                          schedule: '',
+                          schedule: [],
                           User: foundUser
                       });
                     }

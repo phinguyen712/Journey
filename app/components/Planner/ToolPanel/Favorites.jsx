@@ -35,12 +35,16 @@ var Favorites = React.createClass({
       $.ajax({
           type: "POST",
           url: addRoute,
-          data: {id:id, name:name.name, day:day, journeyId:user.currentJourney.id},
+          data: {id:id, name:name, day:day, journeyId:user.currentJourney.id},
           dataType:"json",
          success: function(SavedData){
+               if(SavedData.User){
+                dispatch(actions.loggedInUser(SavedData.User))
+              }
               if(SavedData.schedule){
                 dispatch(actions.JourneySchedule(SavedData.schedule));
               }else{
+                 console.log(SavedData)
                 dispatch(actions.JourneySchedule(SavedData));
               }
          }
@@ -49,7 +53,6 @@ var Favorites = React.createClass({
    },
 
   showTrash(journeyLength,id,deleteRoute,dispatch){
-    console.log(id)
     if(journeyLength > 1){
       return(
               <h5 className="glyphicon deleteFavorites glyphicon-trash"
@@ -63,7 +66,6 @@ var Favorites = React.createClass({
 
   render:function(){
     var {id, journeyLength, name, deleteRoute, addRoute, dispatch, day, index} = this.props;
-    console.log(day);
     return (
       <div id="favorite" className={id}>
         <div id="addToDo" onClick={() => {

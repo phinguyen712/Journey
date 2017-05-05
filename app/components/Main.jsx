@@ -13,8 +13,6 @@ var Main = React.createClass({
     }
 });
 
-
-
 export default connect(
   (state)=>{
     return{
