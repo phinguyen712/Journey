@@ -22,12 +22,12 @@ var Planner = React.createClass({
                       return(schedule.id);
                     }),
           reOrderedSchedule = arrayMove(scheduleId, oldIndex, newIndex)
-
       $.ajax({
           type:"PUT",
           url:"/planner/schedule/edit",
           data:{id:reOrderedSchedule, day:currentDay , journeyId:journeyId},
           success:function(sortedSchedule){
+            console.log(sortedSchedule)
               dispatch(actions.JourneySchedule(sortedSchedule));
           }
       });

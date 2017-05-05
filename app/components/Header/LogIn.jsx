@@ -10,7 +10,6 @@ var LogIn = React.createClass({
   login: function(){
     var username = this.refs.username.value;
     var password = this.refs.password.value;
-    console.log('test')
     $.ajax({
       type: 'POST',
       url: '/login',

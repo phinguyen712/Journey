@@ -30,7 +30,7 @@ var JourneysPanel = React.createClass({
     },
     UpdateUserJourneys:function(User){
       var journeys = User.journeys;
-      var journeyLength =journeys.length
+      var journeyLength = (journeys) ? journeys.length : 0;
       if(journeys){
         return(
             journeys.map(function(journey,index){

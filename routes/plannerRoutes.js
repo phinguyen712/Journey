@@ -73,7 +73,7 @@ router.post("/planner/journey/show", function(req, res) {
                       );
                     }else{
                       res.json({
-                          schedule: [],
+                          schedule:'',
                           User: foundUser
                       });
                     }
@@ -136,10 +136,16 @@ router.put("/planner/schedule/edit", function(req, res) {
         else {
             var dayIndex = parseInt(req.body.day) - 1;
             foundJourney.days[dayIndex].journeySchedule = req.body.id;
-            var scheduleList = foundJourney.days[dayIndex].journeySchedule;
+            console.log(req.body.id);
             foundJourney.save();
+            var scheduleList = foundJourney.days[dayIndex].journeySchedule;
+            console.log(scheduleList)
             populateUsersData(req, res, scheduleList, function(tempArr) {
-                res.json(tempArr);
+                var mappedArr = []
+                tempArr.forEach(function(i){
+                  mappedArr[scheduleList.indexOf(i.id)] = i
+                })
+                res.json(mappedArr);
             });
         }
     });

@@ -71,7 +71,7 @@ export const getRoutes=(store)=>{
         state: { nextPathname: nextState.location.pathname }
       });
     };
-    if(userFavorites.length === 0 || user.journeys.length === 0){
+    if(userFavorites.length === 0 || !user.journeys){
       refreshUserData(function(userData){
         if(!userData.favorites || userData.favorites.length === 0 ){
           replaceRoutes("Please add favorites!","ActivitySearch");

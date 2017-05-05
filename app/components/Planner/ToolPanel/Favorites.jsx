@@ -44,7 +44,6 @@ var Favorites = React.createClass({
               if(SavedData.schedule){
                 dispatch(actions.JourneySchedule(SavedData.schedule));
               }else{
-                 console.log(SavedData)
                 dispatch(actions.JourneySchedule(SavedData));
               }
          }
