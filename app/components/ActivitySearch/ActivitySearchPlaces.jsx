@@ -8,7 +8,6 @@ export var ActivitySearchPlaces = React.createClass({
     var {dispatch, User} = this.props
 
     this.updateFavoriteState(dispatch,results,userFavorites);
-    console.log(results);
     if(User.username){
       $.ajax({
          type: "POST",
@@ -16,7 +15,7 @@ export var ActivitySearchPlaces = React.createClass({
          data: results,
          dataType:"json",
          success:function(response){
-             dispatch(actions.userFavorites(response));
+           dispatch(actions.userFavorites(response));
          }
        });
     }
@@ -64,7 +63,7 @@ export var ActivitySearchPlaces = React.createClass({
               <img src={results.rating_img_url}></img><span id='resultReviews'>{results.review_count} reviews </span>
             </h5>
             <p className='list-group-item-text'>{results.snippet_text}</p>
-            <div id='heartIcon' onClick={()=>this.handleClick(results,UserFavorites)} className={this.heartIconToggle(UserFavorites,results.id)}></div>
+            <div id='heartIcon' onClick={()=>this.handleClick(results,UserFavorites)} className={"heart-icon "+this.heartIconToggle(UserFavorites,results.id)}></div>
           </span>
         </div>
       </div>

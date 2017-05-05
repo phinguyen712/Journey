@@ -215,14 +215,10 @@ router.post("/favorites/save",function(req,res){
             userAccount.favorites.push(req.body.id);
             userAccount.save();
           }else{
+
             userAccount.favorites.splice(index,1);
             userAccount.save();
           }
-
-          populateUsersData(req,res,userAccount.favorites,function(userFavorites){
-              console.log(userFavorites);
-              res.json(userFavorites);
-          });
             //store data into yelp schema for faster load when re-rendering in planner
             yelpData.findOne({'business.id': req.body.id},function(err,matchFavorites){
                if(err){
@@ -232,9 +228,17 @@ router.post("/favorites/save",function(req,res){
                     yelpData.create({business:req.body},function(err,storedYelpData){
                       if(err){
                           console.log(err);
-                      }else{};
+                      }else{
+                        return populateUsersData(req,res,userAccount.favorites,function(userFavorites){
+                            res.json(userFavorites);
+                        });
+                      };
                     });
-                  }
+                  }else{
+                  populateUsersData(req,res,userAccount.favorites,function(userFavorites){
+                      res.json(userFavorites);
+                  });
+                }
                 }
             });
         }

@@ -3,13 +3,14 @@ var React = require('react');
 var JumboTron = require('JumboTron');
 var {connect} = require('react-redux');
 var actions = require('actions');
-var {Link, IndexLink} = require('react-router');
+var {Link, IndexLink,browserHistory} = require('react-router');
 
 
 var LogIn = React.createClass({
   login: function(){
     var username = this.refs.username.value;
     var password = this.refs.password.value;
+
     $.ajax({
       type: 'POST',
       url: '/login',
