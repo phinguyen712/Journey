@@ -12,8 +12,8 @@
                 res.json({err:err.message})
             }else{
                 passport.authenticate("local")(req,res, function(){
-                res.json({err:"authorized",
-                          user:user});
+                  res.json({err:"authorized",
+                            user:user});
                 });
             }
         });
@@ -33,8 +33,21 @@
         }
     });
 
-    router.post('/login', passport.authenticate("local",{failureRedirect:'/',failureFlash:true}),function(req,res){
-                res.redirect("/");
+    router.post('/login', function(req, res, next) {
+      passport.authenticate('local', function(err, user, info) {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.json({username:false});
+        }
+        req.logIn(user, function(err) {
+          if (err) {
+            return next(err);
+          }
+          return res.json(req.user);
+        });
+      })(req, res, next);
     });
 
 

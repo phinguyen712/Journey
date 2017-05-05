@@ -1,5 +1,5 @@
 html,body{
-  background-color:#7E8F7C;
+  background-color:$backgroundColor;
   font-family:serenity,helvetica,helvetica neue,arial,sans-serif;
 }
 
@@ -7,11 +7,12 @@ html,body{
   background-color:$blue;
   color:white;
   border-color:$blue;
-  height:50px;
+  height:55px;
+  border-radius:0px;
 }
 
 .main{
-  background-image:url("https://static.pexels.com/photos/35107/pexels-photo.jpg");
+  background-color:$backgroundColor;
   height:1000px;
   -moz-background-size: cover;
   background-size: cover;

@@ -20,5 +20,5 @@ export default connect(
     return{
       User:state.User,
     }
-  }
+  },{pure:false}
 )(Main)

@@ -50,5 +50,5 @@ export default connect(
     return{
       yelpSearchResults:state.YelpSearchResults
     }
-  }
+},null,null,{pure: false}
 )(ActivitySearch)

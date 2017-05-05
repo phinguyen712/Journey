@@ -7,27 +7,48 @@ var {Link, IndexLink} = require('react-router');
 
 
 var LogIn = React.createClass({
+  login: function(){
+    var username = this.refs.username.value;
+    var password = this.refs.password.value;
+    $.ajax({
+      type: 'POST',
+      url: '/login',
+      data: {username:username,password:password},
+      dataType:'json',
+      success:(re)=>{
+        if(!re.username){
+          return $(".logInError").css('display','block');
+        }
+        browserHistory.push('/');
+
+      }
+    });
+
+  },
+
   render: function () {
     var {User} = this.props;
     if(!User){
       return(
-        <form className="navbar-form navbar-right" role="search" action="/login" method="POST">
-          <div className="login-form form-group">
-            <input type="text" className="loginInput" name="username" placeholder="Username"/>
-          </div>
-          <div className="login-form form-group">
-            <input type="password" className="loginInput" name="password" placeholder="Password"/>
-          </div>
-          <button type="submit" className="btn btn-nav">Login</button>
-          <Link to="/SignUp" activeClassName="active-link">
+        <div className = "navbar-right">
+          <form className="navbar-form" onSubmit={this.login} role="search">
+            <div className="login-form form-group">
+              <input type="text" className="loginInput" ref='username' placeholder="Username"/>
+            </div>
+            <div className="login-form form-group">
+              <input type="password" className="loginInput" ref="password" placeholder="Password"/>
+            </div>
+            <button type="submit" className="btn btn-nav">Login</button>
+          </form>
+          <Link className = "signUpLink" to="/SignUp" >
            Sign Up
           </Link>
-        </form>
+        </div>
       )
     }else{
       return(
         <h4 className="navbar-form navbar-right"><p className="navbar-text navbar-right">You are logged in as
-           <a id="username" href="/myprofile">  {User}  </a>
+           <a id="username">  {User}  </a>
            <a href="/logout" className="glyphicon glyphicon-log-out"></a></p></h4>
       )
     }

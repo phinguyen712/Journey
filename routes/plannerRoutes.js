@@ -212,11 +212,9 @@ router.post("/favorites/save",function(req,res){
           var index = userAccount.favorites.indexOf(req.body.id);
 
           if(index === -1){
-            console.log('true');
             userAccount.favorites.push(req.body.id);
             userAccount.save();
           }else{
-            console.log('false');
             userAccount.favorites.splice(index,1);
             userAccount.save();
           }

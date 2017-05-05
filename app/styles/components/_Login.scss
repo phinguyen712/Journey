@@ -1,13 +1,17 @@
 .navbar-form{
-  width:360px;
+  width:310px;
+  display:inline-block;
 }
 .loginInput{
   width:100px;
   height:30px;
   border-width:thin;
-  padding-left:3px;
+  padding-right:3px;
   border-radius:4px;
+}
 
+.signUpLink{
+  margin-right:10px;
 }
 
 .btn-nav{
@@ -17,21 +21,30 @@
   margin-left:3px;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 765px) {
   .navbar-form{
     width:100%;
   }
   .loginInput{
-    width:50%;
+    width:100%;
   }
   .btn-nav{
-    width:50%;
+    width:100%;
     margin-top:5px;
+  }
+  .signUpLink{
+    display:block;
   }
 
 }
+.loginInput{
+  border-radius:0px;
+  border:none;
+  margin-left:2px;
+}
 
 .navbar-right{
+    margin-right:0px;
     vertical-align:center;
     padding-top:5px;
 }

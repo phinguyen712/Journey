@@ -7,12 +7,12 @@ var HomePage = React.createClass({
   render:function(){
     return (
       <div className='homePage'>
-      <div className="container">
-          <JumboTron/>
-      </div>
+        <div className="container">
+            <JumboTron/>
+        </div>
       </div>
     );
   }
 });
 
-export default connect()(HomePage)
+export default HomePage;

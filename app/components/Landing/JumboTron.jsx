@@ -1,11 +1,11 @@
 var React = require('react');
 var {Link} = require('react-router');
-import LogIn from 'LogIn';
 
 var JumboTron = React.createClass({
   render: function () {
     return (
       <div className="JumboTron" >
+        <h4 className = "logInError">Wrong username or password</h4>
         <h1 className="titleText">Plan your next Trip</h1>
         <div>
           <Link to="NewJourney">

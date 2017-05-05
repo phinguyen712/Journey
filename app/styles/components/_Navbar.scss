@@ -8,8 +8,21 @@
     display:inline-block;
 }
 .navbar-text{
+  height:100%;
   font-size:15px;
-  vertical-align:center;
-  margin-top:0px;
-  margin-bottom:0px;
+  margin:auto;
+  margin-top:1px;
+  li{
+    text-align:center;
+  }
+}
+.active-links{
+  background-color:red;
+  color:red;
+}
+.nav-container{
+  text-align:center;
+}
+.navbar-default{
+  border:none;
 }
