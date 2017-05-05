@@ -18,6 +18,7 @@ var JourneysPanel = React.createClass({
                     day={currentDay}
                     key={index}
                     index={index}
+                    journeyLength={2}
                     deleteRoute="/favorites/delete"
                     addRoute="/planner/toDo/new"/>
               );
@@ -29,6 +30,7 @@ var JourneysPanel = React.createClass({
     },
     UpdateUserJourneys:function(User){
       var journeys = User.journeys;
+      var journeyLength =journeys.length
       if(journeys){
         return(
             journeys.map(function(journey,index){
@@ -38,6 +40,7 @@ var JourneysPanel = React.createClass({
                     id={journey._id}
                     key={journey._id}
                     index={index}
+                    journeyLength={journeyLength}
                     deleteRoute="/Journey"
                     addRoute="/planner/journey/show"/>
               );

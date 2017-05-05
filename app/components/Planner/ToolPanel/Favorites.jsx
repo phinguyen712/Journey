@@ -46,19 +46,30 @@ var Favorites = React.createClass({
          }
        });
      }
- },
+   },
+
+  showTrash(journeyLength,id,deleteRoute,dispatch){
+    console.log(id)
+    if(journeyLength > 1){
+      return(
+              <h5 className="glyphicon deleteFavorites glyphicon-trash"
+                onClick={() => {
+                  this.delete(id,deleteRoute,dispatch)
+                }}>
+              </h5>
+            )
+    }
+  },
 
   render:function(){
-    var {id, name, deleteRoute, addRoute, dispatch, day, index} = this.props;
+    var {id, journeyLength, name, deleteRoute, addRoute, dispatch, day, index} = this.props;
+    console.log(day);
     return (
       <div id="favorite" className={id}>
         <div id="addToDo" onClick={() => {
             this.add(id,name,addRoute,day,dispatch,index)
           }}>{name}</div>
-        <h5 className="glyphicon deleteFavorites glyphicon-trash"
-          onClick={() => {
-            this.delete(id,deleteRoute,dispatch)
-          }}></h5>
+        {this.showTrash(journeyLength, id, deleteRoute, dispatch)}
       </div>
     );
   }

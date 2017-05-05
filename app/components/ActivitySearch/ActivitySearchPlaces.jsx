@@ -15,6 +15,7 @@ export var ActivitySearchPlaces = React.createClass({
          data: results,
          dataType:"json",
          success:function(response){
+           console.log(response);
            dispatch(actions.userFavorites(response));
          }
        });

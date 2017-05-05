@@ -84,11 +84,16 @@ router.delete("/Journey",function(req,res){
       if(err){
         console.log(err)
       }else{
-        foundUser.populate("journeys",function(err,userjourney){
+        foundUser.populate("journeys",function(err,userJourney){
             if(err){
                 console.log(err);
             }else{
-              res.json(userjourney);
+              var id = userJourney.journeys[0]._id
+              var name = userJourney.journeys[0].journeyName
+
+              userJourney.currentJourney = {name:name, id:id}
+              userJourney.save();
+              res.json(userJourney);
             }
         });
       }
